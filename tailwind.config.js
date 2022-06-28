@@ -21,6 +21,7 @@ module.exports = {
         '50%h': '50% 100%',
       },
       borderRadius: {
+        'med': '2rem',
         'large': '4rem',
         'xlarge': '8rem',
       },

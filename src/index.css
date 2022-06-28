@@ -11,3 +11,37 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  /* NavBar Stuff */
+  nav, ul, li, h1, h2, a {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+  }
+  nav {
+    @apply hidden
+      md:bg-[url('./img/logo-white.png')] md:bg-[length:3.5rem] bg-no-repeat md:bg-[center_top_2rem] 
+      md:flex flex-col justify-center 
+      rounded-l-large bg-my-violet max-w-[5rem] justify-self-end 
+      px-5 min-h-[27rem]
+  }
+  nav ul {
+    @apply h-full flex flex-col justify-center gap-8 text-[1.7rem]
+  }
+  ul li {
+    @apply text-my-dark-lavender
+  }
+
+}
+
+@layer components {
+  .activeNavStyle {
+    transition: height 3s ease-in-out;
+    @apply block absolute top-[4.5rem] z-20 min-w-full min-h-max rounded-none rounded-b-large
+    transition opacity-70
+  }
+  .activeNavStyle ul {
+    @apply justify-center
+  }
+}
