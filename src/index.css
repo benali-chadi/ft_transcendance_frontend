@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200&family=Poppins&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200&family=Poppins&display=swap");
 
 .scroll {
-  overflow-y: auto;
-  scrollbar-width: none;
+	overflow-y: auto;
+	scrollbar-width: none;
 }
 .scroll::-webkit-scrollbar {
-  display: none;
+	display: none;
 }
 
 @tailwind base;
@@ -13,35 +13,60 @@
 @tailwind utilities;
 
 @layer base {
-  /* NavBar Stuff */
-  nav, ul, li, h1, h2, a {
-    margin: 0;
-    padding: 0;
-    text-decoration: none;
-  }
-  nav {
-    @apply hidden
-      md:bg-[url('./img/logo-white.png')] md:bg-[length:3.5rem] bg-no-repeat md:bg-[center_top_2rem] 
-      md:flex flex-col justify-center 
-      rounded-l-large bg-my-violet max-w-[5rem] justify-self-end 
-      px-5 min-h-[27rem]
-  }
-  nav ul {
-    @apply h-full flex flex-col justify-center gap-8 text-[1.7rem]
-  }
-  ul li {
-    @apply text-my-dark-lavender
-  }
-
+	/* NavBar Stuff */
+	nav,
+	ul,
+	li,
+	h1,
+	h2,
+	a {
+		margin: 0;
+		padding: 0;
+		text-decoration: none;
+	}
+	ul li {
+		@apply text-my-dark-lavender;
+	}
 }
 
 @layer components {
-  .activeNavStyle {
-    transition: height 3s ease-in-out;
-    @apply block absolute top-[4.5rem] z-20 min-w-full min-h-max rounded-none rounded-b-large
-    transition opacity-70
-  }
-  .activeNavStyle ul {
-    @apply justify-center
-  }
+	/* Navigation */
+	.activeNavStyle {
+		transition: height 3s ease-in-out;
+		@apply block absolute top-[4.5rem] z-20 min-w-full min-h-max rounded-none rounded-b-large
+    transition opacity-70;
+	}
+	.activeNavStyle ul {
+		@apply justify-center;
+	}
+
+	.desktopNavBar {
+		@apply bg-[url('./img/logo-white.png')] bg-[length:3.5rem] bg-no-repeat bg-[center_top_2rem] 
+      flex flex-col justify-center 
+      rounded-l-large bg-my-violet max-w-[5rem] justify-self-end 
+      px-5 min-h-[27rem];
+	}
+	.desktopNavBar ul {
+		@apply h-full flex flex-col justify-center gap-8 text-[1.7rem];
+	}
+
+	.mobileNavBar {
+		@apply bg-[url('./img/logo-white.png')] bg-[length:2.5rem] bg-no-repeat bg-[left_.5rem_top_50%]
+        flex justify-center
+        bg-my-violet px-3;
+	}
+	.mobileNavBar ul {
+		@apply w-full flex justify-center items-center gap-8 text-[2rem];
+	}
+
+	/* Avatar Upload */
+	.avatarUpload {
+		@apply h-[7rem] w-[7rem] rounded-full bg-gray-500 overflow-hidden cursor-pointer;
+	}
+	.avatarUpload img {
+		@apply h-full w-full;
+	}
+	.avatarUpload:hover img {
+		opacity: 0.5;
+	}
 }
