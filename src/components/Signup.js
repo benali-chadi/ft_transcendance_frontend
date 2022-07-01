@@ -1,19 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "./common/Button";
 import Card from "./common/Card";
 import Modal from "./common/Modal";
+import { userContext } from "./helpers/context";
 
-const SignUp = ({ handleCancelClick, handleSaveClick }) => {
+const SignUp = ({ handleCancelClick }) => {
+	const { setUser } = useContext(userContext);
+	const navigate = useNavigate();
+
 	const [userName, setUserName] = useState("");
-	const [Avatar, setAvatar] = useState(null);
+	const [avatar, setAvatar] = useState(null);
 
 	return (
 		<Modal>
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
-					handleSaveClick(userName);
+					setUser({ userName, avatar });
+					navigate("/");
 				}}
 			>
 				<Card
@@ -37,16 +43,33 @@ const SignUp = ({ handleCancelClick, handleSaveClick }) => {
 							Cancel
 						</Button>
 					}
+					handleCancel={handleCancelClick}
 				>
-					<div className="flex flex-col justify-between gap-4 item-center">
+					<div className="flex flex-col items-center gap-4">
 						{/* Avatar */}
 						<div className="avatarUpload">
-							{Avatar && (
-								<img
-									src={URL.createObjectURL(Avatar)}
-									alt="Avatar"
-								/>
-							)}
+							<div
+								class="upload-button"
+								onClick={() => {
+									document
+										.getElementsByClassName(
+											"file-upload"
+										)[0]
+										.click();
+								}}
+							>
+								{avatar && (
+									<img
+										src={URL.createObjectURL(avatar)}
+										alt="avatar"
+									/>
+								)}
+							</div>
+							<input
+								type="file"
+								className="hidden file-upload"
+								onChange={(e) => setAvatar(e.target.files[0])}
+							/>
 						</div>
 						{/* UserName input */}
 						<input

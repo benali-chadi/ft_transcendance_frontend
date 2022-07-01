@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
+import { userContext } from "../helpers/context";
 
-const UserCard = ({ image, username, level }) => {
+const UserCard = ({ level }) => {
+	const { user } = useContext(userContext);
+
 	return (
 		<div className="flex gap-4">
-			<div className="min-h-[4rem] min-w-[4rem] rounded-full bg-gray-300">
-				{image}
+			<div className="min-h-[5rem] min-w-[5rem] rounded-full bg-gray-300">
+				{user.avatar && (
+					<img
+						src={URL.createObjectURL(user.avatar)}
+						alt="avatar"
+						className="w-[5rem] h-[5rem] rounded-full"
+					/>
+				)}
 			</div>
 			<div className="text-left">
-				<h3 className="text-xl">{username}</h3>
+				<h3 className="text-xl">{user.userName}</h3>
 				<div className="text-lg">{level}</div>
 			</div>
 		</div>

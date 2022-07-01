@@ -59,14 +59,29 @@
 		@apply w-full flex justify-center items-center gap-8 text-[2rem];
 	}
 
+	.inactive {
+		@apply hover:text-blue-200;
+	}
+	.inactive.active {
+		@apply text-my-light-violet hover:text-my-light-violet;
+	}
+
 	/* Avatar Upload */
 	.avatarUpload {
-		@apply h-[7rem] w-[7rem] rounded-full bg-gray-500 overflow-hidden cursor-pointer;
+		@apply h-[7rem] w-[7rem] rounded-full overflow-hidden cursor-pointer bg-gray-300;
 	}
 	.avatarUpload img {
 		@apply h-full w-full;
 	}
-	.avatarUpload:hover img {
+	.avatarUpload:hover {
 		opacity: 0.5;
+	}
+
+	.upload-button {
+		position: relative;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
 	}
 }

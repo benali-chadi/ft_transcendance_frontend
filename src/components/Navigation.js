@@ -1,25 +1,16 @@
-import React from "react";
-import { useState } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import { useMediaQuery } from "react-responsive";
+import React, { useContext } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+// import { useMediaQuery } from "react-responsive";
+import { userContext } from "./helpers/context";
 
-const Navigation = ({ setUser }) => {
-	const [activePage, setActivePage] = useState(0);
-	const [showNavBar, setShowNavBar] = useState(false);
+const Navigation = () => {
+	const { setUser, isMobile } = useContext(userContext);
+
 	const navigate = useNavigate();
-	const isMobile = useMediaQuery({
-		query: "(max-width: 767px)",
-	});
-
-	const activeStyle = "text-my-light-violet";
-	const inActiveStyle = "hover:text-blue-200";
 
 	const handleLogOutClick = () => {
 		navigate("/login");
 		setUser(null);
-	};
-	const handleShowNavBarClick = () => {
-		setShowNavBar(!showNavBar);
 	};
 
 	return (
@@ -28,53 +19,19 @@ const Navigation = ({ setUser }) => {
 			<nav className={isMobile ? "mobileNavBar" : "desktopNavBar"}>
 				<ul>
 					<li>
-						<Link to="/">
-							<div
-								className={`${
-									!activePage ? activeStyle : inActiveStyle
-								}`}
-								onClick={() => {
-									setActivePage(0);
-									handleShowNavBarClick();
-								}}
-							>
-								<i className="fa-solid fa-house"></i>
-							</div>
-						</Link>
+						<NavLink className="inactive" to="/">
+							<i className="fa-solid fa-house"></i>
+						</NavLink>
 					</li>
 					<li>
-						<Link to="profile">
-							<div
-								className={`${
-									activePage === 1
-										? activeStyle
-										: inActiveStyle
-								}`}
-								onClick={() => {
-									setActivePage(1);
-									handleShowNavBarClick();
-								}}
-							>
-								<i className="fa-solid fa-user"></i>
-							</div>
-						</Link>
+						<NavLink className="inactive" to="profile">
+							<i className="fa-solid fa-user"></i>
+						</NavLink>
 					</li>
 					<li>
-						<Link to="chat">
-							<div
-								className={`${
-									activePage === 2
-										? activeStyle
-										: inActiveStyle
-								}`}
-								onClick={() => {
-									setActivePage(2);
-									handleShowNavBarClick();
-								}}
-							>
-								<i className="fa-solid fa-comment-dots"></i>
-							</div>
-						</Link>
+						<NavLink className="inactive" to="chat">
+							<i className="fa-solid fa-comment-dots"></i>
+						</NavLink>
 					</li>
 				</ul>
 				<div

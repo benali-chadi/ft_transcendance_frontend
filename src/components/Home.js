@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Section from "./common/Section";
 import List from "./common/List";
 import UserCard from "./common/UserCard";
@@ -6,14 +6,27 @@ import UserCard from "./common/UserCard";
 import background from "../img/game-system/background.jpg";
 import inviteImage from "../img/game-system/section2.jpg";
 import randomImage from "../img/game-system/section1.jpg";
+import { userContext } from "./helpers/context";
+import { motion } from "framer-motion";
+import { pageVariantDesktop, pageVariantMobile } from "./helpers/variants";
 
-const Home = ({ user }) => {
+const Home = () => {
+	const { user, isMobile } = useContext(userContext);
+
 	const backgroundStyle = {
 		backgroundImage: `url('${background}')`,
 	};
 
+	const pageVariant = isMobile ? pageVariantMobile : pageVariantDesktop;
+
 	return (
-		<div className="h-full overflow-auto bg-white min-h-max md:rounded-large md:rounded-l-none md:grid md:grid-cols-5 md:grid-rows-1 ">
+		<motion.div
+			variants={pageVariant}
+			initial="initial"
+			animate="animate"
+			exit="exit"
+			className="h-full overflow-auto bg-white min-h-max md:rounded-large md:rounded-l-none md:grid md:grid-cols-5 md:grid-rows-1 "
+		>
 			{/* Game System */}
 			<div
 				className="p-8 overflow-auto bg-no-repeat bg-cover scroll h-3/5 min-h-max rounded-b-large md:col-span-3 md:h-full md:justify-center md:rounded-large md:rounded-l-none "
@@ -41,7 +54,7 @@ const Home = ({ user }) => {
 				</div>
 			</div>
 			{/* The Right\bottom Side */}
-			<div className="flex flex-col gap-4 p-8 overflow-auto scroll md:col-span-2">
+			<div className="flex flex-col gap-8 p-8 overflow-auto scroll md:col-span-2">
 				{/* User */}
 				<div className="hidden w-full h-16 md:block">
 					<UserCard username={user.userName} level="level" />
@@ -53,7 +66,7 @@ const Home = ({ user }) => {
 					icon="fa-solid fa-table-tennis-paddle-ball fa-xs"
 				></List>
 			</div>
-		</div>
+		</motion.div>
 	);
 };
 
