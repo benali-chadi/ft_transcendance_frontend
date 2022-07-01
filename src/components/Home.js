@@ -57,7 +57,7 @@ const Home = () => {
 			<div className="flex flex-col gap-8 p-8 overflow-auto scroll md:col-span-2">
 				{/* User */}
 				<div className="hidden w-full h-16 md:block">
-					<UserCard username={user.userName} level="level" />
+					<UserCard username={user.username} level="level" />
 				</div>
 				{/* Lists */}
 				<List title="leaderboard" icon="fa-solid fa-crown fa-xs"></List>

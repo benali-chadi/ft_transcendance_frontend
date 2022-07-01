@@ -9,14 +9,14 @@ const UserCard = ({ level }) => {
 			<div className="min-h-[5rem] min-w-[5rem] rounded-full bg-gray-300">
 				{user.avatar && (
 					<img
-						src={URL.createObjectURL(user.avatar)}
+						src={user.avatar}
 						alt="avatar"
 						className="w-[5rem] h-[5rem] rounded-full"
 					/>
 				)}
 			</div>
 			<div className="text-left">
-				<h3 className="text-xl">{user.userName}</h3>
+				<h3 className="text-xl">{user.username}</h3>
 				<div className="text-lg">{level}</div>
 			</div>
 		</div>
