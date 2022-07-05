@@ -13,6 +13,10 @@
 @tailwind utilities;
 
 @layer base {
+	*:focus {
+		outline: none;
+	}
+
 	/* NavBar Stuff */
 	nav,
 	ul,
@@ -51,12 +55,12 @@
 	}
 
 	.mobileNavBar {
-		@apply bg-[url('./img/logo-white.png')] bg-[length:2.5rem] bg-no-repeat bg-[left_.5rem_top_50%]
-        flex justify-center
-        bg-my-violet px-3;
+		@apply bg-[url('./img/logo-white.png')] bg-[length:2.5rem] bg-no-repeat bg-[left_50%_top_1rem]
+        flex flex-col justify-around 
+        bg-my-violet/80 px-3 absolute top-0 left-0 h-full min-h-[20rem] min-w-max z-10 overflow-auto;
 	}
 	.mobileNavBar ul {
-		@apply w-full flex justify-center items-center gap-8 text-[2rem];
+		@apply w-full flex flex-col justify-center items-center gap-8 text-[2rem];
 	}
 
 	.inactive {
@@ -71,7 +75,7 @@
 		@apply h-[7rem] w-[7rem] rounded-full overflow-hidden cursor-pointer bg-gray-300;
 	}
 	.avatarUpload img {
-		@apply h-full w-full;
+		@apply w-full h-full;
 	}
 	.avatarUpload:hover {
 		opacity: 0.5;

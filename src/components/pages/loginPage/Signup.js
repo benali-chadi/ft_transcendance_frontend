@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "./common/Button";
-import Card from "./common/Card";
-import Modal from "./common/Modal";
-import { userContext } from "./helpers/context";
+import Button from "../../common/Button";
+import Card from "../../common/Card";
+import Modal from "../../common/Modal";
+import { userContext } from "../../helpers/context";
 
 const SignUp = ({ handleCancelClick }) => {
 	const { setUser } = useContext(userContext);

@@ -1,37 +1,34 @@
-import Home from "./components/Home";
 import Navigation from "./components/Navigation";
-import Login from "./components/Login";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 import { userContext } from "./components/helpers/context";
 import { AnimatePresence } from "framer-motion";
 import { useMediaQuery } from "react-responsive";
-import { Dummy } from "./components/dummy";
 import axios from "axios";
+import Log from "./components/pages/loginPage/Log";
+import Login from "./components/pages/loginPage/Login";
+import Home from "./components/pages/Home";
+import Chat from "./components/pages/chatPage/Chat";
 // import logo42 from "./img/42logo.svg"
 
 function App() {
-	const [user, setUser] = useState({});
-
+	const [user, setUser] = useState(null);
 
 	useEffect(() => {
-		
-
-		console.log("HWllo ");
-		async  function dummy()
-		{			console.log("dd")
+		async function getUserData() {
 			try {
-			let obj = await  axios.post("http://localhost:9000/me", {} , {withCredentials : true});
-		
-				setUser(obj.data.user);
-			}catch(e) {
-			}
+				let obj = await axios.post(
+					"http://localhost:9000/me",
+					{},
+					{ withCredentials: true }
+				);
+
+				if (obj.data.success) setUser(obj.data.user);
+			} catch (e) {}
 		}
-		dummy();
-	},[]);
-
-
+		getUserData();
+	}, []);
 
 	const isMobile = useMediaQuery({
 		query: "(max-width: 767px)",
@@ -43,7 +40,6 @@ function App() {
 			<userContext.Provider value={{ user, setUser, isMobile }}>
 				<AnimatePresence exitBeforeEnter>
 					<Routes location={location} key={location.key}>
-
 						<Route
 							path="/"
 							element={
@@ -54,14 +50,30 @@ function App() {
 						>
 							<Route path="" element={<Home />} />
 							<Route path="profile" />
-							<Route path="chat" />
+							<Route path="chat" element={<Chat />} />
 						</Route>
-						<Route path="/login" element={
-						<ProtectedRoute redirectPath="/" toCheck={user}>
-							<Login />
-						</ProtectedRoute>}/>
-
-						<Route path="/Test" element={<Dummy />}   />
+						<Route
+							path="/login"
+							element={
+								<ProtectedRoute
+									redirectPath="/"
+									toCheck={!!user}
+								>
+									<Login />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path="/Test"
+							element={
+								<ProtectedRoute
+									redirectPath="/"
+									toCheck={!!user}
+								>
+									<Log />
+								</ProtectedRoute>
+							}
+						/>
 					</Routes>
 				</AnimatePresence>
 			</userContext.Provider>
