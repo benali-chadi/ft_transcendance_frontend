@@ -9,7 +9,7 @@ const Chat = () => {
 	const [toggle, setToggle] = useState(true);
 
 	return (
-		<div className="h-screen overflow-auto scroll bg-my-lavender">
+		<div className="h-screen overflow-auto md:h-full scroll bg-my-lavender">
 			{/* Upper part */}
 			<div className="flex flex-col gap-4 py-16 bg-my-dark-lavender/50 rounded-b-large">
 				{/* Buttons */}

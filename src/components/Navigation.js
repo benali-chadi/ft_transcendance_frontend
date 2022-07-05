@@ -53,12 +53,7 @@ const Navigation = () => {
 			<motion.nav
 				variants={navVariants}
 				animate={isMobile ? (showNav ? "open" : "close") : ""}
-				className={
-					!isMobile
-						? "desktopNavBar"
-						: // : showNav
-						  "mobileNavBar"
-				}
+				className={!isMobile ? "desktopNavBar" : "mobileNavBar"}
 			>
 				{isMobile && (
 					<div className="flex flex-col h-[10rem] justify-between">

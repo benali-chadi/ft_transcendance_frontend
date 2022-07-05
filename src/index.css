@@ -60,7 +60,7 @@
         bg-my-violet/80 px-3 absolute top-0 left-0 h-full min-h-[20rem] min-w-max z-10 overflow-auto;
 	}
 	.mobileNavBar ul {
-		@apply w-full flex flex-col justify-center items-center gap-8 text-[2rem];
+		@apply w-full flex flex-col justify-center items-center gap-8 text-[1.4rem];
 	}
 
 	.inactive {
