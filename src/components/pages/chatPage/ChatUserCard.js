@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { threeDotsVariants } from "../../helpers/variants";
 
-const ChatUserCard = ({ user, status, handleClick = Function }) => {
+const ChatUserCard = ({ user, status, handleClick = () => {} }) => {
 	const [showDropDown, setShowDropdown] = useState(false);
 
 	return (
