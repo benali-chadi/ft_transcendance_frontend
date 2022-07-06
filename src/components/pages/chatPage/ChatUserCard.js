@@ -1,23 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { threeDotsVariants } from "../../helpers/variants";
 
-const ChatUserCard = ({ user, status, onCLick = Function }) => {
+const ChatUserCard = ({ user, status, handleClick = Function }) => {
+	const [showDropDown, setShowDropdown] = useState(false);
+
 	return (
-		<div className="flex justify-between px-4 pb-2">
-			<div className="min-h-[3rem] min-w-[3rem] rounded-full flex justify-center gap-2">
+		<div className="flex justify-around px-5 pb-2 rounded-xl hover:bg-my-light-violet/30 hover:shadow-md md:pb-0">
+			{/* Avatar Part */}
+			<div
+				className="min-h-[3rem] min-w-[3rem] md:w-[2rem] md:h-[2rem] rounded-full flex justify-center items-center gap-1 cursor-pointer"
+				onClick={() => {
+					setShowDropdown(false);
+					handleClick(user);
+				}}
+			>
 				{user.avatar && (
 					<img
 						src={user.avatar}
 						alt="avatar"
-						className="w-[3rem] h-[3rem] rounded-full"
+						className="w-[3rem] h-[3rem] rounded-full md:w-[2rem] md:h-[2rem]"
 					/>
 				)}
+				{/* Text Part */}
 				<div className="text-left">
 					<h3 className="text-xl">{user.username}</h3>
 					<div className="text-sm font-semibold">{status}</div>
 				</div>
 			</div>
-			<div onClick={onCLick} className="cursor-pointer">
-				<i className="text-xl fa-solid fa-ellipsis-vertical"></i>
+			{/* Three Dots Part */}
+			<div className="relative flex flex-col">
+				<i
+					className="text-xl rounded-full cursor-pointer fa-solid fa-ellipsis-vertical hover:bg-gray-100 w-[2rem] self-end"
+					onClick={() => setShowDropdown(!showDropDown)}
+				></i>
+				<motion.div
+					variants={threeDotsVariants}
+					animate={showDropDown ? "open" : "close"}
+					className={`p-2 text-base font-light bg-white rounded-xl absolute z-10 top-[25px] ${
+						!showDropDown ? "hidden" : ""
+					}`}
+				>
+					<p
+						className="pb-1 border-b-2 border-black cursor-pointer hover:bg-gray-100"
+						onClick={() => setShowDropdown(false)}
+					>
+						Invite for a game
+					</p>
+					<p
+						className="cursor-pointer hover:bg-gray-100"
+						onClick={() => {
+							setShowDropdown(false);
+							window.alert("YOU WANT TO BLOCK ME?!");
+						}}
+					>
+						Block Users
+					</p>
+				</motion.div>
 			</div>
 		</div>
 	);

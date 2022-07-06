@@ -38,13 +38,24 @@ export const navVariants = {
 	open: {
 		opacity: 1,
 		x: 0,
-		// transition: { duration: 0.5, type: "tween" },
 		transition: { stiffness: 100 },
 	},
 	close: {
 		opacity: 0,
 		x: "-100%",
 		transition: { stiffness: 230 },
-		// transition: { duration: 1, type: "tween" },
+	},
+};
+
+export const threeDotsVariants = {
+	open: {
+		opacity: 1,
+		y: 0,
+		transition: { stiffness: 100 },
+	},
+	close: {
+		opacity: 0,
+		y: "-15%",
+		transition: { stiffness: 230 },
 	},
 };

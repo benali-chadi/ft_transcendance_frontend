@@ -41,7 +41,7 @@ const Home = () => {
 			initial="initial"
 			animate="animate"
 			exit="exit"
-			className="h-screen overflow-auto bg-white md:h-full min-h-max md:rounded-large md:rounded-l-none md:grid md:grid-cols-5 md:grid-rows-1 "
+			className="h-screen overflow-auto bg-white scroll md:h-full min-h-max md:rounded-large md:rounded-l-none md:grid md:grid-cols-5 md:grid-rows-1 "
 		>
 			{/* Game System */}
 			<div

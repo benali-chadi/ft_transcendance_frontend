@@ -57,7 +57,7 @@
 	.mobileNavBar {
 		@apply bg-[url('./img/logo-white.png')] bg-[length:2.5rem] bg-no-repeat bg-[left_50%_top_1rem]
         flex flex-col justify-around 
-        bg-my-violet/80 px-3 absolute top-0 left-0 h-full min-h-[20rem] min-w-max z-10 overflow-auto;
+        bg-my-violet/50 px-3 absolute top-0 left-0 h-full min-h-[20rem] min-w-max z-10 overflow-auto;
 	}
 	.mobileNavBar ul {
 		@apply w-full flex flex-col justify-center items-center gap-8 text-[1.4rem];
@@ -87,5 +87,10 @@
 		left: 0;
 		height: 100%;
 		width: 100%;
+	}
+
+	/* Chat SideBar */
+	.chatSideBar {
+		@apply h-screen md:h-full md:pl-2
 	}
 }
