@@ -13,7 +13,8 @@ const Chat = () => {
 	const [chatUser, setChatUser] = useState(null);
 
 	const handleClick = (user) => {
-		setChatUser(user);
+		setChatUser(null);
+		setTimeout(() => setChatUser(user), isMobile ? 500 : 1000);
 	};
 	const [toggle, setToggle] = useState(true);
 

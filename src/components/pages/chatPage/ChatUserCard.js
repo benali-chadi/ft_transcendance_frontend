@@ -40,13 +40,13 @@ const ChatUserCard = ({ user, status, handleClick = Function }) => {
 					className={`p-2 text-sm font-light bg-white rounded-xl absolute z-10 top-[25px] left-[-1rem] w-max`}
 				>
 					<p
-						className="pb-1 border-b-2 border-black cursor-pointer hover:bg-gray-100"
+						className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1"
 						onClick={() => setShowDropdown(false)}
 					>
 						Invite for a game
 					</p>
 					<p
-						className="cursor-pointer hover:bg-gray-100"
+						className="p-1 cursor-pointer hover:bg-gray-100"
 						onClick={() => {
 							setShowDropdown(false);
 							window.alert("YOU WANT TO BLOCK ME?!");
