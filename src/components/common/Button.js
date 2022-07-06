@@ -3,7 +3,7 @@ import React from "react";
 
 const Button = ({
 	children,
-	handleClick = Function,
+	handleClick = () => {},
 	color,
 	hoverColor,
 	type = "button",
