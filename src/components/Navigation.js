@@ -33,12 +33,12 @@ const Navigation = () => {
 		<div className="w-full h-screen overflow-auto bg-gray-300 md:p-6 md:py-20 md:grid md:grid-cols-12">
 			{/* Top Part */}
 			{isMobile && !showNav && (
-				<div className="absolute z-10 flex justify-between w-full p-2 px-4 bg-white/50">
+				<div className="absolute z-20 flex justify-between w-full p-2 px-4 bg-white/50">
 					<div
 						className="cursor-pointer"
 						onClick={() => setShoweNav(!showNav)}
 					>
-						<i class="fa-solid fa-bars"></i>
+						<i className="fa-solid fa-bars"></i>
 					</div>
 					<img src={logo} alt="logo" className="h-[2rem] w-[2rem]" />
 				</div>
@@ -46,7 +46,7 @@ const Navigation = () => {
 			{/* NavBar */}
 			{isMobile && showNav && (
 				<div
-					className="absolute z-10 w-screen h-screen bg-black/50"
+					className="absolute z-20 w-screen h-screen bg-black/50"
 					onClick={() => setShoweNav(!showNav)}
 				></div>
 			)}
@@ -61,7 +61,7 @@ const Navigation = () => {
 							className="text-white cursor-pointer"
 							onClick={() => setShoweNav(!showNav)}
 						>
-							<i class="fa-solid fa-xmark"></i>
+							<i className="fa-solid fa-xmark"></i>
 						</div>
 						<UserCard />
 					</div>

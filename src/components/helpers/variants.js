@@ -34,6 +34,23 @@ export const pageVariantMobile = {
 	},
 };
 
+export const pageVariants = {
+	initial: {
+		opacity: 0,
+	},
+	animate: {
+		opacity: 1,
+		transition: {
+			duration: 0.75,
+			type: "tween",
+			// stiffness: 300,
+		},
+	},
+	exit: {
+		opacity: 0,
+	},
+};
+
 export const navVariants = {
 	open: {
 		opacity: 1,
@@ -49,6 +66,7 @@ export const navVariants = {
 
 export const threeDotsVariants = {
 	open: {
+		display: "block",
 		opacity: 1,
 		y: 0,
 		transition: { stiffness: 100 },
@@ -56,6 +74,22 @@ export const threeDotsVariants = {
 	close: {
 		opacity: 0,
 		y: "-15%",
-		transition: { stiffness: 230 },
+		transition: { stiffness: 100 },
+		transitionEnd: { display: "none" },
+	},
+};
+
+export const chatAreaVariants = {
+	open: {
+		display: "block",
+		x: 0,
+		transition: { type: "tween", duration: 0.5, ease: "easeInOut" },
+		opacity: 1,
+	},
+	close: {
+		opacity: 0,
+		x: "100%",
+		transition: { type: "tween", duration: 1 },
+		transitionEnd: { display: "none" },
 	},
 };

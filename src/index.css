@@ -57,7 +57,7 @@
 	.mobileNavBar {
 		@apply bg-[url('./img/logo-white.png')] bg-[length:2.5rem] bg-no-repeat bg-[left_50%_top_1rem]
         flex flex-col justify-around 
-        bg-my-violet/50 px-3 absolute top-0 left-0 h-full min-h-[20rem] min-w-max z-10 overflow-auto;
+        bg-my-violet px-3 absolute top-0 left-0 h-full min-h-[20rem] min-w-max z-30 overflow-auto;
 	}
 	.mobileNavBar ul {
 		@apply w-full flex flex-col justify-center items-center gap-8 text-[1.4rem];

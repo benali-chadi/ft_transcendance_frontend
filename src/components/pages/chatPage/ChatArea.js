@@ -3,16 +3,16 @@ import ChatUserCard from "./ChatUserCard";
 
 const ChatArea = ({ user, handleClick }) => {
 	return (
-		<div className="md:grid md:grid-rows-[70px_5fr_70px] md:h-full md:min-h-max md:shadow-lg md:shadow-gray-400 rounded-large">
+		<div className="md:grid md:grid-rows-[70px_5fr_70px] md:h-full md:min-h-max md:shadow-lg md:shadow-gray-400 rounded-med">
 			{/* Upper Area */}
-			<div className="flex flex-col gap-4 py-16 px-4 bg-[#F0F4FC] md:bg-my-violet rounded-b-large sticky top-0 max-h-[15rem] md:rounded-t-large md:rounded-b-none md:max-h-max md:p-4 md:px-6 md:flex-row-reverse md:justify-between md:gap-0 md:h-full md:items-center md:static">
+			<div className="flex flex-col gap-4 py-16 px-4 bg-[#F0F4FC] md:bg-my-violet rounded-b-large sticky top-0 max-h-[15rem] md:rounded-t-med md:rounded-b-none md:max-h-max md:p-4 md:px-6 md:flex-row-reverse md:justify-between md:gap-0 md:h-full md:items-center md:static">
 				{/* Icons */}
 				<div className="flex justify-between md:justify">
 					<i
-						class="fa-solid fa-arrow-left cursor-pointer md:hidden"
+						className="cursor-pointer fa-solid fa-arrow-left md:hidden"
 						onClick={handleClick}
 					></i>
-					<i class="fa-solid fa-gear cursor-pointer md:text-white md:text-2xl"></i>
+					<i className="cursor-pointer fa-solid fa-gear md:text-white md:text-2xl"></i>
 				</div>
 				{/* User Area */}
 				<div className="flex p-4 pb-0 md:p-0">
@@ -40,7 +40,7 @@ const ChatArea = ({ user, handleClick }) => {
 					className="h-6 w-[70%] min-w-[10rem] p-6 text-xl rounded-large font-Poppins"
 					placeholder="Type Something..."
 				/>
-				<i class="fa-solid fa-paper-plane text-2xl"></i>
+				<i className="text-2xl fa-solid fa-paper-plane"></i>
 			</div>
 		</div>
 	);

@@ -8,6 +8,7 @@ import inviteImage from "../../img/game-system/section2.jpg";
 import randomImage from "../../img/game-system/section1.jpg";
 import { userContext } from "../helpers/context";
 import { motion } from "framer-motion";
+import { pageVariants } from "../helpers/variants";
 // import { pageVariantDesktop, pageVariantMobile } from "./helpers/variants";
 
 const Home = () => {
@@ -18,26 +19,10 @@ const Home = () => {
 	};
 
 	// const pageVariant = isMobile ? pageVariantMobile : pageVariantDesktop;
-	const pageVariant = {
-		initial: {
-			opacity: 0,
-		},
-		animate: {
-			opacity: 1,
-			transition: {
-				duration: 0.75,
-				type: "tween",
-				// stiffness: 300,
-			},
-		},
-		exit: {
-			opacity: 0,
-		},
-	};
 
 	return (
 		<motion.div
-			variants={pageVariant}
+			variants={pageVariants}
 			initial="initial"
 			animate="animate"
 			exit="exit"

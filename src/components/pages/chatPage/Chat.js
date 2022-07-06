@@ -2,8 +2,10 @@ import React, { useContext } from "react";
 import { useState } from "react";
 import Button from "../../common/Button";
 import { userContext } from "../../helpers/context";
+import { chatAreaVariants, pageVariants } from "../../helpers/variants";
 import ChatArea from "./ChatArea";
 import ChatUserCard from "./ChatUserCard";
+import { motion } from "framer-motion";
 
 const Chat = () => {
 	const { user, isMobile } = useContext(userContext);
@@ -16,10 +18,16 @@ const Chat = () => {
 	const [toggle, setToggle] = useState(true);
 
 	return (
-		<div className="h-screen overflow-auto md:h-full scroll bg-my-lavender min-h-max md:rounded-large md:rounded-l-none md:grid md:grid-cols-[1fr_4fr] md:grid-rows-1 ">
+		<motion.div
+			variants={pageVariants}
+			initial="initial"
+			animate="animate"
+			exit="exit"
+			className="h-screen overflow-auto md:h-full scroll bg-my-lavender min-h-max md:rounded-large md:rounded-l-none md:grid md:grid-cols-[1fr_4fr] md:grid-rows-1 "
+		>
 			<div className={isMobile && chatUser ? "hidden" : "chatSideBar"}>
 				{/* Upper part */}
-				<div className="flex flex-col gap-4 py-16 bg-[#F0F4FC] md:bg-my-lavender rounded-b-large sticky top-0 max-h-[15rem] md:py-8">
+				<div className="flex flex-col gap-4 py-16 bg-[#F0F4FC] md:bg-my-lavender rounded-b-large sticky top-0 max-h-[15rem] md:py-8 z-10">
 					{/* Buttons */}
 					<div className="flex justify-center gap-10">
 						<Button
@@ -58,7 +66,7 @@ const Chat = () => {
 					</div>
 				</div>
 				{/* Users */}
-				<div className="flex flex-col h-full gap-4 px-4 mt-3 overflow-auto scroll">
+				<div className="flex flex-col h-full gap-4 px-8 mt-3 overflow-auto scroll">
 					<ChatUserCard
 						status="online"
 						user={user}
@@ -76,15 +84,17 @@ const Chat = () => {
 					/>
 				</div>
 			</div>
-			{chatUser && (
-				<div className="md:p-10 md:min-h-full ">
-					<ChatArea
-						user={chatUser}
-						handleClick={() => setChatUser(null)}
-					/>
-				</div>
-			)}
-		</div>
+			<motion.div
+				variants={chatAreaVariants}
+				animate={chatUser ? "open" : "close"}
+				className="h-screen md:p-10 md:h-full"
+			>
+				<ChatArea
+					user={chatUser || {}}
+					handleClick={() => setChatUser(null)}
+				/>
+			</motion.div>
+		</motion.div>
 	);
 };
 

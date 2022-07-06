@@ -49,7 +49,7 @@ const SignUp = ({ handleCancelClick }) => {
 						{/* Avatar */}
 						<div className="avatarUpload">
 							<div
-								class="upload-button"
+								className="upload-button"
 								onClick={() => {
 									document
 										.getElementsByClassName(

@@ -37,9 +37,7 @@ const ChatUserCard = ({ user, status, handleClick = Function }) => {
 				<motion.div
 					variants={threeDotsVariants}
 					animate={showDropDown ? "open" : "close"}
-					className={`p-2 text-base font-light bg-white rounded-xl absolute z-10 top-[25px] ${
-						!showDropDown ? "hidden" : ""
-					}`}
+					className={`p-2 text-sm font-light bg-white rounded-xl absolute z-10 top-[25px] left-[-1rem] w-max`}
 				>
 					<p
 						className="pb-1 border-b-2 border-black cursor-pointer hover:bg-gray-100"
@@ -54,7 +52,7 @@ const ChatUserCard = ({ user, status, handleClick = Function }) => {
 							window.alert("YOU WANT TO BLOCK ME?!");
 						}}
 					>
-						Block Users
+						Block User
 					</p>
 				</motion.div>
 			</div>
