@@ -6,10 +6,11 @@ import { userContext } from "./components/helpers/context";
 import { AnimatePresence } from "framer-motion";
 import { useMediaQuery } from "react-responsive";
 import axios from "axios";
-import Log from "./components/pages/loginPage/Log";
-import Login from "./components/pages/loginPage/Login";
+import Log from "./components/pages/login/Log";
+import Login from "./components/pages/login/Login";
 import Home from "./components/pages/Home";
-import Chat from "./components/pages/chatPage/Chat";
+import Chat from "./components/pages/chat/Chat";
+import Profile from "./components/pages/Profile/Profile";
 // import logo42 from "./img/42logo.svg"
 
 function App() {
@@ -49,7 +50,16 @@ function App() {
 							}
 						>
 							<Route path="" element={<Home />} />
-							<Route path="profile" />
+							<Route
+								path="profile"
+								element={
+									<Profile>
+										<Route Path="friends" />
+										<Route Path="achievements" />
+										<Route Path="matchHistory" />
+									</Profile>
+								}
+							/>
 							<Route path="chat" element={<Chat />} />
 						</Route>
 						<Route
