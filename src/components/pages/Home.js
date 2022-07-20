@@ -57,7 +57,7 @@ const Home = () => {
 			{/* The Right\bottom Side */}
 			<div className="flex flex-col gap-8 p-8 overflow-auto scroll md:col-span-2">
 				{/* User */}
-				<div className="hidden w-full h-16 md:block">
+				<div className="hidden w-full h-fit md:block">
 					<UserCard />
 				</div>
 				{/* Lists */}

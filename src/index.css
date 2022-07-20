@@ -70,6 +70,15 @@
 		@apply text-my-light-violet hover:text-my-light-violet;
 	}
 
+	/* Profile Links */
+	.profile-links {
+		@apply px-[30%] border-2;
+	}
+
+	.profile-link {
+		@apply text-black font-medium text-2xl flex items-center gap-2 m-auto py-2;
+	}
+
 	/* Avatar Upload */
 	.avatarUpload {
 		@apply h-[7rem] w-[7rem] rounded-full overflow-hidden cursor-pointer bg-gray-300;
@@ -91,6 +100,6 @@
 
 	/* Chat SideBar */
 	.chatSideBar {
-		@apply h-screen md:h-full md:pl-2
+		@apply h-screen md:h-full md:pl-2;
 	}
 }
