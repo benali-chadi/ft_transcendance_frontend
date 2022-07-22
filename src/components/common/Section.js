@@ -11,7 +11,7 @@ const Section = ({ title, image, handleClick, color }) => {
 		>
 			<div
 				className={` h-full w-1/4 ${color} text-white flex flex-col justify-center items-center p-4 rounded-med cursor-pointer`}
-				handleClick={handleClick}
+				onClick={handleClick}
 			>
 				<h2 className="text-[50%] leading-7 uppercase font-bold">
 					{title}
