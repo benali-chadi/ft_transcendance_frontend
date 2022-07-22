@@ -11,7 +11,7 @@ import Login from "./components/pages/login/Login";
 import Home from "./components/pages/Home";
 import Chat from "./components/pages/chat/Chat";
 import Profile from "./components/pages/Profile/Profile";
-import FriendsList from "./components/pages/Profile/FriendsList";
+import FriendsList from "./components/pages/Profile/Friends/FriendsList";
 // import logo42 from "./img/42logo.svg"
 
 function App() {
