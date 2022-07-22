@@ -1,7 +1,7 @@
 import React from "react";
 import { useContext } from "react";
-import Button from "../../common/Button";
-import { userContext } from "../../helpers/context";
+import Button from "../../../common/Button";
+import { userContext } from "../../../helpers/context";
 import FriendCard from "./FriendCard";
 
 const FriendsList = () => {
