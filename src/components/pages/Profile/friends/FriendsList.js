@@ -1,14 +1,25 @@
 import React from "react";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../../../common/Button";
 import { userContext } from "../../../helpers/context";
 import FriendCard from "./FriendCard";
 
 const FriendsList = () => {
 	const { user } = useContext(userContext);
+	const navigate = useNavigate();
+
+	const handleClick = () => {
+		navigate("/profile");
+	};
 
 	return (
-		<div className="absolute inset-0 z-10 w-full h-screen px-6 py-20 bg-my-light-violet md:relative md:h-full">
+		<div className="absolute inset-0 z-10 w-full h-screen px-6 py-20 bg-my-blue md:relative md:h-full">
+			{/* Back Button */}
+			<i
+				className="absolute text-white cursor-pointer left-5 top-15 fa-solid fa-arrow-left md:hidden"
+				onClick={handleClick}
+			></i>
 			{/* Search area */}
 			<div className="flex items-center p-4 m-auto bg-white h-fit rounded-large w-[70%] mb-4">
 				<i className="fa-solid fa-magnifying-glass text-[#655E5E] text-xl"></i>
