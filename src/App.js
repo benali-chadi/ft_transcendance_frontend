@@ -11,7 +11,8 @@ import Login from "./components/pages/login/Login";
 import Home from "./components/pages/Home";
 import Chat from "./components/pages/chat/Chat";
 import Profile from "./components/pages/Profile/Profile";
-import FriendsList from "./components/pages/Profile/Friends/FriendsList";
+import FriendsList from "./components/pages/Profile/friends/FriendsList";
+import MatchHistory from "./components/pages/Profile/matchHistory/MatchHistory";
 // import logo42 from "./img/42logo.svg"
 
 function App() {
@@ -62,7 +63,7 @@ function App() {
 								/>
 								<Route
 									path="matchHistory"
-									element={<h1> test test3</h1>}
+									element={<MatchHistory />}
 								/>
 							</Route>
 							<Route path="chat" element={<Chat />} />
