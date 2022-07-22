@@ -1,34 +1,40 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import UserCard from "../../common/UserCard";
 
 const Profile = () => {
 	return (
-		<div className="p-8 overflow-auto bg-no-repeat bg-cover scroll h-3/5 min-h-max rounded-b-large md:col-span-3 md:h-full md:justify-center md:rounded-large md:rounded-l-none ">
-			<div className="p-[5rem] px-[25%]">
-				<UserCard />
+		<div className="h-screen overflow-auto scroll min-h-max md:grid md:h-full md:justify-center md:rounded-large md:grid-cols-[2fr_5fr] md:rounded-l-none bg-my-light-violet">
+			{/* Side-bar */}
+			<div className="h-full md:rounded-r-large bg-my-lavender">
+				<div className="p-[5rem]">
+					<UserCard />
+				</div>
+				{/* Sub-Pages */}
+				<ul className="profile-links">
+					<li>
+						<NavLink className="profile-link" to="friends">
+							<i className="fa-solid fa-user-group"></i>
+							<h2>Friends</h2>
+						</NavLink>
+					</li>
+					<li>
+						<NavLink className="profile-link" to="achievements">
+							<i className="fa-solid fa-trophy"></i>
+							<h2>Achievements</h2>
+						</NavLink>
+					</li>
+					<li>
+						<NavLink className="profile-link" to="matchHistory">
+							<i className="fa-solid fa-table-tennis-paddle-ball"></i>
+							<h2>Match History</h2>
+						</NavLink>
+					</li>
+				</ul>
 			</div>
-			{/* Sub-Pages */}
-			<ul className="profile-links">
-				<li>
-					<NavLink className="profile-link" to="friends">
-						<i class="fa-solid fa-user-group"></i>
-						<h2>Friends</h2>
-					</NavLink>
-				</li>
-				<li>
-					<NavLink className="profile-link" to="achievements">
-						<i class="fa-solid fa-trophy"></i>
-						<h2>Achievements</h2>
-					</NavLink>
-				</li>
-				<li>
-					<NavLink className="profile-link" to="matchHistory">
-						<i class="fa-solid fa-table-tennis-paddle-ball"></i>
-						<h2>Match History</h2>
-					</NavLink>
-				</li>
-			</ul>
+			<div className="w-full">
+				<Outlet />
+			</div>
 		</div>
 	);
 };

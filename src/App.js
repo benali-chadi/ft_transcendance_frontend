@@ -11,6 +11,7 @@ import Login from "./components/pages/login/Login";
 import Home from "./components/pages/Home";
 import Chat from "./components/pages/chat/Chat";
 import Profile from "./components/pages/Profile/Profile";
+import FriendsList from "./components/pages/Profile/FriendsList";
 // import logo42 from "./img/42logo.svg"
 
 function App() {
@@ -49,17 +50,21 @@ function App() {
 								</ProtectedRoute>
 							}
 						>
-							<Route path="" element={<Home />} />
-							<Route
-								path="profile"
-								element={
-									<Profile>
-										<Route Path="friends" />
-										<Route Path="achievements" />
-										<Route Path="matchHistory" />
-									</Profile>
-								}
-							/>
+							<Route path="/" element={<Home />} />
+							<Route path="profile" element={<Profile />}>
+								<Route
+									path="friends"
+									element={<FriendsList />}
+								/>
+								<Route
+									path="achievements"
+									element={<h1> test test2</h1>}
+								/>
+								<Route
+									path="matchHistory"
+									element={<h1> test test3</h1>}
+								/>
+							</Route>
 							<Route path="chat" element={<Chat />} />
 						</Route>
 						<Route

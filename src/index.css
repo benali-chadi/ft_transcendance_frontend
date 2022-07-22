@@ -72,11 +72,14 @@
 
 	/* Profile Links */
 	.profile-links {
-		@apply px-[30%] border-2;
+		@apply flex flex-col justify-center items-center;
+	}
+	.profile-links i {
+		@apply text-my-light-violet;
 	}
 
 	.profile-link {
-		@apply text-black font-medium text-2xl flex items-center gap-2 m-auto py-2;
+		@apply text-black font-bold text-2xl flex items-center gap-2 m-auto py-2 rounded-2xl hover:bg-my-blue/50 px-3;
 	}
 
 	/* Avatar Upload */
