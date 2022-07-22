@@ -39,7 +39,8 @@ const MatchHistory = () => {
 							filter === "all"
 								? "bg-my-violet"
 								: "bg-my-light-violet"
-						} rounded-t-med`}
+						} rounded-t-med cursor-pointer`}
+						onClick={() => setFilter("all")}
 					>
 						All
 					</h2>
@@ -48,12 +49,18 @@ const MatchHistory = () => {
 							filter === "wins"
 								? "bg-my-violet"
 								: "bg-my-light-violet"
-						} bg-my-violet rounded-t-med`}
+						} bg-my-violet rounded-t-med cursor-pointer`}
+						onClick={() => setFilter("wins")}
 					>
 						Wins
 					</h2>
 					<h2
-						className={`w-full py-4 text-2xl text-white bg-my-violet rounded-t-med`}
+						className={`w-full py-4 text-2xl text-white ${
+							filter === "loses"
+								? "bg-my-violet"
+								: "bg-my-light-violet"
+						} bg-my-violet rounded-t-med cursor-pointer`}
+						onClick={() => setFilter("loses")}
 					>
 						Loses
 					</h2>
