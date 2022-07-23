@@ -4,7 +4,7 @@ import UserCard from "../../common/UserCard";
 
 const Profile = () => {
 	return (
-		<div className="h-screen overflow-auto scroll min-h-max md:grid md:h-full md:justify-center md:rounded-large md:grid-cols-[2fr_5fr] md:rounded-l-none bg-my-light-violet">
+		<div className="h-screen overflow-auto scroll min-h-max md:grid md:h-full md:justify-center md:rounded-large md:grid-cols-[2fr_5fr] md:rounded-l-none bg-my-blue">
 			{/* Side-bar */}
 			<div className="h-full md:rounded-r-large bg-my-lavender">
 				<div className="p-[5rem]">

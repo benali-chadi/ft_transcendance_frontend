@@ -66,10 +66,11 @@ const MatchHistory = () => {
 					</h2>
 				</div>
 				{/* Matches */}
-				<MatchCard result="won" />
-				<MatchCard result="lost" />
-				<MatchCard result="won" />
-				<MatchCard result="lost" />
+
+				{filter !== "loses" && <MatchCard result="won" />}
+				{filter !== "wins" && <MatchCard result="lost" />}
+				{filter !== "loses" && <MatchCard result="won" />}
+				{filter !== "wins" && <MatchCard result="lost" />}
 			</div>
 		</div>
 	);
