@@ -37,7 +37,7 @@ const UpdateUser = ({ handleCancelClick }) => {
 					}
 					SecondaryButton={
 						<Button
-							color="bg-gray-200"
+							color="bg-gray-300"
 							hoverColor="bg-white"
 							handleClick={handleCancelClick}
 						>

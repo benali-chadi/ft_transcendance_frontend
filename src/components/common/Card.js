@@ -33,7 +33,7 @@ const Card = ({
 				{/* Main Part */}
 				<div className="">{children}</div>
 				{/* Buttons */}
-				<div className="flex gap-4">
+				<div className="flex justify-center gap-4">
 					{SecondaryButton}
 					{MainButton}
 				</div>
