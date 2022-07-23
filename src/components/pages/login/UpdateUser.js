@@ -6,19 +6,20 @@ import Card from "../../common/Card";
 import Modal from "../../common/Modal";
 import { userContext } from "../../helpers/context";
 
-const SignUp = ({ handleCancelClick }) => {
-	const { setUser } = useContext(userContext);
+const UpdateUser = ({ handleCancelClick }) => {
+	const { user, setUser } = useContext(userContext);
 	const navigate = useNavigate();
 
-	const [userName, setUserName] = useState("");
-	const [avatar, setAvatar] = useState(null);
+	const [username, setUsername] = useState(user.username);
+	const [avatar, setAvatar] = useState(user.avatar);
 
 	return (
 		<Modal>
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
-					setUser({ userName, avatar });
+
+					setUser({ ...user, username, avatar });
 					navigate("/");
 				}}
 			>
@@ -60,7 +61,8 @@ const SignUp = ({ handleCancelClick }) => {
 							>
 								{avatar && (
 									<img
-										src={URL.createObjectURL(avatar)}
+										// src={URL.createObjectURL(avatar)}
+										src={avatar}
 										alt="avatar"
 									/>
 								)}
@@ -68,7 +70,12 @@ const SignUp = ({ handleCancelClick }) => {
 							<input
 								type="file"
 								className="hidden file-upload"
-								onChange={(e) => setAvatar(e.target.files[0])}
+								onChange={(e) => {
+									let file = e.target.files[0];
+									if (typeof file !== "string")
+										file = URL.createObjectURL(file);
+									setAvatar(file);
+								}}
 							/>
 						</div>
 						{/* UserName input */}
@@ -77,8 +84,8 @@ const SignUp = ({ handleCancelClick }) => {
 							placeholder="Choose Your Username"
 							className="rounded-large h-10 border-black border-[1px] px-3 font-Poppins"
 							required
-							value={userName}
-							onChange={(e) => setUserName(e.target.value)}
+							value={username}
+							onChange={(e) => setUsername(e.target.value)}
 						/>
 					</div>
 				</Card>
@@ -87,4 +94,4 @@ const SignUp = ({ handleCancelClick }) => {
 	);
 };
 
-export default SignUp;
+export default UpdateUser;
