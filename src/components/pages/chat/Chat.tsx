@@ -1,16 +1,16 @@
 import React, { useContext } from "react";
 import { useState } from "react";
 import Button from "../../common/Button.tsx";
-import { userContext } from "../../helpers/context";
-import { chatAreaVariants, pageVariants } from "../../helpers/variants";
-import ChatArea from "./ChatArea";
-import ChatUserCard from "./ChatUserCard";
+import { userContext } from "../../helpers/context.ts";
+import { chatAreaVariants, pageVariants } from "../../helpers/variants.ts";
+import ChatArea from "./ChatArea.tsx";
+import ChatUserCard from "./ChatUserCard.tsx";
 import { motion } from "framer-motion";
 
-const Chat = () => {
+const Chat: React.FC = () => {
 	const { user, isMobile } = useContext(userContext);
 
-	const [chatUser, setChatUser] = useState(null);
+	const [chatUser, setChatUser] = useState <any|null>( null);
 
 	const handleClick = (user) => {
 		setChatUser(null);

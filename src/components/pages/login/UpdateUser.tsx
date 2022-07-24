@@ -4,10 +4,11 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../common/Button.tsx";
 import Card from "../../common/Card.tsx";
 import Modal from "../../common/Modal.tsx";
-import { userContext } from "../../helpers/context";
+import { UserState } from "../../helpers/context";
+import { userContext } from "../../helpers/context.ts";
 
 const UpdateUser = ({ handleCancelClick }) => {
-	const { user, setUser } = useContext(userContext);
+	const { user, setUser } = useContext<UserState>(userContext);
 	const navigate = useNavigate();
 
 	const [username, setUsername] = useState(user.username);
@@ -52,11 +53,12 @@ const UpdateUser = ({ handleCancelClick }) => {
 							<div
 								className="upload-button"
 								onClick={() => {
-									document
-										.getElementsByClassName(
-											"file-upload"
-										)[0]
-										.click();
+									let element: HTMLElement = document
+									.getElementsByClassName(
+										"file-upload"
+									)[0] as HTMLElement;
+									
+									element.click();
 								}}
 							>
 								{avatar && (
@@ -71,9 +73,9 @@ const UpdateUser = ({ handleCancelClick }) => {
 								type="file"
 								className="hidden file-upload"
 								onChange={(e) => {
-									let file = e.target.files[0];
-									if (typeof file !== "string")
-										file = URL.createObjectURL(file);
+									let file: any = (e.target as HTMLInputElement);
+									if (typeof file.files[0] !== "string")
+										file = URL.createObjectURL(file.files[0]);
 									setAvatar(file);
 								}}
 							/>

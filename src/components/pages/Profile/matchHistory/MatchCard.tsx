@@ -1,12 +1,18 @@
 import React from "react";
 import { useContext } from "react";
-import { userContext } from "../../../helpers/context";
+import { userContext } from "../../../helpers/context.ts";
 import pongRackets from "../../../../img/table-tennis.png";
+import { UserState } from "../../../helpers/context";
 
 // bg-gradient-to-r from-[#D8E3F7] to-[#E4CFBA]
 
-const MatchCard = ({ user1, user2, result, handleClick }) => {
-	const { user } = useContext(userContext);
+interface Props {
+	result: string,
+	handleClick: (user: any) => void
+}
+
+const MatchCard: React.FC<Props> = ({ /*user1, user2, */ result, handleClick }) => {
+	const { user } = useContext<UserState>(userContext);
 
 	const lostBgStyle = "bg-gradient-to-b from-[#EC1B24] to-[#D37C80]";
 	const winBgStyle = "bg-gradient-to-b from-[#1FAC49] to-[#72CF8E]";

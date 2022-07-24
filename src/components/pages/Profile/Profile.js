@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import UserCard from "../../common/UserCard";
+import UserCard from "../../common/UserCard.tsx";
 
 const Profile = () => {
 	return (
