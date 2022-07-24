@@ -1,7 +1,7 @@
 import Navigation from "./components/Navigation";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import ProtectedRoute from "./components/common/ProtectedRoute";
+import ProtectedRoute from "./components/common/ProtectedRoute.tsx";
 import { userContext } from "./components/helpers/context";
 import { AnimatePresence } from "framer-motion";
 import { useMediaQuery } from "react-responsive";

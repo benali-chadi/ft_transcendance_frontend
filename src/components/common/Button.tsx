@@ -1,7 +1,15 @@
 import { motion } from "framer-motion";
 import React from "react";
 
-const Button = ({
+interface Props {
+	children: JSX.Element,
+	handleClick: () => void,
+	color: string,
+	hoverColor: string,
+	type: "button" | "submit" | "reset" | undefined
+}
+
+const Button: React.FC<Props> = ({
 	children,
 	handleClick = () => {},
 	color,

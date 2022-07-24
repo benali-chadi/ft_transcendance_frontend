@@ -1,7 +1,16 @@
 import { motion } from "framer-motion";
 import React from "react";
 
-const Card = ({
+interface Props {
+	title: string,
+	icon: string,
+	MainButton: React.ReactNode,
+	SecondaryButton: React.ReactNode,
+	children?: JSX.Element | JSX.Element[],
+	handleCancel: () => void
+}
+
+const Card: React.FC<Props> = ({
 	title,
 	icon,
 	MainButton,

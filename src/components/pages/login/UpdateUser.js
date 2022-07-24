@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../../common/Button";
-import Card from "../../common/Card";
-import Modal from "../../common/Modal";
+import Button from "../../common/Button.tsx";
+import Card from "../../common/Card.tsx";
+import Modal from "../../common/Modal.tsx";
 import { userContext } from "../../helpers/context";
 
 const UpdateUser = ({ handleCancelClick }) => {

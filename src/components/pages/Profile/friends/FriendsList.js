@@ -1,7 +1,7 @@
 import React from "react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../../../common/Button";
+import Button from "../../../common/Button.tsx";
 import { userContext } from "../../../helpers/context";
 import FriendCard from "./FriendCard";
 

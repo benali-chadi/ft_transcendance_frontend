@@ -1,6 +1,13 @@
 import React from "react";
 
-const Section = ({ title, image, handleClick, color }) => {
+interface Props {
+	title: string,
+	image: string,
+	handleClick: () => void
+	color: string,
+}
+
+const Section: React.FC<Props> = ({ title, image, handleClick, color }) => {
 	const backgroundStyle = {
 		backgroundImage: `url('${image}')`,
 	};
