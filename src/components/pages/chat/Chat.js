@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useState } from "react";
-import Button from "../../common/Button";
+import Button from "../../common/Button.tsx";
 import { userContext } from "../../helpers/context";
 import { chatAreaVariants, pageVariants } from "../../helpers/variants";
 import ChatArea from "./ChatArea";

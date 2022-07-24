@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { userContext } from "../../helpers/context";
 import { motion } from "framer-motion";
-import Loader from "../../common/Loader";
+import Loader from "../../common/Loader.tsx";
 
 const Log = () => {
 	const { setUser } = useContext(userContext);

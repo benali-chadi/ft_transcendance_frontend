@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import Section from "../common/Section";
-import List from "../common/List";
+import Section from "../common/Section.tsx";
+import List from "../common/List.tsx";
 import UserCard from "../common/UserCard";
 
 import background from "../../img/game-system/background.jpg";

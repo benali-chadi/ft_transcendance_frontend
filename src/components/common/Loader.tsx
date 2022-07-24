@@ -27,7 +27,8 @@ const loaderVariants = {
 	},
 };
 
-const Loader = () => {
+
+const Loader: React.FC = () => {
 	const [showHeader, setShowHeader] = useState(true);
 
 	return (

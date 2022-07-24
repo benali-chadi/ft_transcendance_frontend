@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../../common/Button";
+import Button from "../../common/Button.tsx";
 // import UpdateUser from "./UpdateUser";
 
 import background from "../../../img/login-background.jpg";
