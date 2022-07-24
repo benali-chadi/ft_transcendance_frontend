@@ -2,11 +2,12 @@ import React from "react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../../common/Button.tsx";
-import { userContext } from "../../../helpers/context";
-import FriendCard from "./FriendCard";
+import { UserState } from "../../../helpers/context";
+import { userContext } from "../../../helpers/context.ts";
+import FriendCard from "./FriendCard.tsx";
 
-const FriendsList = () => {
-	const { user } = useContext(userContext);
+const FriendsList: React.FC = () => {
+	const { user } = useContext<UserState>(userContext);
 	const navigate = useNavigate();
 
 	const handleClick = () => {

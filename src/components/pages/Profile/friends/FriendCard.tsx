@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { threeDotsVariants } from "../../../helpers/variants";
+// @ts-ignore
+import { threeDotsVariants } from "../../../helpers/variants.ts";
 
-const FriendCard = ({ user, status, handleClick = () => {} }) => {
+interface Props {
+	user: any,
+	status: string,
+	
+}
+
+const FriendCard: React.FC<Props> = ({ user, status/*, handleClick = () => {} */}) => {
 	const [showDropDown, setShowDropdown] = useState(false);
 
 	return (
@@ -12,7 +19,7 @@ const FriendCard = ({ user, status, handleClick = () => {} }) => {
 				className="min-h-[3rem] min-w-[3rem] rounded-full flex justify-center items-center gap-4 cursor-pointer"
 				onClick={() => {
 					setShowDropdown(false);
-					handleClick(user);
+					// handleClick(user);
 				}}
 			>
 				{user.avatar && (

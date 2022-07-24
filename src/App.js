@@ -2,17 +2,17 @@ import Navigation from "./components/Navigation";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ProtectedRoute from "./components/common/ProtectedRoute.tsx";
-import { userContext } from "./components/helpers/context";
+import { userContext } from "./components/helpers/context.ts";
 import { AnimatePresence } from "framer-motion";
 import { useMediaQuery } from "react-responsive";
 import axios from "axios";
-import Log from "./components/pages/login/Log";
-import Login from "./components/pages/login/Login";
+import Log from "./components/pages/login/Log.tsx";
+import Login from "./components/pages/login/Login.tsx";
 import Home from "./components/pages/Home";
-import Chat from "./components/pages/chat/Chat";
+import Chat from "./components/pages/chat/Chat.tsx";
 import Profile from "./components/pages/Profile/Profile";
-import FriendsList from "./components/pages/Profile/friends/FriendsList";
-import MatchHistory from "./components/pages/Profile/matchHistory/MatchHistory";
+import FriendsList from "./components/pages/Profile/friends/FriendsList.tsx";
+import MatchHistory from "./components/pages/Profile/matchHistory/MatchHistory.tsx";
 // import logo42 from "./img/42logo.svg"
 
 function App() {

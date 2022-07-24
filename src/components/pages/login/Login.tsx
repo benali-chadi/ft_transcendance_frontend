@@ -7,7 +7,7 @@ import logo from "../../../img/logo.png";
 import { ReactComponent as Logo42 } from "../../../img/42logo.svg";
 // import { useState } from "react";
 
-const Login = () => {
+const Login: React.FC = () => {
 	// const [showUpdateUser, setShowUpdateUser] = useState(false);
 
 	const backgroundStyle = {
