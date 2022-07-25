@@ -3,10 +3,10 @@ import React, { FC } from "react";
 
 interface Props {
 	children: JSX.Element,
-	handleClick: () => void,
+	handleClick?: () => void,
 	color: string,
-	hoverColor: string,
-	type: "button" | "submit" | "reset" | undefined
+	hoverColor?: string,
+	type?: "button" | "submit" | "reset" | undefined
 }
 
 const Button: FC<Props> = ({

@@ -6,7 +6,7 @@ import UserCard from "../common/UserCard";
 import background from "../../img/game-system/background.jpg";
 import inviteImage from "../../img/game-system/section2.jpg";
 import randomImage from "../../img/game-system/section1.jpg";
-import { userContext } from "../helpers/context.ts";
+import { userContext } from "../helpers/context";
 import { motion } from "framer-motion";
 import { pageVariants } from "../helpers/variants";
 // import { pageVariantDesktop, pageVariantMobile } from "./helpers/variants";

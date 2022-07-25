@@ -8,7 +8,7 @@ import { UserState } from "../../../helpers/context";
 
 interface Props {
 	result: string,
-	handleClick: (user: any) => void
+	handleClick?: (user: any) => void
 }
 
 const MatchCard: FC<Props> = ({ /*user1, user2, */ result, handleClick }) => {
@@ -27,7 +27,8 @@ const MatchCard: FC<Props> = ({ /*user1, user2, */ result, handleClick }) => {
 			<div
 				className="min-h-[4rem] min-w-[4rem] rounded-full flex justify-center items-center gap-4 cursor-pointer"
 				onClick={() => {
-					handleClick(user);
+					if (handleClick)
+						handleClick(user);
 				}}
 			>
 				{user.avatar && (
@@ -54,7 +55,8 @@ const MatchCard: FC<Props> = ({ /*user1, user2, */ result, handleClick }) => {
 			<div
 				className="min-h-[4rem] min-w-[4rem] rounded-full flex justify-center items-center gap-4 cursor-pointer"
 				onClick={() => {
-					handleClick(user);
+					if (handleClick)
+						handleClick(user);
 				}}
 			>
 				{user.avatar && (

@@ -3,7 +3,7 @@ import React, { FC } from "react";
 interface Props {
 	icon: string,
 	title: string,
-	children: JSX.Element,
+	children?: JSX.Element,
 }
 
 const List: FC<Props> = ({ icon, title, children }) => {
