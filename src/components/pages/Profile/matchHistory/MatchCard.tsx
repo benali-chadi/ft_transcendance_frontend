@@ -1,6 +1,6 @@
-import React from "react";
+import React, { FC } from "react";
 import { useContext } from "react";
-import { userContext } from "../../../helpers/context.ts";
+import { userContext } from "../../../helpers/context";
 import pongRackets from "../../../../img/table-tennis.png";
 import { UserState } from "../../../helpers/context";
 
@@ -11,7 +11,7 @@ interface Props {
 	handleClick: (user: any) => void
 }
 
-const MatchCard: React.FC<Props> = ({ /*user1, user2, */ result, handleClick }) => {
+const MatchCard: FC<Props> = ({ /*user1, user2, */ result, handleClick }) => {
 	const { user } = useContext<UserState>(userContext);
 
 	const lostBgStyle = "bg-gradient-to-b from-[#EC1B24] to-[#D37C80]";

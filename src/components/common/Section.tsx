@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 
 interface Props {
 	title: string,
@@ -7,7 +7,7 @@ interface Props {
 	color: string,
 }
 
-const Section: React.FC<Props> = ({ title, image, handleClick, color }) => {
+const Section: FC<Props> = ({ title, image, handleClick, color }) => {
 	const backgroundStyle = {
 		backgroundImage: `url('${image}')`,
 	};

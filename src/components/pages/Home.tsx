@@ -1,24 +1,22 @@
-import React, { useContext } from "react";
-import Section from "../common/Section.tsx";
-import List from "../common/List.tsx";
-import UserCard from "../common/UserCard.tsx";
+import React, { FC, useContext } from "react";
+import Section from "../common/Section";
+import List from "../common/List";
+import UserCard from "../common/UserCard";
 
 import background from "../../img/game-system/background.jpg";
 import inviteImage from "../../img/game-system/section2.jpg";
 import randomImage from "../../img/game-system/section1.jpg";
 import { userContext } from "../helpers/context.ts";
 import { motion } from "framer-motion";
-import { pageVariants } from "../helpers/variants.ts";
+import { pageVariants } from "../helpers/variants";
 // import { pageVariantDesktop, pageVariantMobile } from "./helpers/variants";
 
-const Home = () => {
-	const { user /*isMobile*/ } = useContext(userContext);
+const Home: FC = () => {
+	// const { user /*isMobile*/ } = useContext(userContext);
 
 	const backgroundStyle = {
 		backgroundImage: `url('${background}')`,
 	};
-
-	// const pageVariant = isMobile ? pageVariantMobile : pageVariantDesktop;
 
 	return (
 		<motion.div

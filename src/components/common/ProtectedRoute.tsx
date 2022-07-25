@@ -1,14 +1,14 @@
-import React, { useContext } from "react";
+import React, { FC, useContext } from "react";
 import { Navigate } from "react-router";
 import { userContext } from "../helpers/context";
 
 interface Props {
-	redirectPath: string,
+	redirectPath?: string,
 	children: JSX.Element,
 	toCheck: boolean
 }
 
-const ProtectedRoute:React.FC<Props> = ({ redirectPath = "/login", children, toCheck }) => {
+const ProtectedRoute:FC<Props> = ({ redirectPath = "/login", children, toCheck }) => {
 	if (toCheck) return <Navigate to={redirectPath} replace />;
 
 	return children;

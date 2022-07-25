@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import React from "react";
+import React, { FC } from "react";
 
 interface Props {
 	title: string,
@@ -10,7 +10,7 @@ interface Props {
 	handleCancel: () => void
 }
 
-const Card: React.FC<Props> = ({
+const Card: FC<Props> = ({
 	title,
 	icon,
 	MainButton,

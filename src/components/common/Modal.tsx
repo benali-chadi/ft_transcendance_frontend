@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { MutableRefObject, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
@@ -7,7 +7,7 @@ interface Props {
 	children: JSX.Element
 }
 
-const Modal: React.FC<Props> = ({ children }) => {
+const Modal: FC<Props> = ({ children }) => {
 	const modalRef: MutableRefObject<HTMLDivElement | null > = useRef(null);
 	if (!modalRef.current) modalRef.current = document.createElement("div");
 	useEffect(() => {

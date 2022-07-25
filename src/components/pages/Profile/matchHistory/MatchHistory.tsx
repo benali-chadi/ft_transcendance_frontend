@@ -1,10 +1,10 @@
-import React from "react";
+import React, { FC } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import pongRacket from "../../../../img/ping-pong.png";
-import MatchCard from "./MatchCard.tsx";
+import MatchCard from "./MatchCard";
 
-const MatchHistory: React.FC = () => {
+const MatchHistory: FC = () => {
 	const navigate = useNavigate();
 	const [filter, setFilter] = useState("all");
 

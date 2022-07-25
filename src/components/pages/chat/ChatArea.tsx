@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import ChatUserCard from "./ChatUserCard";
 
 interface Props {
@@ -6,7 +6,7 @@ interface Props {
 	handleClick: () => void
 }
 
-const ChatArea: React.FC<Props> = ({ user, handleClick }) => {
+const ChatArea: FC<Props> = ({ user, handleClick }) => {
 	return (
 		<div className="md:grid md:grid-rows-[70px_5fr_70px] md:h-full md:min-h-max md:shadow-lg md:shadow-gray-400 rounded-med">
 			{/* Upper Area */}

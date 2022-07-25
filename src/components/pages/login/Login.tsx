@@ -1,5 +1,5 @@
-import React from "react";
-import Button from "../../common/Button.tsx";
+import React, { FC } from "react";
+import Button from "../../common/Button";
 // import UpdateUser from "./UpdateUser";
 
 import background from "../../../img/login-background.jpg";
@@ -7,7 +7,7 @@ import logo from "../../../img/logo.png";
 import { ReactComponent as Logo42 } from "../../../img/42logo.svg";
 // import { useState } from "react";
 
-const Login: React.FC = () => {
+const Login: FC = () => {
 	// const [showUpdateUser, setShowUpdateUser] = useState(false);
 
 	const backgroundStyle = {
