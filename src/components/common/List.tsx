@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 
 interface Props {
 	icon: string,
@@ -6,7 +6,7 @@ interface Props {
 	children: JSX.Element,
 }
 
-const List: React.FC<Props> = ({ icon, title, children }) => {
+const List: FC<Props> = ({ icon, title, children }) => {
 	return (
 		<div className="rounded-med min-w-[15rem]">
 			<div className="flex w-full gap-4 p-4 bg-my-violet px-7 rounded-t-med">

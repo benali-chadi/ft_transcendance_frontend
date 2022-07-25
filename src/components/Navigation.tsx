@@ -1,16 +1,16 @@
 import axios from "axios";
-import React, { useContext } from "react";
+import React, { FC, useContext } from "react";
 import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import UserCard from "./common/UserCard.tsx";
+import UserCard from "./common/UserCard";
 // import { useMediaQuery } from "react-responsive";
-import { userContext } from "./helpers/context.ts";
+import { userContext, UserState } from "./helpers/context";
 import logo from "../img/logo.png";
 import { motion } from "framer-motion";
-import { navVariants } from "./helpers/variants.ts";
+import { navVariants } from "./helpers/variants";
 
-const Navigation = () => {
-	const { setUser, isMobile } = useContext(userContext);
+const Navigation: FC = () => {
+	const { setUser, isMobile } = useContext<UserState>(userContext);
 	const [showNav, setShoweNav] = useState(false);
 
 	const navigate = useNavigate();

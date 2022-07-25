@@ -1,8 +1,8 @@
-import React from "react";
+import React, { FC } from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import UserCard from "../../common/UserCard.tsx";
+import UserCard from "../../common/UserCard";
 
-const Profile = () => {
+const Profile: FC = () => {
 	return (
 		<div className="h-screen overflow-auto scroll min-h-max md:grid md:h-full md:justify-center md:rounded-large md:grid-cols-[2fr_5fr] md:rounded-l-none bg-my-blue">
 			{/* Side-bar */}

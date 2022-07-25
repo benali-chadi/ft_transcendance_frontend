@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 
 const loaderVariants = {
 	bounce: {
@@ -28,7 +28,7 @@ const loaderVariants = {
 };
 
 
-const Loader: React.FC = () => {
+const Loader: FC = () => {
 	const [showHeader, setShowHeader] = useState(true);
 
 	return (

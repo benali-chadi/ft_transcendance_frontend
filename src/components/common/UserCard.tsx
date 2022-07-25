@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React, { FC, useContext } from "react";
 import { useState } from "react";
 import { UserState } from "../helpers/context";
-import { userContext } from "../helpers/context.ts";
-import UpdateUser from "../pages/login/UpdateUser.tsx";
+import { userContext } from "../helpers/context";
+import UpdateUser from "../pages/login/UpdateUser";
 
-const UserCard: React.FC = () => {
+const UserCard: FC = () => {
 	const { user } = useContext<UserState>(userContext);
 	const [showUpdateUser, setShowUpdateUser] = useState(false);
 

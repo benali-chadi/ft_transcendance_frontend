@@ -1,13 +1,13 @@
-import React, { useContext, useEffect } from "react";
+import React, { FC, useContext, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 // import { createHashHistory } from "history";
 import axios from "axios";
-import { userContext } from "../../helpers/context.ts";
+import { userContext } from "../../helpers/context";
 import { motion } from "framer-motion";
-import Loader from "../../common/Loader.tsx";
+import Loader from "../../common/Loader";
 import { UserState } from "../../helpers/context";
 
-const Log:React.FC = () => {
+const Log:FC = () => {
 	const { setUser } = useContext<UserState>(userContext);
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();

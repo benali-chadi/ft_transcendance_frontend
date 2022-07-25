@@ -1,12 +1,12 @@
-import React from "react";
+import React, { FC } from "react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../../../common/Button.tsx";
+import Button from "../../../common/Button";
 import { UserState } from "../../../helpers/context";
-import { userContext } from "../../../helpers/context.ts";
-import FriendCard from "./FriendCard.tsx";
+import { userContext } from "../../../helpers/context";
+import FriendCard from "./FriendCard";
 
-const FriendsList: React.FC = () => {
+const FriendsList: FC = () => {
 	const { user } = useContext<UserState>(userContext);
 	const navigate = useNavigate();
 

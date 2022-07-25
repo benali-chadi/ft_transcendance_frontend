@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import React from "react";
+import React, { FC } from "react";
 
 interface Props {
 	children: JSX.Element,
@@ -9,7 +9,7 @@ interface Props {
 	type: "button" | "submit" | "reset" | undefined
 }
 
-const Button: React.FC<Props> = ({
+const Button: FC<Props> = ({
 	children,
 	handleClick = () => {},
 	color,

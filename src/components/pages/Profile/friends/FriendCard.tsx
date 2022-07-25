@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { motion } from "framer-motion";
 // @ts-ignore
-import { threeDotsVariants } from "../../../helpers/variants.ts";
+import { threeDotsVariants } from "../../../helpers/variants";
 
 interface Props {
 	user: any,
@@ -9,7 +9,7 @@ interface Props {
 	
 }
 
-const FriendCard: React.FC<Props> = ({ user, status/*, handleClick = () => {} */}) => {
+const FriendCard: FC<Props> = ({ user, status/*, handleClick = () => {} */}) => {
 	const [showDropDown, setShowDropdown] = useState(false);
 
 	return (
