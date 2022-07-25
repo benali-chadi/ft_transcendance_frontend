@@ -1,13 +1,17 @@
-import React, { useContext } from "react";
+import React, { FC, useContext } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../../common/Button.tsx";
-import Card from "../../common/Card.tsx";
-import Modal from "../../common/Modal.tsx";
+import Button from "../../common/Button";
+import Card from "../../common/Card";
+import Modal from "../../common/Modal";
 import { UserState } from "../../helpers/context";
-import { userContext } from "../../helpers/context.ts";
+import { userContext } from "../../helpers/context";
 
-const UpdateUser = ({ handleCancelClick }) => {
+interface Props {
+	handleCancelClick: () => void
+}
+
+const UpdateUser: FC<Props> = ({ handleCancelClick }) => {
 	const { user, setUser } = useContext<UserState>(userContext);
 	const navigate = useNavigate();
 
@@ -33,7 +37,7 @@ const UpdateUser = ({ handleCancelClick }) => {
 							hoverColor="bg-yellow-300"
 							type="submit"
 						>
-							Save
+							<p>Save</p>
 						</Button>
 					}
 					SecondaryButton={
@@ -42,7 +46,7 @@ const UpdateUser = ({ handleCancelClick }) => {
 							hoverColor="bg-white"
 							handleClick={handleCancelClick}
 						>
-							Cancel
+							<p>Cancel</p>
 						</Button>
 					}
 					handleCancel={handleCancelClick}

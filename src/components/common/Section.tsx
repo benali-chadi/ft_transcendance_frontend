@@ -3,7 +3,7 @@ import React, { FC } from "react";
 interface Props {
 	title: string,
 	image: string,
-	handleClick: () => void
+	handleClick?: () => void
 	color: string,
 }
 

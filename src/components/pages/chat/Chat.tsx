@@ -29,7 +29,7 @@ const Chat: FC = () => {
 		>
 			<div className={isMobile && chatUser ? "hidden" : "chatSideBar"}>
 				{/* Upper part */}
-				<div className="flex flex-col gap-4 py-16 bg-[#F0F4FC] md:bg-my-lavender rounded-b-large sticky top-0 max-h-[15rem] md:py-8 z-10">
+				<div className="flex flex-col gap-4 py-16 bg-[#F0F4FC] md:bg-my-lavender rounded-b-large sticky top-0 max-h-[15rem] md:py-8 z-10 md:pl-3">
 					{/* Buttons */}
 					<div className="flex justify-center gap-10">
 						<Button
