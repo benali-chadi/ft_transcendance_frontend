@@ -47,7 +47,7 @@
 	.desktopNavBar {
 		@apply bg-[url('./img/logo-white.png')] bg-[length:3.5rem] bg-no-repeat bg-[center_top_2rem] 
       flex flex-col justify-center 
-      rounded-l-large bg-my-violet max-w-[5rem] justify-self-end 
+      rounded-l-large bg-my-violet max-w-[5rem] justify-self-end max-h-[80vh]
       px-5 min-h-[27rem];
 	}
 	.desktopNavBar ul {

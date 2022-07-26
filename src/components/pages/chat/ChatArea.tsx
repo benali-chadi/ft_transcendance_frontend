@@ -27,13 +27,13 @@ const ChatArea: FC<Props> = ({ user, handleClick }) => {
 			text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam, repellat? Repellendus, nulla.",
 			date: getCurrTime(),
 			me: false,
-			user: user,
+			user,
 		},
 		{
 			text: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
 			date: getCurrTime(),
 			me: false,
-			user: user,
+			user,
 		},
 		{
 			text: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque ullam, deserunt delectus minima hic in?",
@@ -76,21 +76,35 @@ const ChatArea: FC<Props> = ({ user, handleClick }) => {
 				</div>
 			</div>
 			{/* Chat Bubbles */}
-			<div className="flex flex-col-reverse h-full gap-4 p-4 overflow-auto">
+			<div className="flex flex-col-reverse h-full gap-4 p-4 overflow-auto pb-[22rem] md:pb-4">
 				{msgs &&
-					msgs.map((v) => (
+					msgs.map((v, i) => (
 						<ChatBubble
 							text={v.text}
 							date={v.date}
 							me={v.me}
 							user={v.user}
+							key={i}
 						/>
 					))}
 			</div>
 			{/* Typing Area */}
-			<div className="sticky bottom-0 flex items-center justify-center w-full gap-4 py-4 border-t-4 border-white h-max rounded-b-med md:static bg-my-lavender">
+			<form
+				className="sticky bottom-0 flex items-center justify-center w-full gap-4 py-4 border-t-4 border-white h-max rounded-b-med md:static bg-my-lavender"
+				onSubmit={(e) => {
+					e.preventDefault();
+					let msg: MsgProps = {
+						text: text,
+						date: getCurrTime(),
+						me: true,
+					};
+					if (msgs) setMsgs([msg, ...msgs]);
+					else setMsgs([msg]);
+					setText("");
+				}}
+			>
 				<input
-					type={text}
+					value={text}
 					onChange={(e) => setText(e.target.value)}
 					className="h-6 w-[70%] min-w-[10rem] p-6 text-xl rounded-large font-Poppins"
 					placeholder="Type Something..."
@@ -108,7 +122,7 @@ const ChatArea: FC<Props> = ({ user, handleClick }) => {
 						setText("");
 					}}
 				></i>
-			</div>
+			</form>
 		</div>
 	);
 };
