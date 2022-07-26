@@ -1,18 +1,5 @@
 import React, { FC } from "react";
 
-// /\d{2}:\d{2}/.exec(new Date().toString())[0] // To Get Current time
-// Chat bubble contains:
-// - Text
-// - Date
-// Me or Other
-// if me:
-// 	- Align right
-//	- Color violet
-// if Other:
-// 	- Align left
-// 	- Color light
-// 	- Clickable avatar
-
 export interface MsgProps {
 	text: string;
 	date: string;
@@ -44,14 +31,16 @@ export const ChatBubble: FC<MsgProps> = ({ text, date, me, user }) => {
 				</div>
 			)}
 			<div
-				className={` rounded-med p-3 min-w-[10rem] min-h-[5rem] max-w-[50%] justify-between flex flex-col ${
+				className={` rounded-med pt-3 pb-5 px-7 min-w-[10rem] min-h-[5rem] max-w-[50%] relative ${
 					me
 						? " bg-my-light-violet rounded-br-none text-white"
 						: " bg-white rounded-bl-none"
 				}`}
 			>
-				<p className="self-start text-base font-medium">{text}</p>
-				<p className="self-end text-sm font-normal text-gray-400">
+				<p className="self-start text-base font-medium text-left">
+					{text}
+				</p>
+				<p className="absolute self-end text-sm font-normal text-gray-400 bottom-1 right-4">
 					{date}
 				</p>
 			</div>

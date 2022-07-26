@@ -25,7 +25,7 @@ const Chat: FC = () => {
 			initial="initial"
 			animate="animate"
 			exit="exit"
-			className="h-screen md:h-full scroll bg-my-lavender min-h-max md:rounded-large md:rounded-l-none md:grid md:grid-cols-[1fr_4fr] md:grid-rows-1 "
+			className="h-screen md:h-full bg-my-lavender min-h-max md:rounded-large md:rounded-l-none md:grid md:grid-cols-[1fr_4fr] md:grid-rows-1 "
 		>
 			<div className={isMobile && chatUser ? "hidden" : "chatSideBar"}>
 				{/* Upper part */}
