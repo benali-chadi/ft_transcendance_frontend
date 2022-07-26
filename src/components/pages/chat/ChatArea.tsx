@@ -45,8 +45,20 @@ const ChatArea: FC<Props> = ({ user, handleClick }) => {
 		setMsgs(initialMsgs);
 	}, []);
 
+	const handleMsgSendClick = (e?: React.FormEvent<HTMLFormElement>) => {
+		if (e) e.preventDefault();
+		let msg: MsgProps = {
+			text: text,
+			date: getCurrTime(),
+			me: true,
+		};
+		if (msgs) setMsgs([msg, ...msgs]);
+		else setMsgs([msg]);
+		setText("");
+	};
+
 	return (
-		<div className="h-screen md:grid md:grid-rows-[70px_5fr_70px] md:h-full md:shadow-lg md:shadow-gray-400 rounded-med">
+		<div className="flex flex-col h-screen md:grid md:grid-rows-[70px_5fr_70px] md:h-full md:shadow-lg md:shadow-gray-400 rounded-med">
 			{/* Upper Area */}
 			<div className="flex flex-col gap-4 py-16 px-4 bg-[#F0F4FC] md:bg-my-violet rounded-b-large sticky top-0 max-h-[15rem] md:rounded-t-med md:rounded-b-none md:max-h-max md:p-4 md:px-6 md:flex-row-reverse md:justify-between md:gap-0 md:h-full md:items-center md:static">
 				{/* Icons */}
@@ -75,7 +87,7 @@ const ChatArea: FC<Props> = ({ user, handleClick }) => {
 				</div>
 			</div>
 			{/* Chat Bubbles */}
-			<div className="flex flex-col-reverse h-full gap-4 p-4 overflow-auto pb-[22rem] md:pb-4">
+			<div className="flex flex-col-reverse h-full gap-4 p-4 overflow-auto">
 				{msgs &&
 					msgs.map((v, i) => (
 						<ChatBubble
@@ -89,17 +101,20 @@ const ChatArea: FC<Props> = ({ user, handleClick }) => {
 			</div>
 			{/* Typing Area */}
 			<form
-				className="sticky bottom-0 flex items-center justify-center w-full gap-4 py-4 border-t-4 border-white h-max rounded-b-med md:static bg-my-lavender"
+				className="flex items-center justify-center w-full gap-4 py-4 border-t-4 border-white h-max rounded-b-med bg-my-lavender"
+				// onSubmit={(e) => {
+				// 	e.preventDefault();
+				// 	let msg: MsgProps = {
+				// 		text: text,
+				// 		date: getCurrTime(),
+				// 		me: true,
+				// 	};
+				// 	if (msgs) setMsgs([msg, ...msgs]);
+				// 	else setMsgs([msg]);
+				// 	setText("");
+				// }}
 				onSubmit={(e) => {
-					e.preventDefault();
-					let msg: MsgProps = {
-						text: text,
-						date: getCurrTime(),
-						me: true,
-					};
-					if (msgs) setMsgs([msg, ...msgs]);
-					else setMsgs([msg]);
-					setText("");
+					handleMsgSendClick(e);
 				}}
 			>
 				<input
@@ -110,16 +125,17 @@ const ChatArea: FC<Props> = ({ user, handleClick }) => {
 				/>
 				<i
 					className="text-2xl cursor-pointer fa-solid fa-paper-plane hover:opacity-70"
-					onClick={() => {
-						let msg: MsgProps = {
-							text: text,
-							date: getCurrTime(),
-							me: true,
-						};
-						if (msgs) setMsgs([msg, ...msgs]);
-						else setMsgs([msg]);
-						setText("");
-					}}
+					// onClick={() => {
+					// 	let msg: MsgProps = {
+					// 		text: text,
+					// 		date: getCurrTime(),
+					// 		me: true,
+					// 	};
+					// 	if (msgs) setMsgs([msg, ...msgs]);
+					// 	else setMsgs([msg]);
+					// 	setText("");
+					// }}
+					onClick={() => handleMsgSendClick()}
 				></i>
 			</form>
 		</div>
