@@ -13,8 +13,7 @@ const ChatArea: FC<Props> = ({ user, handleClick }) => {
 
 	const getCurrTime: () => string = () => {
 		let date = /\d{2}:\d{2}/.exec(new Date().toString());
-		if (date) return date[0];
-		return "";
+		return date ? date[0] : "";
 	};
 
 	const initialMsgs: MsgProps[] = [
