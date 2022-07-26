@@ -30,7 +30,7 @@ const Navigation: FC = () => {
 	};
 
 	return (
-		<div className="w-full h-screen overflow-auto bg-gray-300 md:p-6 md:py-20 md:grid md:grid-cols-12">
+		<div className="w-full h-screen bg-gray-300 md:p-6 md:py-20 md:grid md:grid-cols-12">
 			{/* Top Part */}
 			{isMobile && !showNav && (
 				<div className="absolute z-20 flex justify-between w-full p-2 px-4 bg-white/50">

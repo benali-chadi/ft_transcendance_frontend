@@ -11,9 +11,9 @@ import { UserState } from "../../helpers/context";
 const Chat: FC = () => {
 	const { user, isMobile } = useContext<UserState>(userContext);
 
-	const [chatUser, setChatUser] = useState <any|null>( null);
+	const [chatUser, setChatUser] = useState<any | null>(null);
 
-	const handleClick = (user:any) => {
+	const handleClick = (user: any) => {
 		setChatUser(null);
 		setTimeout(() => setChatUser(user), isMobile ? 500 : 1000);
 	};
@@ -25,7 +25,7 @@ const Chat: FC = () => {
 			initial="initial"
 			animate="animate"
 			exit="exit"
-			className="h-screen overflow-auto md:h-full scroll bg-my-lavender min-h-max md:rounded-large md:rounded-l-none md:grid md:grid-cols-[1fr_4fr] md:grid-rows-1 "
+			className="h-screen md:h-full scroll bg-my-lavender min-h-max md:rounded-large md:rounded-l-none md:grid md:grid-cols-[1fr_4fr] md:grid-rows-1 "
 		>
 			<div className={isMobile && chatUser ? "hidden" : "chatSideBar"}>
 				{/* Upper part */}
