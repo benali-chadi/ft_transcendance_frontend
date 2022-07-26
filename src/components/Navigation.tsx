@@ -5,6 +5,7 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import UserCard from "./common/UserCard";
 // import { useMediaQuery } from "react-responsive";
 import { userContext, UserState } from "./helpers/context";
+// @ts-ignore
 import logo from "../img/logo.png";
 import { motion } from "framer-motion";
 import { navVariants } from "./helpers/variants";
@@ -56,7 +57,7 @@ const Navigation: FC = () => {
 				className={!isMobile ? "desktopNavBar" : "mobileNavBar"}
 			>
 				{isMobile && (
-					<div className="flex flex-col h-[10rem] justify-between">
+					<div className="flex flex-col justify-between h-max">
 						<div
 							className="text-white cursor-pointer"
 							onClick={() => setShoweNav(!showNav)}

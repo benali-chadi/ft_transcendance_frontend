@@ -2,9 +2,11 @@ import React, { FC, useContext } from "react";
 import Section from "../common/Section";
 import List from "../common/List";
 import UserCard from "../common/UserCard";
-
+// @ts-ignore
 import background from "../../img/game-system/background.jpg";
+// @ts-ignore
 import inviteImage from "../../img/game-system/section2.jpg";
+// @ts-ignore
 import randomImage from "../../img/game-system/section1.jpg";
 import { userContext } from "../helpers/context";
 import { motion } from "framer-motion";

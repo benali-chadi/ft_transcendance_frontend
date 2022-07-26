@@ -1,10 +1,18 @@
+import { motion } from "framer-motion";
 import React, { FC } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import UserCard from "../../common/UserCard";
+import { pageVariants } from "../../helpers/variants";
 
 const Profile: FC = () => {
 	return (
-		<div className="h-screen overflow-auto scroll min-h-max md:grid md:h-full md:justify-center md:rounded-large md:grid-cols-[2fr_5fr] md:rounded-l-none bg-my-blue">
+		<motion.div
+			variants={pageVariants}
+			initial="initial"
+			animate="animate"
+			// exit="exit"
+			className="h-screen overflow-auto scroll min-h-max md:grid md:h-full md:justify-center md:rounded-large md:grid-cols-[2fr_5fr] md:rounded-l-none bg-my-blue"
+		>
 			{/* Side-bar */}
 			<div className="h-full md:rounded-r-large bg-my-lavender">
 				<div className="p-[5rem]">
@@ -35,7 +43,7 @@ const Profile: FC = () => {
 			<div className="w-full">
 				<Outlet />
 			</div>
-		</div>
+		</motion.div>
 	);
 };
 
