@@ -1,5 +1,6 @@
+import { getSuggestedQuery } from "@testing-library/react";
 import { motion } from "framer-motion";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import UserCard from "../../common/UserCard";
 import { pageVariants } from "../../helpers/variants";

@@ -47,6 +47,7 @@ const ChatArea: FC<Props> = ({ user, handleClick }) => {
 
 	const handleMsgSendClick = (e?: React.FormEvent<HTMLFormElement>) => {
 		if (e) e.preventDefault();
+		if (!text.length) return;
 		let msg: MsgProps = {
 			text: text,
 			date: getCurrTime(),
@@ -102,17 +103,6 @@ const ChatArea: FC<Props> = ({ user, handleClick }) => {
 			{/* Typing Area */}
 			<form
 				className="flex items-center justify-center w-full gap-4 py-4 border-t-4 border-white h-max rounded-b-med bg-my-lavender"
-				// onSubmit={(e) => {
-				// 	e.preventDefault();
-				// 	let msg: MsgProps = {
-				// 		text: text,
-				// 		date: getCurrTime(),
-				// 		me: true,
-				// 	};
-				// 	if (msgs) setMsgs([msg, ...msgs]);
-				// 	else setMsgs([msg]);
-				// 	setText("");
-				// }}
 				onSubmit={(e) => {
 					handleMsgSendClick(e);
 				}}
@@ -124,17 +114,11 @@ const ChatArea: FC<Props> = ({ user, handleClick }) => {
 					placeholder="Type Something..."
 				/>
 				<i
-					className="text-2xl cursor-pointer fa-solid fa-paper-plane hover:opacity-70"
-					// onClick={() => {
-					// 	let msg: MsgProps = {
-					// 		text: text,
-					// 		date: getCurrTime(),
-					// 		me: true,
-					// 	};
-					// 	if (msgs) setMsgs([msg, ...msgs]);
-					// 	else setMsgs([msg]);
-					// 	setText("");
-					// }}
+					className={`text-2xl cursor-pointer fa-solid fa-paper-plane ${
+						text.length
+							? "hover:opacity-70 text-my-light-violet"
+							: ""
+					}`}
 					onClick={() => handleMsgSendClick()}
 				></i>
 			</form>
