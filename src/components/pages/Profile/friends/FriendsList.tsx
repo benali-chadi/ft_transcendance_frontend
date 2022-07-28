@@ -28,7 +28,6 @@ const FriendsList: FC = () => {
 				{ withCredentials: true }
 			);
 
-			// console.log(data);
 			setFriends(data);
 		} catch (e) {}
 	}
@@ -38,7 +37,6 @@ const FriendsList: FC = () => {
 			const { data } = await axios.get("http://localhost:3000/user/all", {
 				withCredentials: true,
 			});
-			// console.log(data);
 			setUsers(data);
 		} catch (e) {}
 	}

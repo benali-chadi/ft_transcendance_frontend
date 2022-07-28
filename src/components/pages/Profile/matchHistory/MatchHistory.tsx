@@ -1,16 +1,18 @@
 import React, { FC } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useOutletContext } from "react-router";
 // @ts-ignore
 import pongRacket from "../../../../img/ping-pong.png";
 import MatchCard from "./MatchCard";
+import { outletContext } from "../Profile";
 
 const MatchHistory: FC = () => {
 	const navigate = useNavigate();
 	const [filter, setFilter] = useState("all");
+	const { id } = useOutletContext<outletContext>();
 
 	const handleClick = () => {
-		navigate("/profile");
+		navigate(`/profile/${id}`);
 	};
 
 	return (

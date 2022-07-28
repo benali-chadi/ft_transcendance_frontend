@@ -20,7 +20,6 @@ const Log: FC = () => {
 				"http://localhost:3000/auth/redirect?code=" + query[0],
 				{ withCredentials: true }
 			);
-			console.log(data);
 			if (data) {
 				// const browserHistory = createHashHistory();
 

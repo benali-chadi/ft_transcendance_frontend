@@ -16,7 +16,7 @@ const UserCard: FC<Props> = ({ user }) => {
 	const { currentUser } = useContext<UserState>(userContext);
 	const [showUpdateUser, setShowUpdateUser] = useState(false);
 
-	const cond = user.username === currentUser.username;
+	const cond = user.id === currentUser.id;
 
 	return (
 		<div className="flex flex-col items-center gap-2 min-w-[15rem] max-w-lg m-auto">
