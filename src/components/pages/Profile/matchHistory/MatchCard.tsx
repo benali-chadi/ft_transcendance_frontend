@@ -7,12 +7,12 @@ import { UserState } from "../../../helpers/context";
 // bg-gradient-to-r from-[#D8E3F7] to-[#E4CFBA]
 
 interface Props {
-	result: string,
-	handleClick?: (user: any) => void
+	result: string;
+	handleClick?: (user: any) => void;
 }
 
 const MatchCard: FC<Props> = ({ /*user1, user2, */ result, handleClick }) => {
-	const { user } = useContext<UserState>(userContext);
+	const { currentUser } = useContext<UserState>(userContext);
 
 	const lostBgStyle = "bg-gradient-to-b from-[#EC1B24] to-[#D37C80]";
 	const winBgStyle = "bg-gradient-to-b from-[#1FAC49] to-[#72CF8E]";
@@ -27,13 +27,12 @@ const MatchCard: FC<Props> = ({ /*user1, user2, */ result, handleClick }) => {
 			<div
 				className="min-h-[4rem] min-w-[4rem] rounded-full flex justify-center items-center gap-4 cursor-pointer"
 				onClick={() => {
-					if (handleClick)
-						handleClick(user);
+					if (handleClick) handleClick(currentUser);
 				}}
 			>
-				{user.avatar && (
+				{currentUser.avatar && (
 					<img
-						src={user.avatar}
+						src={currentUser.avatar}
 						alt="avatar"
 						className="w-[4rem] h-[4rem] rounded-full"
 					/>
@@ -51,17 +50,16 @@ const MatchCard: FC<Props> = ({ /*user1, user2, */ result, handleClick }) => {
 				<h3 className="text-xl">You {result}</h3>
 			</div>
 
-			{/* User 2 */}
+			{/* user 2 */}
 			<div
 				className="min-h-[4rem] min-w-[4rem] rounded-full flex justify-center items-center gap-4 cursor-pointer"
 				onClick={() => {
-					if (handleClick)
-						handleClick(user);
+					if (handleClick) handleClick(currentUser);
 				}}
 			>
-				{user.avatar && (
+				{currentUser.avatar && (
 					<img
-						src={user.avatar}
+						src={currentUser.avatar}
 						alt="avatar"
 						className="w-[4rem] h-[4rem] rounded-full"
 					/>

@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import Loader from "../../common/Loader";
 import { UserState } from "../../helpers/context";
 
-const Log:FC = () => {
+const Log: FC = () => {
 	const { setUser } = useContext<UserState>(userContext);
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
@@ -16,17 +16,17 @@ const Log:FC = () => {
 
 	useEffect(() => {
 		async function test() {
-			let data = await axios.post(
-				"http://localhost:9000/login?code=" + query[0],
-				{},
+			let { data } = await axios.get(
+				"http://localhost:3000/auth/redirect?code=" + query[0],
 				{ withCredentials: true }
 			);
-			if (data.data) {
+			console.log(data);
+			if (data) {
 				// const browserHistory = createHashHistory();
 
 				navigate("/");
 			}
-			setUser(data.data);
+			setUser(data.user);
 		}
 
 		test();

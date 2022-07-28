@@ -8,15 +8,15 @@ import { UserState } from "../../helpers/context";
 import { userContext } from "../../helpers/context";
 
 interface Props {
-	handleCancelClick: () => void
+	handleCancelClick: () => void;
 }
 
 const UpdateUser: FC<Props> = ({ handleCancelClick }) => {
-	const { user, setUser } = useContext<UserState>(userContext);
+	const { currentUser, setUser } = useContext<UserState>(userContext);
 	const navigate = useNavigate();
 
-	const [username, setUsername] = useState(user.username);
-	const [avatar, setAvatar] = useState(user.avatar);
+	const [username, setUsername] = useState(currentUser.username);
+	const [avatar, setAvatar] = useState(currentUser.avatar);
 
 	return (
 		<Modal>
@@ -24,7 +24,7 @@ const UpdateUser: FC<Props> = ({ handleCancelClick }) => {
 				onSubmit={(e) => {
 					e.preventDefault();
 
-					setUser({ ...user, username, avatar });
+					setUser({ ...currentUser, username, avatar });
 					navigate("/");
 				}}
 			>
@@ -57,11 +57,11 @@ const UpdateUser: FC<Props> = ({ handleCancelClick }) => {
 							<div
 								className="upload-button"
 								onClick={() => {
-									let element: HTMLElement = document
-									.getElementsByClassName(
-										"file-upload"
-									)[0] as HTMLElement;
-									
+									let element: HTMLElement =
+										document.getElementsByClassName(
+											"file-upload"
+										)[0] as HTMLElement;
+
 									element.click();
 								}}
 							>
@@ -77,9 +77,12 @@ const UpdateUser: FC<Props> = ({ handleCancelClick }) => {
 								type="file"
 								className="hidden file-upload"
 								onChange={(e) => {
-									let file: any = (e.target as HTMLInputElement);
+									let file: any =
+										e.target as HTMLInputElement;
 									if (typeof file.files[0] !== "string")
-										file = URL.createObjectURL(file.files[0]);
+										file = URL.createObjectURL(
+											file.files[0]
+										);
 									setAvatar(file);
 								}}
 							/>

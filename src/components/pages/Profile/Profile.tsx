@@ -1,23 +1,58 @@
 import { getSuggestedQuery } from "@testing-library/react";
+import axios from "axios";
 import { motion } from "framer-motion";
-import React, { FC, useEffect } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import React, { FC, useContext, useEffect, useState } from "react";
+import { NavLink, Outlet, useParams } from "react-router-dom";
 import UserCard from "../../common/UserCard";
+import { userContext } from "../../helpers/context";
 import { pageVariants } from "../../helpers/variants";
 
-const Profile: FC = () => {
+interface Props {
+	user: any;
+}
+
+export interface outletContext {
+	profileUser: any;
+	setProfileUser: React.Dispatch<React.SetStateAction<any>> | (() => void);
+	id: string;
+}
+
+const Profile: FC<Props> = () => {
+	const { currentUser } = useContext(userContext);
+	const [profileUser, setProfileUser] = useState<any>({});
+	const { id } = useParams();
+	console.log("id =", id);
+
+	useEffect(() => {
+		async function getUserData() {
+			try {
+				let { data } = await axios.get(
+					`http://localhost:3000/user/${id}`,
+					{
+						withCredentials: true,
+					}
+				);
+				console.log("data =", data);
+				setProfileUser(data);
+			} catch (e) {
+				console.log(e);
+			}
+		}
+		getUserData();
+	}, []);
+
 	return (
 		<motion.div
-			variants={pageVariants}
-			initial="initial"
-			animate="animate"
-			// exit="exit"
+			// variants={pageVariants}
+			// initial="initial"
+			// animate="animate"
+			// // exit="exit"
 			className="h-screen overflow-auto scroll min-h-max md:grid md:h-full md:justify-center md:rounded-large md:grid-cols-[2fr_5fr] md:rounded-l-none bg-my-blue"
 		>
 			{/* Side-bar */}
 			<div className="h-full md:rounded-r-large bg-my-lavender">
 				<div className="p-[5rem]">
-					<UserCard />
+					<UserCard user={profileUser} />
 				</div>
 				{/* Sub-Pages */}
 				<ul className="profile-links">
@@ -42,7 +77,7 @@ const Profile: FC = () => {
 				</ul>
 			</div>
 			<div className="w-full">
-				<Outlet />
+				<Outlet context={{ profileUser, setProfileUser, id }} />
 			</div>
 		</motion.div>
 	);

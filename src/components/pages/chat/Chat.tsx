@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import { UserState } from "../../helpers/context";
 
 const Chat: FC = () => {
-	const { user, isMobile } = useContext<UserState>(userContext);
+	const { currentUser, isMobile } = useContext<UserState>(userContext);
 
 	const [chatUser, setChatUser] = useState<any | null>(null);
 
@@ -71,10 +71,10 @@ const Chat: FC = () => {
 				<div className="flex flex-col h-full gap-4 px-8 mt-3 overflow-auto scroll">
 					<ChatUserCard
 						status="online"
-						user={user}
+						user={currentUser}
 						handleClick={handleClick}
 					/>
-					<ChatUserCard
+					{/* <ChatUserCard
 						status="online"
 						user={user}
 						handleClick={handleClick}
@@ -83,7 +83,7 @@ const Chat: FC = () => {
 						status="online"
 						user={user}
 						handleClick={handleClick}
-					/>
+					/> */}
 				</div>
 			</div>
 			<motion.div

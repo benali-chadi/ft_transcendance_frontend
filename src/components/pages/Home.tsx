@@ -14,7 +14,7 @@ import { pageVariants } from "../helpers/variants";
 // import { pageVariantDesktop, pageVariantMobile } from "./helpers/variants";
 
 const Home: FC = () => {
-	// const { user /*isMobile*/ } = useContext(userContext);
+	const { currentUser /*isMobile*/ } = useContext(userContext);
 
 	const backgroundStyle = {
 		backgroundImage: `url('${background}')`,
@@ -58,7 +58,7 @@ const Home: FC = () => {
 			<div className="flex flex-col gap-8 p-8 overflow-auto scroll md:col-span-2">
 				{/* User */}
 				<div className="hidden w-full h-fit md:block">
-					<UserCard />
+					<UserCard user={currentUser} />
 				</div>
 				{/* Lists */}
 				<List title="leaderboard" icon="fa-solid fa-crown fa-xs"></List>

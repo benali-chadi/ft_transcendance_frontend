@@ -2,15 +2,22 @@ import React, { FC, useState } from "react";
 import { motion } from "framer-motion";
 // @ts-ignore
 import { threeDotsVariants } from "../../../helpers/variants";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { outletContext } from "../Profile";
 
 interface Props {
-	user: any,
-	status: string,
-	
+	user: any;
+	status: string;
 }
 
-const FriendCard: FC<Props> = ({ user, status/*, handleClick = () => {} */}) => {
+const FriendCard: FC<Props> = ({
+	user,
+	status /*, handleClick = () => {} */,
+}) => {
+	const navigate = useNavigate();
 	const [showDropDown, setShowDropdown] = useState(false);
+
+	// const { setProfileUser } = useOutletContext<outletContext>();
 
 	return (
 		<div className="flex flex-shrink-0 justify-around w-fit p-4 bg-white rounded-xl hover:bg-white/50 hover:shadow-lg min-w-[15rem]">
@@ -19,6 +26,8 @@ const FriendCard: FC<Props> = ({ user, status/*, handleClick = () => {} */}) => 
 				className="min-h-[3rem] min-w-[3rem] rounded-full flex justify-center items-center gap-4 cursor-pointer"
 				onClick={() => {
 					setShowDropdown(false);
+					// setProfileUser(user);
+					navigate(`/profile/${user.id}`);
 					// handleClick(user);
 				}}
 			>
