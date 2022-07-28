@@ -76,7 +76,10 @@ const Navigation: FC = () => {
 						</NavLink>
 					</li>
 					<li>
-						<NavLink className="inactive" to="profile/1">
+						<NavLink
+							className="inactive"
+							to={`profile/${currentUser.id}`}
+						>
 							<i className="fa-solid fa-user"></i>
 							{isMobile && <h2>Profile</h2>}
 						</NavLink>

@@ -1,3 +1,5 @@
+import axios from "axios";
+import { motion } from "framer-motion";
 import React, { FC, useContext } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -17,19 +19,34 @@ const UpdateUser: FC<Props> = ({ handleCancelClick }) => {
 
 	const [username, setUsername] = useState(currentUser.username);
 	const [avatar, setAvatar] = useState(currentUser.avatar);
+	const [showError, setShowError] = useState(false);
 
 	return (
 		<Modal>
 			<form
-				onSubmit={(e) => {
+				onSubmit={async (e) => {
 					e.preventDefault();
-
-					setUser({ ...currentUser, username, avatar });
-					navigate("/");
+					try {
+						const updated = await axios.post(
+							"http://localhost:3000/user/update_profile",
+							{
+								username: username,
+							},
+							{ withCredentials: true }
+						);
+						setUser({ ...currentUser, username, avatar });
+						navigate("/");
+					} catch (e) {
+						console.log(e.response.data.message);
+						setShowError(true);
+						setTimeout(() => {
+							setShowError(false);
+						}, 2000);
+					}
 				}}
 			>
 				<Card
-					title="Sign Up"
+					title="Update Profile"
 					icon="fa-solid fa-right-to-bracket"
 					MainButton={
 						<Button
@@ -51,7 +68,7 @@ const UpdateUser: FC<Props> = ({ handleCancelClick }) => {
 					}
 					handleCancel={handleCancelClick}
 				>
-					<div className="flex flex-col items-center gap-4">
+					<div className="relative flex flex-col items-center gap-4">
 						{/* Avatar */}
 						<div className="avatarUpload">
 							<div
@@ -87,6 +104,16 @@ const UpdateUser: FC<Props> = ({ handleCancelClick }) => {
 								}}
 							/>
 						</div>
+						{showError && (
+							<motion.div
+								animate={{ opacity: 1, y: 0 }}
+								initial={{ opacity: 0, y: -100 }}
+								transition={{ type: "tween", delay: 0.5 }}
+								className="absolute p-2 text-white rounded-lg bg-red-400/70 opacity-40"
+							>
+								<p>Username already exists</p>
+							</motion.div>
+						)}
 						{/* UserName input */}
 						<input
 							type="text"

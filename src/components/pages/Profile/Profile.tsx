@@ -21,7 +21,6 @@ const Profile: FC<Props> = () => {
 	const { currentUser } = useContext(userContext);
 	const [profileUser, setProfileUser] = useState<any>({});
 	const { id } = useParams();
-	console.log("id =", id);
 
 	useEffect(() => {
 		async function getUserData() {
@@ -32,7 +31,6 @@ const Profile: FC<Props> = () => {
 						withCredentials: true,
 					}
 				);
-				console.log("data =", data);
 				setProfileUser(data);
 			} catch (e) {
 				console.log(e);
