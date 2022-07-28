@@ -1,18 +1,55 @@
-import React, { FC } from "react";
+import axios from "axios";
+import React, { FC, useEffect, useState } from "react";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import Button from "../../../common/Button";
 import { UserState } from "../../../helpers/context";
 import { userContext } from "../../../helpers/context";
+import { outletContext } from "../Profile";
 import FriendCard from "./FriendCard";
 
+interface friend {
+	avatar: string;
+	id: number;
+	username: string;
+}
+
 const FriendsList: FC = () => {
-	const { user } = useContext<UserState>(userContext);
+	const { currentUser } = useContext<UserState>(userContext);
 	const navigate = useNavigate();
+	const [friends, setFriends] = useState<friend[]>([]);
+	const [users, setUsers] = useState([]);
+	const { profileUser, id } = useOutletContext<outletContext>();
+
+	async function getFriends() {
+		try {
+			const { data } = await axios.get(
+				"http://localhost:3000/chat/friends",
+				{ withCredentials: true }
+			);
+
+			// console.log(data);
+			setFriends(data);
+		} catch (e) {}
+	}
+
+	async function showUsers() {
+		try {
+			const { data } = await axios.get("http://localhost:3000/user/all", {
+				withCredentials: true,
+			});
+			// console.log(data);
+			setUsers(data);
+		} catch (e) {}
+	}
 
 	const handleClick = () => {
-		navigate("/profile");
+		navigate(`/profile/${id}`);
 	};
+
+	useEffect(() => {
+		getFriends();
+	}, []);
 
 	return (
 		<div className="absolute inset-0 z-10 w-full h-screen px-6 py-20 bg-my-blue md:relative md:h-full">
@@ -30,17 +67,40 @@ const FriendsList: FC = () => {
 					placeholder="Search..."
 				/>
 			</div>
-			<div className="flex justify-end px-4 mb-4">
-				<Button color="bg-my-yellow">
-					<h2 className="text-xl">find friends</h2>
-				</Button>
-			</div>
+			{currentUser.id == profileUser.id && (
+				<div className="flex justify-end px-4 mb-4">
+					<Button color="bg-my-yellow">
+						<h2 onClick={showUsers} className="text-xl">
+							find friends
+						</h2>
+					</Button>
+				</div>
+			)}
 			{/* <div className="grid grid-cols-2 auto-rows-[5rem] gap-[2rem] md:grid-cols-4 h-full w-full"> */}
 			<div className="flex flex-wrap justify-center gap-4">
-				<FriendCard user={user} status="online" />
-				<FriendCard user={user} status="online" />
-				<FriendCard user={user} status="online" />
-				<FriendCard user={user} status="online" />
+				{friends.length != 0 ? (
+					friends.map((friend: friend) => {
+						return (
+							<FriendCard
+								key={friend.id}
+								user={friend}
+								status="online"
+							/>
+						);
+					})
+				) : users.length != 0 ? (
+					users.map((user: friend) => {
+						return (
+							<FriendCard
+								key={user.id}
+								user={user}
+								status="online"
+							/>
+						);
+					})
+				) : (
+					<h1>No users </h1>
+				)}
 			</div>
 		</div>
 	);

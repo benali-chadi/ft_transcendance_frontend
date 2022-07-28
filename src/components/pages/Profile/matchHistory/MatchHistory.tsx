@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+// @ts-ignore
 import pongRacket from "../../../../img/ping-pong.png";
 import MatchCard from "./MatchCard";
 

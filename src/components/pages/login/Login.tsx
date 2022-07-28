@@ -16,8 +16,7 @@ const Login: FC = () => {
 
 	const handleLoginClick = () => {
 		// setShowUpdateUser(!showUpdateUser);
-		document.location.href =
-			"https://api.intra.42.fr/oauth/authorize?client_id=78c3d2bb240eb8f7edc6df1410e59c41f9faab03cf2af5ba88e04e1da9a489a8&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2FTest&response_type=code";
+		document.location.href = "http://localhost:3000/auth";
 	};
 
 	return (

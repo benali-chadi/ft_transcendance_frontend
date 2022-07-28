@@ -11,7 +11,8 @@ import { motion } from "framer-motion";
 import { navVariants } from "./helpers/variants";
 
 const Navigation: FC = () => {
-	const { setUser, isMobile } = useContext<UserState>(userContext);
+	const { currentUser, setUser, isMobile } =
+		useContext<UserState>(userContext);
 	const [showNav, setShoweNav] = useState(false);
 
 	const navigate = useNavigate();
@@ -20,7 +21,7 @@ const Navigation: FC = () => {
 		// navigate("/login");
 		async function logOut() {
 			await axios.post(
-				"http://localhost:9000/logout",
+				"http://localhost:3000/logout",
 				{},
 				{ withCredentials: true }
 			);
@@ -64,7 +65,7 @@ const Navigation: FC = () => {
 						>
 							<i className="fa-solid fa-xmark"></i>
 						</div>
-						<UserCard />
+						<UserCard user={currentUser} />
 					</div>
 				)}
 				<ul>
@@ -75,7 +76,7 @@ const Navigation: FC = () => {
 						</NavLink>
 					</li>
 					<li>
-						<NavLink className="inactive" to="profile">
+						<NavLink className="inactive" to="profile/1">
 							<i className="fa-solid fa-user"></i>
 							{isMobile && <h2>Profile</h2>}
 						</NavLink>

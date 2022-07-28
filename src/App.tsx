@@ -17,18 +17,18 @@ import React from "react";
 // import logo42 from "./img/42logo.svg"
 
 const App: React.FC = () => {
-	const [user, setUser] = useState(null);
+	const [currentUser, setUser] = useState(null);
 
 	useEffect(() => {
 		async function getUserData() {
 			try {
-				let obj = await axios.post(
-					"http://localhost:9000/me",
-					{},
-					{ withCredentials: true }
+				let { data } = await axios.get(
+					"http://localhost:3000/user/me",
+					{
+						withCredentials: true,
+					}
 				);
-
-				if (obj.data.success) setUser(obj.data.user);
+				setUser(data);
 			} catch (e) {}
 		}
 		getUserData();
@@ -41,19 +41,22 @@ const App: React.FC = () => {
 
 	return (
 		<div className="h-screen text-4xl font-bold text-center App">
-			<userContext.Provider value={{ user, setUser, isMobile }}>
+			<userContext.Provider value={{ currentUser, setUser, isMobile }}>
 				<AnimatePresence exitBeforeEnter>
 					<Routes location={location} key={location.key}>
 						<Route
 							path="/"
 							element={
-								<ProtectedRoute toCheck={!user}>
+								<ProtectedRoute toCheck={!currentUser}>
 									<Navigation />
 								</ProtectedRoute>
 							}
 						>
 							<Route path="/" element={<Home />} />
-							<Route path="profile" element={<Profile />}>
+							<Route
+								path="profile/:id"
+								element={<Profile user={currentUser} />}
+							>
 								<Route
 									path="friends"
 									element={<FriendsList />}
@@ -74,7 +77,7 @@ const App: React.FC = () => {
 							element={
 								<ProtectedRoute
 									redirectPath="/"
-									toCheck={!!user}
+									toCheck={!!currentUser}
 								>
 									<Login />
 								</ProtectedRoute>
@@ -85,7 +88,7 @@ const App: React.FC = () => {
 							element={
 								<ProtectedRoute
 									redirectPath="/"
-									toCheck={!!user}
+									toCheck={!!currentUser}
 								>
 									<Log />
 								</ProtectedRoute>
@@ -96,6 +99,6 @@ const App: React.FC = () => {
 			</userContext.Provider>
 		</div>
 	);
-}
+};
 
 export default App;

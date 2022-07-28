@@ -1,12 +1,22 @@
-import React, { FC, useContext } from "react";
+import React, { FC, useContext, useEffect } from "react";
 import { useState } from "react";
 import { UserState } from "../helpers/context";
 import { userContext } from "../helpers/context";
 import UpdateUser from "../pages/login/UpdateUser";
 
-const UserCard: FC = () => {
-	const { user } = useContext<UserState>(userContext);
+interface Props {
+	user: {
+		id: number;
+		username: string;
+		avatar: string;
+	};
+}
+
+const UserCard: FC<Props> = ({ user }) => {
+	const { currentUser } = useContext<UserState>(userContext);
 	const [showUpdateUser, setShowUpdateUser] = useState(false);
+
+	const cond = user.username === currentUser.username;
 
 	return (
 		<div className="flex flex-col items-center gap-2 min-w-[15rem] max-w-lg m-auto">
@@ -16,8 +26,12 @@ const UserCard: FC = () => {
 				/>
 			)}
 			<div
-				className="min-h-[8rem] min-w-[8rem] rounded-full bg-gray-300 flex justify-center cursor-pointer hover:opacity-80"
-				onClick={() => setShowUpdateUser(!showUpdateUser)}
+				className={`min-h-[8rem] min-w-[8rem] rounded-full bg-gray-300 flex justify-center ${
+					cond ? "cursor-pointer hover:opacity-80" : ""
+				}`}
+				onClick={() => {
+					if (cond) setShowUpdateUser(!showUpdateUser);
+				}}
 			>
 				{user.avatar && (
 					<img
