@@ -24,7 +24,7 @@ const Profile: FC<Props> = () => {
 	const [profileUser, setProfileUser] = useState<any>({});
 	const { id } = useParams();
 	const [buttonMessage, setButton] = useState("Add friend")
-	const [showbutton, setShow] = useState(true)
+	const [showbutton, setShow] = useState(false)
 	
 	async function updateRelation(){
 		try{
@@ -88,6 +88,7 @@ const Profile: FC<Props> = () => {
 				if (data.relation == "Invitation Sent")
 					setButton("Invitation Sent")
 				setProfileUser(data);
+				setShow(true);
 			} catch (e) {
 				console.log(e);
 			}
