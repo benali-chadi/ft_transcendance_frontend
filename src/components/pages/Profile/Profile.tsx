@@ -85,6 +85,7 @@ const Profile: FC<Props> = () => {
 				if (data.relation == "Invitation Sent")
 					setButton("Invitation Sent");
 				// data
+				console.log("data =", data);
 				setProfileUser(data);
 				setShow(true);
 			} catch (e) {

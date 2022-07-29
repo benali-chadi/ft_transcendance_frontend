@@ -8,17 +8,15 @@ import axios from "axios";
 
 interface Props {
 	user: any;
-	status: string;
 }
 
-const FriendCard: FC<Props> = ({
-	user,
-	status /*, handleClick = () => {} */,
-}) => {
+const FriendCard: FC<Props> = ({ user }) => {
 	const navigate = useNavigate();
 	const [showDropDown, setShowDropdown] = useState(false);
 
 	const [blocked, setBlocked] = useState(user.blocked);
+
+	console.log("user =", user);
 	// const { setProfileUser } = useOutletContext<outletContext>();
 
 	return (
@@ -43,7 +41,7 @@ const FriendCard: FC<Props> = ({
 				{/* Text Part */}
 				<div className="text-left">
 					<h3 className="text-xl">{user.username}</h3>
-					<div className="text-sm font-semibold">{status}</div>
+					<div className="text-sm font-semibold">{user.status}</div>
 				</div>
 			</div>
 			{/* Three Dots Part */}
