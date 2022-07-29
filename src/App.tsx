@@ -13,6 +13,7 @@ import Chat from "./components/pages/chat/Chat";
 import Profile from "./components/pages/Profile/Profile";
 import FriendsList from "./components/pages/Profile/friends/FriendsList";
 import MatchHistory from "./components/pages/Profile/matchHistory/MatchHistory";
+import AchievementsBoard from "./components/pages/Profile/achievements/AchievementsBoard";
 import React from "react";
 import io from "socket.io-client"
 // import logo42 from "./img/42logo.svg"
@@ -68,7 +69,7 @@ const App: React.FC = () => {
 								/>
 								<Route
 									path="achievements"
-									element={<h1> test test2</h1>}
+									element={<AchievementsBoard />}
 								/>
 								<Route
 									path="matchHistory"
