@@ -20,7 +20,7 @@ const UpdateUser: FC<Props> = ({ handleCancelClick }) => {
 	const [username, setUsername] = useState(currentUser.username);
 	const [avatar, setAvatar] = useState(currentUser.avatar);
 	const [showError, setShowError] = useState(false);
-	const [selectedfile, setFile] = useState(null)
+	const [selectedfile, setFile] = useState<File>()
 
 	return (
 		<Modal>

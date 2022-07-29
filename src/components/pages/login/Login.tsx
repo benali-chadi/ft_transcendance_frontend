@@ -5,18 +5,21 @@ import Button from "../../common/Button";
 import background from "../../../img/login-background.jpg";
 import logo from "../../../img/logo.png";
 import { ReactComponent as Logo42 } from "../../../img/42logo.svg";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 // import { useState } from "react";
 
 const Login: FC = () => {
 	// const [showUpdateUser, setShowUpdateUser] = useState(false);
-
+	const navigate = useNavigate();
 	const backgroundStyle = {
 		backgroundImage: `url('${background}')`,
 	};
 
-	const handleLoginClick = () => {
+	const handleLoginClick = async () => {
 		// setShowUpdateUser(!showUpdateUser);
 		document.location.href = "http://localhost:3000/auth";
+		//let ret = await axios.get("http://localhost:3000/auth")
 	};
 
 	return (

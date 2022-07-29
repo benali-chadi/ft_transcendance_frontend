@@ -6,10 +6,11 @@ import { threeDotsVariants } from "../../helpers/variants";
 interface Props {
 	user: any,
 	status: string,
-	handleClick: (user: any) => void
+	room_id: number,
+	handleClick: (user: any, room_id: number) => void
 }
 
-const ChatUserCard: FC<Props> = ({ user, status, handleClick = () => {} }) => {
+const ChatUserCard: FC<Props> = ({ user, status, handleClick = () => {}, room_id }) => {
 	const [showDropDown, setShowDropdown] = useState(false);
 
 	return (
@@ -19,7 +20,7 @@ const ChatUserCard: FC<Props> = ({ user, status, handleClick = () => {} }) => {
 				className="min-h-[3rem] min-w-[3rem] md:w-[2rem] md:h-[2rem] rounded-full flex justify-center items-center gap-1 cursor-pointer"
 				onClick={() => {
 					setShowDropdown(false);
-					handleClick(user);
+					handleClick(user, room_id);
 				}}
 			>
 				{user.avatar && (
