@@ -2,12 +2,12 @@ import { motion } from "framer-motion";
 import React, { FC } from "react";
 
 interface Props {
-	title: string,
-	icon: string,
-	MainButton: React.ReactNode,
-	SecondaryButton: React.ReactNode,
-	children?: JSX.Element | JSX.Element[],
-	handleCancel: () => void
+	title: string;
+	icon: string;
+	MainButton: React.ReactNode;
+	SecondaryButton: React.ReactNode;
+	children?: JSX.Element | JSX.Element[];
+	handleCancel: () => void;
 }
 
 const Card: FC<Props> = ({

@@ -54,22 +54,20 @@ const Profile: FC<Props> = () => {
 				{withCredentials:true});
 			}
 			let data = obj.data;
-			if (data.blocked)
-				setButton("unblock")
-			if (data.relation == "friends")
-				setButton("unfriend");
-			if (data.relation == "none")
-				setButton("Add friend");
+			if (data.blocked) setButton("unblock");
+			if (data.relation == "friends") setButton("unfriend");
+			if (data.relation == "none") setButton("Add friend");
 			if (data.relation == "Accept invitation")
-				setButton("Accept invitation")
+				setButton("Accept invitation");
 			if (data.relation == "Invitation Sent")
-				setButton("Invitation Sent")
+				setButton("Invitation Sent");
+			//data.user
 			setProfileUser(data);
-		}catch(e){
+		} catch (e) {
 			console.log(e);
 		}
 	}
-	
+
 	useEffect(() => {
 		async function getUserData() {
 			try {
@@ -79,14 +77,13 @@ const Profile: FC<Props> = () => {
 						withCredentials: true,
 					}
 				);
-				if (data.blocked)
-					setButton("unblock")
-				if (data.relation == "friends")
-					setButton("unfriend");
+				if (data.blocked) setButton("unblock");
+				if (data.relation == "friends") setButton("unfriend");
 				if (data.relation == "Accept invitation")
-					setButton("Accept invitation")
+					setButton("Accept invitation");
 				if (data.relation == "Invitation Sent")
-					setButton("Invitation Sent")
+					setButton("Invitation Sent");
+				// data
 				setProfileUser(data);
 				setShow(true);
 			} catch (e) {
@@ -110,13 +107,14 @@ const Profile: FC<Props> = () => {
 					<UserCard user={profileUser} />
 				</div>
 				<div className="flex justify-end px-4 mb-4">
-				{showbutton && currentUser.id != profileUser.id && (
-					<Button color="bg-my-yellow" handleClick={updateRelation}>
-						<h2  className="text-xl">
-							{buttonMessage}
-						</h2>
-					</Button>)
-				}
+					{showbutton && currentUser.id != profileUser.id && (
+						<Button
+							color="bg-my-yellow"
+							handleClick={updateRelation}
+						>
+							<h2 className="text-xl">{buttonMessage}</h2>
+						</Button>
+					)}
 				</div>
 				{/* Sub-Pages */}
 				<ul className="profile-links">
