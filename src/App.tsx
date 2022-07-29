@@ -14,12 +14,14 @@ import Profile from "./components/pages/Profile/Profile";
 import FriendsList from "./components/pages/Profile/friends/FriendsList";
 import MatchHistory from "./components/pages/Profile/matchHistory/MatchHistory";
 import React from "react";
+import io from "socket.io-client"
 // import logo42 from "./img/42logo.svg"
 
 const App: React.FC = () => {
 	const [currentUser, setUser] = useState(null);
+	const [chatSocket, setSocket] = useState<any>(null);
 
-	useEffect(() => {
+	useEffect(() : any => {
 		async function getUserData() {
 			try {
 				let { data } = await axios.get(
@@ -32,6 +34,9 @@ const App: React.FC = () => {
 			} catch (e) {}
 		}
 		getUserData();
+		const socket_chat = io('http://localhost:3000/chat' , {withCredentials:true});
+		setSocket(socket_chat);
+		return () => socket_chat.close();
 	}, []);
 
 	const isMobile = useMediaQuery({
@@ -70,7 +75,7 @@ const App: React.FC = () => {
 									element={<MatchHistory />}
 								/>
 							</Route>
-							<Route path="chat" element={<Chat />} />
+							<Route path="chat" element={<Chat socket={chatSocket} />} />
 						</Route>
 						<Route
 							path="/login"
