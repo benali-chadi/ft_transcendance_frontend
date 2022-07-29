@@ -6,6 +6,7 @@ import Button from "../../../common/Button";
 import { UserState } from "../../../helpers/context";
 import { userContext } from "../../../helpers/context";
 import { outletContext } from "../Profile";
+import FindFriends from "./FindFriends";
 import FriendCard from "./FriendCard";
 
 interface friend {
@@ -16,10 +17,12 @@ interface friend {
 
 const FriendsList: FC = () => {
 	const { currentUser } = useContext<UserState>(userContext);
-	const navigate = useNavigate();
-	const [friends, setFriends] = useState<friend[]>([]);
-	const [users, setUsers] = useState([]);
 	const { profileUser, id } = useOutletContext<outletContext>();
+
+	const navigate = useNavigate();
+
+	const [friends, setFriends] = useState<friend[]>([]);
+	const [showFindFriends, setShowFindFriends] = useState(false);
 
 	async function getFriends() {
 		try {
@@ -29,15 +32,6 @@ const FriendsList: FC = () => {
 			);
 
 			setFriends(data);
-		} catch (e) {}
-	}
-
-	async function showUsers() {
-		try {
-			const { data } = await axios.get("http://localhost:3000/user/all", {
-				withCredentials: true,
-			});
-			setUsers(data);
 		} catch (e) {}
 	}
 
@@ -51,6 +45,9 @@ const FriendsList: FC = () => {
 
 	return (
 		<div className="absolute inset-0 z-10 w-full h-screen px-6 py-20 bg-my-blue md:relative md:h-full">
+			{showFindFriends && (
+				<FindFriends handleCancel={() => setShowFindFriends(false)} />
+			)}
 			{/* Back Button */}
 			<i
 				className="absolute text-white cursor-pointer left-5 top-15 fa-solid fa-arrow-left md:hidden"
@@ -68,7 +65,10 @@ const FriendsList: FC = () => {
 			{currentUser.id == profileUser.id && (
 				<div className="flex justify-end px-4 mb-4">
 					<Button color="bg-my-yellow">
-						<h2 onClick={showUsers} className="text-xl">
+						<h2
+							onClick={() => setShowFindFriends(true)}
+							className="text-xl"
+						>
 							find friends
 						</h2>
 					</Button>
@@ -82,16 +82,6 @@ const FriendsList: FC = () => {
 							<FriendCard
 								key={friend.id}
 								user={friend}
-								status="online"
-							/>
-						);
-					})
-				) : users.length != 0 ? (
-					users.map((user: friend) => {
-						return (
-							<FriendCard
-								key={user.id}
-								user={user}
 								status="online"
 							/>
 						);

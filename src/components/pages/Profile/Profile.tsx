@@ -23,53 +23,52 @@ const Profile: FC<Props> = () => {
 	const { currentUser } = useContext(userContext);
 	const [profileUser, setProfileUser] = useState<any>({});
 	const { id } = useParams();
-	const [buttonMessage, setButton] = useState("Add friend")
-	const [showbutton, setShow] = useState(true)
-	
-	async function updateRelation(){
-		try{
-			let obj :any;
-			if (buttonMessage === "Add friend")
-			{
-				obj = await axios.post("http://localhost:3000/user/add_friend",
-				{
-					user: profileUser.id
-				},
-				{withCredentials:true});
-			}
-			else if (buttonMessage === "Accept invitation")
-			{
-				obj = await axios.post("http://localhost:3000/user/accept_friend",
-				{
-					user: profileUser.id
-				},
-				{withCredentials:true});
-			}
-			else if (buttonMessage === "unfriend")
-			{
-				obj = await axios.post("http://localhost:3000/user/unfriend",
-				{
-					user: profileUser.id
-				},
-				{withCredentials:true});
+	const [buttonMessage, setButton] = useState("Add friend");
+	const [showbutton, setShow] = useState(false);
+
+	async function updateRelation() {
+		try {
+			let obj: any;
+			if (buttonMessage === "Add friend") {
+				obj = await axios.post(
+					"http://localhost:3000/user/add_friend",
+					{
+						user: profileUser.id,
+					},
+					{ withCredentials: true }
+				);
+			} else if (buttonMessage === "Accept invitation") {
+				obj = await axios.post(
+					"http://localhost:3000/user/accept_friend",
+					{
+						user: profileUser.id,
+					},
+					{ withCredentials: true }
+				);
+			} else if (buttonMessage === "unfriend") {
+				obj = await axios.post(
+					"http://localhost:3000/user/unfriend",
+					{
+						user: profileUser.id,
+					},
+					{ withCredentials: true }
+				);
 			}
 			let data = obj.data;
-			if (data.blocked)
-				setButton("unblock")
-			if (data.relation == "friends")
-				setButton("unfriend");
-			if (data.relation == "none")
-				setButton("Add friend");
+			if (data.blocked) setButton("unblock");
+			if (data.relation == "friends") setButton("unfriend");
+			if (data.relation == "none") setButton("Add friend");
 			if (data.relation == "Accept invitation")
-				setButton("Accept invitation")
+				setButton("Accept invitation");
 			if (data.relation == "Invitation Sent")
-				setButton("Invitation Sent")
+				setButton("Invitation Sent");
+			//data.user
 			setProfileUser(data);
-		}catch(e){
+		} catch (e) {
 			console.log(e);
 		}
 	}
-	
+
 	useEffect(() => {
 		async function getUserData() {
 			try {
@@ -79,15 +78,15 @@ const Profile: FC<Props> = () => {
 						withCredentials: true,
 					}
 				);
-				if (data.blocked)
-					setButton("unblock")
-				if (data.relation == "friends")
-					setButton("unfriend");
+				if (data.blocked) setButton("unblock");
+				if (data.relation == "friends") setButton("unfriend");
 				if (data.relation == "Accept invitation")
-					setButton("Accept invitation")
+					setButton("Accept invitation");
 				if (data.relation == "Invitation Sent")
-					setButton("Invitation Sent")
+					setButton("Invitation Sent");
+				// data
 				setProfileUser(data);
+				setShow(true);
 			} catch (e) {
 				console.log(e);
 			}
@@ -109,13 +108,14 @@ const Profile: FC<Props> = () => {
 					<UserCard user={profileUser} />
 				</div>
 				<div className="flex justify-end px-4 mb-4">
-				{showbutton && currentUser.id != profileUser.id && (
-					<Button color="bg-my-yellow" handleClick={updateRelation}>
-						<h2  className="text-xl">
-							{buttonMessage}
-						</h2>
-					</Button>)
-				}
+					{showbutton && currentUser.id != profileUser.id && (
+						<Button
+							color="bg-my-yellow"
+							handleClick={updateRelation}
+						>
+							<h2 className="text-xl">{buttonMessage}</h2>
+						</Button>
+					)}
 				</div>
 				{/* Sub-Pages */}
 				<ul className="profile-links">
