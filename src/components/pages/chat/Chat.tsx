@@ -1,4 +1,4 @@
-import React, { FC, useContext } from "react";
+import React, { FC, useContext, useEffect } from "react";
 import { useState } from "react";
 import Button from "../../common/Button";
 import { userContext } from "../../helpers/context";
@@ -7,18 +7,37 @@ import ChatArea from "./ChatArea";
 import ChatUserCard from "./ChatUserCard";
 import { motion } from "framer-motion";
 import { UserState } from "../../helpers/context";
+import axios from "axios";
 
-const Chat: FC = () => {
+const Chat: FC<any> = ({socket}) => {
 	const { currentUser, isMobile } = useContext<UserState>(userContext);
 
 	const [chatUser, setChatUser] = useState<any | null>(null);
+	const [dms, setDms] = useState([])
+	const [roomId, setRoomId] = useState<number>(0)
 
-	const handleClick = (user: any) => {
+	const handleClick = (user: any, room_id:number) => {
 		setChatUser(null);
+		setRoomId(room_id);
 		setTimeout(() => setChatUser(user), isMobile ? 500 : 1000);
 	};
 	const [toggle, setToggle] = useState(true);
 
+	useEffect(() => {
+
+		async function getDms(){
+			try{
+				let {data} = await axios.get("http://localhost:3000/chat/Dm_channels",
+				{withCredentials: true})
+				
+				setDms(data);
+
+			}catch(e){
+
+			}
+		}
+		getDms();
+	}, [])
 	return (
 		<motion.div
 			variants={pageVariants}
@@ -69,21 +88,23 @@ const Chat: FC = () => {
 				</div>
 				{/* Users */}
 				<div className="flex flex-col h-full gap-4 px-8 mt-3 overflow-auto scroll">
-					<ChatUserCard
-						status="online"
-						user={currentUser}
-						handleClick={handleClick}
-					/>
-					{/* <ChatUserCard
-						status="online"
-						user={user}
-						handleClick={handleClick}
-					/>
-					<ChatUserCard
-						status="online"
-						user={user}
-						handleClick={handleClick}
-					/> */}
+					{
+						dms.length != 0 ? (
+							dms.map((dm: any) => {
+								return (
+									<ChatUserCard
+										key={dm.room_id}
+										status={dm.member.status}
+										user={dm.member}
+										room_id={dm.room_id}
+										handleClick={handleClick}
+									/>
+								)
+							})
+						) : (
+							<div></div>
+						)
+					}
 				</div>
 			</div>
 			<motion.div
@@ -93,7 +114,9 @@ const Chat: FC = () => {
 			>
 				<ChatArea
 					user={chatUser || {}}
+					socket={socket}
 					handleClick={() => setChatUser(null)}
+					room_id={roomId}
 				/>
 			</motion.div>
 		</motion.div>

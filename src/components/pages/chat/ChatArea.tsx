@@ -4,10 +4,12 @@ import ChatUserCard from "./ChatUserCard";
 
 interface Props {
 	user: any;
+	socket: any;
+	room_id: number;
 	handleClick: () => void;
 }
 
-const ChatArea: FC<Props> = ({ user, handleClick }) => {
+const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 	const [msgs, setMsgs] = useState<MsgProps[] | null>(null);
 	const [text, setText] = useState("");
 
@@ -16,38 +18,16 @@ const ChatArea: FC<Props> = ({ user, handleClick }) => {
 		return date ? date[0] : "";
 	};
 
-	const initialMsgs: MsgProps[] = [
-		{
-			text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos veniam, optio adipisci quasi at alias est accusantium facere odio quod nihil nobis voluptatem sunt aspernatur voluptate sequi perspiciatis pariatur ipsum.",
-			date: getCurrTime(),
-			me: true,
-		},
-		{
-			text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam, repellat? Repellendus, nulla.",
-			date: getCurrTime(),
-			me: false,
-			user,
-		},
-		{
-			text: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-			date: getCurrTime(),
-			me: false,
-			user,
-		},
-		{
-			text: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque ullam, deserunt delectus minima hic in?",
-			date: getCurrTime(),
-			me: true,
-		},
-	];
-
 	useEffect(() => {
-		setMsgs(initialMsgs);
-	}, []);
+		socket.emit('joinRoom', room_id, function(body){
+			setMsgs([...body]);
+		})
+	}, [room_id]);
 
-	const handleMsgSendClick = (e?: React.FormEvent<HTMLFormElement>) => {
+	const handleMsgSendClick = async (e?: React.FormEvent<HTMLFormElement>) => {
 		if (e) e.preventDefault();
 		if (!text.length) return;
+		socket.emit("chatToServer", {room_id, content:text});
 		let msg: MsgProps = {
 			text: text,
 			date: getCurrTime(),
@@ -93,7 +73,7 @@ const ChatArea: FC<Props> = ({ user, handleClick }) => {
 					msgs.map((v, i) => (
 						<ChatBubble
 							text={v.text}
-							date={v.date}
+							date={ /\d{2}:\d{2}/.exec(v.date)}
 							me={v.me}
 							user={v.user}
 							key={i}
