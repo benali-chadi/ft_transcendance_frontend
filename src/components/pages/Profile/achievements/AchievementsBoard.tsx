@@ -9,18 +9,17 @@ const AchievementsBoard: FC = () => {
 		
 	return (
 		<div className="absolute inset-0 z-10 w-full h-screen px-6 py-20 bg-my-blue md:relative md:h-full">	
-			<div className="flex items-center justify-center gap-4 py-8">
+			<div className="flex flex-col items-center justify-center gap-4 py-8">
 				<img
 					src={AchievementIcon}
 					alt="Achievement trophy"
 					className="w-[7rem] h-[7rem]"
 				/>
-				<h2 className="text-4xl font-extrabold text-my-red">
-					Achievements
+				<h2 className="text-4xl font-extrabold text-my-yellow">
+					ACHIEVEMENTS
 				</h2>
 			</div>
-			<div className=" scroll m-auto min-w-fit w-[80%] overflow-auto rounded-b-med">
-			
+			<div className=" scroll justify-center min-w-fit w-[full] overflow-auto flex flex-wrap gap-2">
 				<AchievementCard level="level1" />
 				<AchievementCard level="level2" />
 				<AchievementCard level="level3" />
