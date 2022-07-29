@@ -8,13 +8,15 @@ import ChatUserCard from "./ChatUserCard";
 import { motion } from "framer-motion";
 import { UserState } from "../../helpers/context";
 import axios from "axios";
+import { io } from "socket.io-client";
 
-const Chat: FC<any> = ({socket}) => {
+const Chat: FC<any> = () => {
 	const { currentUser, isMobile } = useContext<UserState>(userContext);
 
 	const [chatUser, setChatUser] = useState<any | null>(null);
 	const [dms, setDms] = useState([])
 	const [roomId, setRoomId] = useState<number>(0)
+	const [chatSocket, setSocket] = useState<any>();
 
 	const handleClick = (user: any, room_id:number) => {
 		setChatUser(null);
@@ -23,8 +25,7 @@ const Chat: FC<any> = ({socket}) => {
 	};
 	const [toggle, setToggle] = useState(true);
 
-	useEffect(() => {
-
+	useEffect(() : any => {
 		async function getDms(){
 			try{
 				let {data} = await axios.get("http://localhost:3000/chat/Dm_channels",
@@ -37,7 +38,10 @@ const Chat: FC<any> = ({socket}) => {
 			}
 		}
 		getDms();
-	}, [])
+		const socket_chat = io('http://localhost:3000/chat' , {withCredentials:true});
+		setSocket(socket_chat);
+		return () => socket_chat.close();
+	}, [setSocket])
 	return (
 		<motion.div
 			variants={pageVariants}
@@ -114,7 +118,7 @@ const Chat: FC<any> = ({socket}) => {
 			>
 				<ChatArea
 					user={chatUser || {}}
-					socket={socket}
+					socket={chatSocket}
 					handleClick={() => setChatUser(null)}
 					room_id={roomId}
 				/>

@@ -20,9 +20,8 @@ const Navigation: FC = () => {
 	const handleLogOutClick = () => {
 		// navigate("/login");
 		async function logOut() {
-			await axios.post(
-				"http://localhost:3000/logout",
-				{},
+			await axios.get(
+				"http://localhost:3000/auth/logout",
 				{ withCredentials: true }
 			);
 			navigate("/login");
