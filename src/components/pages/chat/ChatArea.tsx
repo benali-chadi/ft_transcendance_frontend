@@ -19,10 +19,19 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 	};
 
 	useEffect(() => {
-		socket.emit('joinRoom', room_id, function(body){
-			setMsgs([...body]);
-		})
-	}, [room_id]);
+		if (socket !== undefined)
+		{	
+
+			socket.emit('joinRoom', room_id, function(body){
+				setMsgs([...body]);
+			});
+			
+			socket.on('chatToClient', (msg: MsgProps) => {
+				if (msgs) setMsgs([msg, ...msgs]);
+				else setMsgs([msg]);
+			})
+		}
+	}, [room_id, msgs]);
 
 	const handleMsgSendClick = async (e?: React.FormEvent<HTMLFormElement>) => {
 		if (e) e.preventDefault();
@@ -68,7 +77,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 				</div>
 			</div>
 			{/* Chat Bubbles */}
-			<div className="flex flex-col-reverse h-full gap-4 p-4 overflow-auto">
+			<div className="flex flex-col justify-end h-full gap-4 p-4 overflow-auto">
 				{msgs &&
 					msgs.map((v, i) => (
 						<ChatBubble
