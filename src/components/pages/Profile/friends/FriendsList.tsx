@@ -9,7 +9,7 @@ import { outletContext } from "../Profile";
 import FindFriends from "./FindFriends";
 import FriendCard from "./FriendCard";
 
-interface friend {
+export interface friend {
 	avatar: string;
 	id: number;
 	username: string;
@@ -23,11 +23,12 @@ const FriendsList: FC = () => {
 
 	const [friends, setFriends] = useState<friend[]>([]);
 	const [showFindFriends, setShowFindFriends] = useState(false);
+	const [text, setText] = useState("");
 
 	async function getFriends() {
 		try {
 			const { data } = await axios.get(
-				"http://localhost:3000/chat/friends",
+				`http://localhost:3000/user/${id}/friends`,
 				{ withCredentials: true }
 			);
 
@@ -58,6 +59,8 @@ const FriendsList: FC = () => {
 				<i className="fa-solid fa-magnifying-glass text-[#655E5E] text-xl"></i>
 				<input
 					type="text"
+					value={text}
+					onChange={(e) => setText(e.target.value)}
 					className="h-6 max-w-[15rem] w-full p-2 text-xl rounded-large font-Poppins"
 					placeholder="Search..."
 				/>
@@ -77,15 +80,11 @@ const FriendsList: FC = () => {
 			{/* <div className="grid grid-cols-2 auto-rows-[5rem] gap-[2rem] md:grid-cols-4 h-full w-full"> */}
 			<div className="flex flex-wrap justify-center gap-4">
 				{friends.length != 0 ? (
-					friends.map((friend: friend) => {
-						return (
-							<FriendCard
-								key={friend.id}
-								user={friend}
-								status="online"
-							/>
-						);
-					})
+					friends
+						.filter((friend) => friend.username.includes(text))
+						.map((friend: friend) => {
+							return <FriendCard key={friend.id} user={friend} />;
+						})
 				) : (
 					<h1>No users </h1>
 				)}

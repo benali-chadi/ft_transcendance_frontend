@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { FC } from "react";
 import Modal from "../../../common/Modal";
 import FriendCard from "./FriendCard";
+import { friend } from "./FriendsList";
 
 interface Props {
 	handleCancel: () => void;
@@ -12,6 +13,7 @@ interface Props {
 
 const FindFriends: FC<Props> = ({ handleCancel }) => {
 	const [users, setUsers] = useState([]);
+	const [text, setText] = useState("");
 
 	useEffect(() => {
 		async function showUsers() {
@@ -58,22 +60,24 @@ const FindFriends: FC<Props> = ({ handleCancel }) => {
 						<i className="fa-solid fa-magnifying-glass text-[#655E5E] text-xl"></i>
 						<input
 							type="text"
+							value={text}
+							onChange={(e) => setText(e.target.value)}
 							className="h-6 max-w-[15rem] w-full p-2 text-xl rounded-large font-Poppins"
 							placeholder="Search..."
 						/>
 					</div>
 					{/* Users */}
-					<div className="flex flex-wrap">
+					<div className="flex flex-wrap justify-center gap-2">
 						{users.length != 0 ? (
-							users.map((user: any) => {
-								return (
-									<FriendCard
-										key={user.id}
-										user={user}
-										status="online"
-									/>
-								);
-							})
+							users
+								.filter((user: any) =>
+									user.username.includes(text)
+								)
+								.map((user: any) => {
+									return (
+										<FriendCard key={user.id} user={user} />
+									);
+								})
 						) : (
 							<h1>No Users</h1>
 						)}
