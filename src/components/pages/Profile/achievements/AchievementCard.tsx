@@ -15,12 +15,14 @@ const AchievementCard: FC<Props> = ({level}) => {
 	return (
 		
 		<div
-		className={`px-6 py-3 bg-white flex justify-center gap-[10%] border border-black`}>
+		className={`py-2 w-[30%] min-w-[10rem]  bg-my-violet flex justify-center gap-[2%] rounded-lg `}>
 			<img
 				src={`/achievements/${level}.png`}
 				alt={level}
 				className="w-[4rem] h-[4rem] rounded-full"
 			/>
+			{/* text align-center */}
+			<h3 className="text text-my-yellow  mt-1 self-start">{level}</h3>
 		</div>
 	);
 }
