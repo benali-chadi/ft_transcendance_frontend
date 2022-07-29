@@ -41,7 +41,7 @@ const Chat: FC = () => {
 									toggle ? "text-white" : ""
 								} capitalize`}
 							>
-								friends
+								Inbox
 							</p>
 						</Button>
 						<Button
@@ -53,7 +53,7 @@ const Chat: FC = () => {
 									!toggle ? "text-white" : ""
 								} capitalize`}
 							>
-								groups
+								Channels
 							</p>
 						</Button>
 					</div>

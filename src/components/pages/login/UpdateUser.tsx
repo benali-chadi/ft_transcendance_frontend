@@ -20,6 +20,7 @@ const UpdateUser: FC<Props> = ({ handleCancelClick }) => {
 	const [username, setUsername] = useState(currentUser.username);
 	const [avatar, setAvatar] = useState(currentUser.avatar);
 	const [showError, setShowError] = useState(false);
+	const [selectedfile, setFile] = useState(null)
 
 	return (
 		<Modal>
@@ -27,11 +28,15 @@ const UpdateUser: FC<Props> = ({ handleCancelClick }) => {
 				onSubmit={async (e) => {
 					e.preventDefault();
 					try {
+						const formData = new FormData();
+						formData.append("username", username);
+						if (selectedfile != null)
+						{
+							formData.append("avatar", selectedfile);
+						}
 						const updated = await axios.post(
 							"http://localhost:3000/user/update_profile",
-							{
-								username: username,
-							},
+							formData,
 							{ withCredentials: true }
 						);
 						setUser({ ...currentUser, username, avatar });
@@ -101,6 +106,8 @@ const UpdateUser: FC<Props> = ({ handleCancelClick }) => {
 											file.files[0]
 										);
 									setAvatar(file);
+									if (e.target.files)
+										setFile(e.target.files[0])
 								}}
 							/>
 						</div>

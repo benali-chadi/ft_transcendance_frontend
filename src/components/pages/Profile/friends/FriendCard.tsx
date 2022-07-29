@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { threeDotsVariants } from "../../../helpers/variants";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { outletContext } from "../Profile";
+import axios from "axios";
 
 interface Props {
 	user: any;
@@ -17,6 +18,7 @@ const FriendCard: FC<Props> = ({
 	const navigate = useNavigate();
 	const [showDropDown, setShowDropdown] = useState(false);
 
+	const [blocked, setBlocked] = useState(user.blocked);
 	// const { setProfileUser } = useOutletContext<outletContext>();
 
 	return (
@@ -50,27 +52,67 @@ const FriendCard: FC<Props> = ({
 					className="text-xl rounded-full cursor-pointer fa-solid fa-ellipsis-vertical hover:bg-gray-100 w-[2rem] self-end"
 					onClick={() => setShowDropdown(!showDropDown)}
 				></i>
-				<motion.div
-					variants={threeDotsVariants}
-					animate={showDropDown ? "open" : "close"}
-					className={`p-2 text-sm font-light bg-white rounded-xl absolute z-10 top-[25px] left-[-3rem] w-max`}
-				>
-					<p
-						className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
-						onClick={() => setShowDropdown(false)}
-					>
-						Invite for a game
-					</p>
-					<p
-						className="p-1 font-normal cursor-pointer hover:bg-gray-100"
-						onClick={() => {
-							setShowDropdown(false);
-							window.alert("YOU WANT TO BLOCK ME?!");
-						}}
-					>
-						Block User
-					</p>
-				</motion.div>
+				
+					{ 
+						blocked == false ? 
+						(
+										<motion.div
+								variants={threeDotsVariants}
+								animate={showDropDown ? "open" : "close"}
+								className={`p-2 text-sm font-light bg-white rounded-xl absolute z-10 top-[25px] left-[-3rem] w-max`}
+								>
+							<p
+								className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
+								onClick={() => setShowDropdown(false)}
+							>
+								Invite for a game
+							</p>
+							<p
+								className="p-1 font-normal cursor-pointer hover:bg-gray-100"
+								onClick={async () => {
+									setShowDropdown(false);
+									if (window.confirm("YOU WANT TO BLOCK ME?!"))
+									{
+										const {data} = await axios.post("http://localhost:3000/user/block_user",
+										{to_block: user.id},
+										{withCredentials: true});
+										console.log(data.blocked);
+										setBlocked(data.blocked)
+									}
+								}}
+							>
+								Block User
+							</p>
+							</motion.div>
+						) 
+						: 
+						(
+							<motion.div
+								variants={threeDotsVariants}
+								animate={showDropDown ? "open" : "close"}
+								className={`p-2 text-sm font-light bg-white rounded-xl absolute z-10 top-[25px] left-[-3rem] w-max`}
+								>
+							<p
+								className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
+								onClick={async () => {
+									setShowDropdown(false);
+									if (window.confirm("YOU WANT TO UNBLOCK ME?!"))
+									{
+										const {data} = await axios.post("http://localhost:3000/user/unblock_user",
+										{to_unblock: user.id},
+										{withCredentials: true});
+										console.log(data.blocked);
+										setBlocked(data.blocked)
+									}
+								}}
+							>
+								Unblock
+							</p>
+							</motion.div>
+						)
+					}
+					
+				
 			</div>
 		</div>
 	);
