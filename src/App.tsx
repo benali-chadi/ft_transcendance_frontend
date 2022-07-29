@@ -20,7 +20,6 @@ import io from "socket.io-client"
 
 const App: React.FC = () => {
 	const [currentUser, setUser] = useState(null);
-	const [chatSocket, setSocket] = useState<any>(null);
 
 	useEffect(() : any => {
 		async function getUserData() {
@@ -32,12 +31,12 @@ const App: React.FC = () => {
 					}
 				);
 				setUser(data);
-			} catch (e) {}
+			} catch (e) {
+				setUser(null);
+			}
 		}
 		getUserData();
-		const socket_chat = io('http://localhost:3000/chat' , {withCredentials:true});
-		setSocket(socket_chat);
-		return () => socket_chat.close();
+		
 	}, []);
 
 	const isMobile = useMediaQuery({
@@ -76,7 +75,7 @@ const App: React.FC = () => {
 									element={<MatchHistory />}
 								/>
 							</Route>
-							<Route path="chat" element={<Chat socket={chatSocket} />} />
+							<Route path="chat" element={<Chat />} />
 						</Route>
 						<Route
 							path="/login"
