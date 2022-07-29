@@ -23,35 +23,36 @@ const Profile: FC<Props> = () => {
 	const { currentUser } = useContext(userContext);
 	const [profileUser, setProfileUser] = useState<any>({});
 	const { id } = useParams();
-	const [buttonMessage, setButton] = useState("Add friend")
-	const [showbutton, setShow] = useState(false)
-	
-	async function updateRelation(){
-		try{
-			let obj :any;
-			if (buttonMessage === "Add friend")
-			{
-				obj = await axios.post("http://localhost:3000/user/add_friend",
-				{
-					user: profileUser.id
-				},
-				{withCredentials:true});
-			}
-			else if (buttonMessage === "Accept invitation")
-			{
-				obj = await axios.post("http://localhost:3000/user/accept_friend",
-				{
-					user: profileUser.id
-				},
-				{withCredentials:true});
-			}
-			else if (buttonMessage === "unfriend")
-			{
-				obj = await axios.post("http://localhost:3000/user/unfriend",
-				{
-					user: profileUser.id
-				},
-				{withCredentials:true});
+	const [buttonMessage, setButton] = useState("Add friend");
+	const [showbutton, setShow] = useState(false);
+
+	async function updateRelation() {
+		try {
+			let obj: any;
+			if (buttonMessage === "Add friend") {
+				obj = await axios.post(
+					"http://localhost:3000/user/add_friend",
+					{
+						user: profileUser.id,
+					},
+					{ withCredentials: true }
+				);
+			} else if (buttonMessage === "Accept invitation") {
+				obj = await axios.post(
+					"http://localhost:3000/user/accept_friend",
+					{
+						user: profileUser.id,
+					},
+					{ withCredentials: true }
+				);
+			} else if (buttonMessage === "unfriend") {
+				obj = await axios.post(
+					"http://localhost:3000/user/unfriend",
+					{
+						user: profileUser.id,
+					},
+					{ withCredentials: true }
+				);
 			}
 			let data = obj.data;
 			if (data.blocked) setButton("unblock");
