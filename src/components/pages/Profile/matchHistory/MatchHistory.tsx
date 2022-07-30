@@ -34,7 +34,7 @@ const MatchHistory: FC = () => {
 				</h2>
 			</div>
 			{/* Match History Table */}
-			<div className=" scroll m-auto min-w-fit w-[80%] overflow-auto rounded-b-med">
+			<div className=" scrolling m-auto min-w-fit w-[80%] overflow-auto rounded-b-med">
 				{/* Tabs */}
 				<div className="flex">
 					<h2

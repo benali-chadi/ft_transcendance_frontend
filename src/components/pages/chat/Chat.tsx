@@ -11,37 +11,38 @@ import axios from "axios";
 import { io } from "socket.io-client";
 
 const Chat: FC<any> = () => {
-	const { currentUser, isMobile } = useContext<UserState>(userContext);
+	const { isMobile } = useContext<UserState>(userContext);
 
 	const [chatUser, setChatUser] = useState<any | null>(null);
-	const [dms, setDms] = useState([])
-	const [roomId, setRoomId] = useState<number>(0)
+	const [dms, setDms] = useState([]);
+	const [roomId, setRoomId] = useState<number>(0);
 	const [chatSocket, setSocket] = useState<any>();
 
-	const handleClick = (user: any, room_id:number) => {
+	const handleClick = (user: any, room_id: number) => {
 		setChatUser(null);
 		setRoomId(room_id);
 		setTimeout(() => setChatUser(user), isMobile ? 500 : 1000);
 	};
 	const [toggle, setToggle] = useState(true);
 
-	useEffect(() : any => {
-		async function getDms(){
-			try{
-				let {data} = await axios.get("http://localhost:3000/chat/Dm_channels",
-				{withCredentials: true})
-				
+	useEffect((): any => {
+		async function getDms() {
+			try {
+				let { data } = await axios.get(
+					"http://localhost:3000/chat/Dm_channels",
+					{ withCredentials: true }
+				);
+
 				setDms(data);
-
-			}catch(e){
-
-			}
+			} catch (e) {}
 		}
 		getDms();
-		const socket_chat = io('http://localhost:3000/chat' , {withCredentials:true});
+		const socket_chat = io("http://localhost:3000/chat", {
+			withCredentials: true,
+		});
 		setSocket(socket_chat);
 		return () => socket_chat.close();
-	}, [setSocket])
+	}, [setSocket]);
 	return (
 		<motion.div
 			variants={pageVariants}
@@ -91,24 +92,22 @@ const Chat: FC<any> = () => {
 					</div>
 				</div>
 				{/* Users */}
-				<div className="flex flex-col h-full gap-4 px-8 mt-3 overflow-auto scroll">
-					{
-						dms.length != 0 ? (
-							dms.map((dm: any) => {
-								return (
-									<ChatUserCard
-										key={dm.room_id}
-										status={dm.member.status}
-										user={dm.member}
-										room_id={dm.room_id}
-										handleClick={handleClick}
-									/>
-								)
-							})
-						) : (
-							<div></div>
-						)
-					}
+				<div className="flex flex-col h-full gap-4 px-8 mt-3 overflow-auto scrolling">
+					{dms.length != 0 ? (
+						dms.map((dm: any) => {
+							return (
+								<ChatUserCard
+									key={dm.room_id}
+									status={dm.member.status}
+									user={dm.member}
+									room_id={dm.room_id}
+									handleClick={handleClick}
+								/>
+							);
+						})
+					) : (
+						<div></div>
+					)}
 				</div>
 			</div>
 			<motion.div
