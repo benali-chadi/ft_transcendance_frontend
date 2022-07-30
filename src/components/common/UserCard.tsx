@@ -20,6 +20,19 @@ const UserCard: FC<Props> = ({ user }) => {
 	const [buttonMessage, setButton] = useState("");
 
 	const cond = user.id === currentUser.id;
+	const checkRelation = (data) => {
+		// console.log("data relation =", data.relation);
+
+		if (data.blocked) setButton("unblock");
+		else if (data.relation === "friends") setButton("unfriend");
+		else if (data.relation === "none") setButton("Add friend");
+		else if (data.relation === "Accept invitation")
+			setButton("Accept invitation");
+		else if (data.relation === "Invitation Sent")
+			setButton("Invitation Sent");
+
+		// console.log("button =", buttonMessage);
+	};
 	async function updateRelation() {
 		try {
 			let obj: any;
@@ -49,13 +62,7 @@ const UserCard: FC<Props> = ({ user }) => {
 				);
 			}
 			let data = obj.data;
-			if (data.blocked) setButton("unblock");
-			if (data.relation === "friends") setButton("unfriend");
-			if (data.relation === "none") setButton("Add friend");
-			if (data.relation === "Accept invitation")
-				setButton("Accept invitation");
-			if (data.relation === "Invitation Sent")
-				setButton("Invitation Sent");
+			checkRelation(data);
 		} catch (e) {
 			console.log(e);
 		}
@@ -70,15 +77,16 @@ const UserCard: FC<Props> = ({ user }) => {
 						withCredentials: true,
 					}
 				);
-				if (data.blocked) setButton("unblock");
-				if (data.relation === "friends") setButton("unfriend");
-				if (data.relation === "Accept invitation")
-					setButton("Accept invitation");
-				if (data.relation === "Invitation Sent")
-					setButton("Invitation Sent");
-				if (data.relation === "none") setButton("Add friend");
+				checkRelation(data);
+				// if (data.blocked) setButton("unblock");
+				// if (data.relation === "friends") setButton("unfriend");
+				// if (data.relation === "Accept invitation")
+				// 	setButton("Accept invitation");
+				// if (data.relation === "Invitation Sent")
+				// 	setButton("Invitation Sent");
+				// if (data.relation === "none") setButton("Add friend");
 				// data
-				console.log("data =", data);
+				// console.log("data =", data);
 				// setProfileUser(data);
 				// setShow(true);
 			} catch (e) {
@@ -86,7 +94,8 @@ const UserCard: FC<Props> = ({ user }) => {
 			}
 		}
 		getUserData();
-	}, []);
+		// console.log(buttonMessage);
+	}, [buttonMessage, user]);
 
 	return (
 		<div className="flex flex-col items-center gap-2 min-w-[15rem] max-w-lg m-auto">

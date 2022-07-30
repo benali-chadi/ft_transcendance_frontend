@@ -1,7 +1,11 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useRef, useState } from "react";
 import { userContext, UserState } from "../../helpers/context";
 import { ChatBubble, MsgProps } from "./ChatBubble";
 import ChatUserCard from "./ChatUserCard";
+
+const scrollToEnd = (ref) => {
+	ref.current.scrollIntoView({ behaviour: "smooth" });
+};
 
 interface Props {
 	user: any;
@@ -14,6 +18,9 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 	const { currentUser } = useContext<UserState>(userContext);
 	const [msgs, setMsgs] = useState<MsgProps[] | null>(null);
 	const [text, setText] = useState("");
+
+	const myRef = useRef(null);
+	const executeScroll = () => scrollToEnd(myRef);
 
 	const parsedDate = (dateString: string) => {
 		let date = new Date(dateString);
@@ -32,17 +39,15 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 
 	useEffect(() => {
 		socket?.on("chatToClient", (msg: MsgProps) => {
-			console.log(msgs);
 			if (msgs) setMsgs([...msgs, msg[0]]);
 			else setMsgs([msg]);
-
-			console.log(msgs);
+			// executeScroll();
 		});
 	});
 
 	useEffect(() => {
+		// executeScroll();
 		if (socket) {
-			// console.log("socket (UE) =", socket);
 			socket.emit("joinRoom", room_id, function (body) {
 				setMsgs([...body]);
 			});
@@ -53,12 +58,12 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 		if (e) e.preventDefault();
 		if (!text.length) return;
 		socket.emit("chatToServer", { room_id, content: text });
-		// console.log("socket (HMSC) =", socket);
 		let msg: MsgProps = {
 			text: text,
 			date: Date(),
 			me: true,
 		};
+		// executeScroll();
 		// if (msgs) setMsgs([...msgs, msg]);
 		// else setMsgs([msg]);
 		setText("");
@@ -96,8 +101,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 			</div>
 
 			{/* Chat Bubbles */}
-			<div className="flex flex-col h-full gap-4 p-4 mt-auto overflow-y-auto">
-				<div className=" flex-[1_1_auto]"></div>
+			<div className="flex flex-col h-full gap-4 p-4 mt-auto overflow-y-auto ">
 				{msgs &&
 					msgs.map((v, i) => (
 						<ChatBubble
@@ -108,6 +112,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 							key={i}
 						/>
 					))}
+				<div ref={myRef}></div>
 			</div>
 
 			{/* Typing Area */}
