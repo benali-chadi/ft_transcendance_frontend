@@ -1,4 +1,5 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
+import { userContext, UserState } from "../../helpers/context";
 import { ChatBubble, MsgProps } from "./ChatBubble";
 import ChatUserCard from "./ChatUserCard";
 
@@ -10,40 +11,56 @@ interface Props {
 }
 
 const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
+	const { currentUser } = useContext<UserState>(userContext);
 	const [msgs, setMsgs] = useState<MsgProps[] | null>(null);
 	const [text, setText] = useState("");
 
-	const getCurrTime: () => string = () => {
-		let date = /\d{2}:\d{2}/.exec(new Date().toString());
-		return date ? date[0] : "";
+	const parsedDate = (dateString: string) => {
+		let date = new Date(dateString);
+		return (
+			date.getDay() +
+			"-" +
+			(date.getMonth() + 1) +
+			"-" +
+			date.getFullYear() +
+			" " +
+			date.getHours() +
+			":" +
+			date.getMinutes()
+		);
 	};
 
 	useEffect(() => {
-		if (socket !== undefined)
-		{	
+		socket?.on("chatToClient", (msg: MsgProps) => {
+			console.log(msgs);
+			if (msgs) setMsgs([...msgs, msg[0]]);
+			else setMsgs([msg]);
 
-			socket.emit('joinRoom', room_id, function(body){
+			console.log(msgs);
+		});
+	});
+
+	useEffect(() => {
+		if (socket) {
+			// console.log("socket (UE) =", socket);
+			socket.emit("joinRoom", room_id, function (body) {
 				setMsgs([...body]);
 			});
-			
-			socket.on('chatToClient', (msg: MsgProps) => {
-				if (msgs) setMsgs([msg, ...msgs]);
-				else setMsgs([msg]);
-			})
 		}
-	}, [room_id, msgs]);
+	}, [room_id]);
 
 	const handleMsgSendClick = async (e?: React.FormEvent<HTMLFormElement>) => {
 		if (e) e.preventDefault();
 		if (!text.length) return;
-		socket.emit("chatToServer", {room_id, content:text});
+		socket.emit("chatToServer", { room_id, content: text });
+		// console.log("socket (HMSC) =", socket);
 		let msg: MsgProps = {
 			text: text,
-			date: getCurrTime(),
+			date: Date(),
 			me: true,
 		};
-		if (msgs) setMsgs([msg, ...msgs]);
-		else setMsgs([msg]);
+		// if (msgs) setMsgs([...msgs, msg]);
+		// else setMsgs([msg]);
 		setText("");
 	};
 
@@ -59,6 +76,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 					></i>
 					<i className="cursor-pointer fa-solid fa-gear md:text-white md:text-2xl"></i>
 				</div>
+
 				{/* User Area */}
 				<div className="flex p-4 pb-0 md:p-0">
 					<div className="min-h-[3rem] min-w-[3rem] rounded-full flex gap-4 items-center w-full">
@@ -76,19 +94,22 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 					</div>
 				</div>
 			</div>
+
 			{/* Chat Bubbles */}
-			<div className="flex flex-col justify-end h-full gap-4 p-4 overflow-auto">
+			<div className="flex flex-col h-full gap-4 p-4 mt-auto overflow-y-auto">
+				<div className=" flex-[1_1_auto]"></div>
 				{msgs &&
 					msgs.map((v, i) => (
 						<ChatBubble
 							text={v.text}
-							date={ /\d{2}:\d{2}/.exec(v.date)}
-							me={v.me}
+							date={parsedDate(v.date)}
+							me={currentUser.id === v.user.id}
 							user={v.user}
 							key={i}
 						/>
 					))}
 			</div>
+
 			{/* Typing Area */}
 			<form
 				className="flex items-center justify-center w-full gap-4 py-4 border-t-4 border-white h-max rounded-b-med bg-my-lavender"

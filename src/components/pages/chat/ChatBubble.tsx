@@ -31,7 +31,7 @@ export const ChatBubble: FC<MsgProps> = ({ text, date, me, user }) => {
 				</div>
 			)}
 			<div
-				className={` rounded-med pt-3 pb-5 overflow-auto scroll px-7 min-w-[10rem] min-h-[5rem] max-w-[50%] relative ${
+				className={` rounded-med pt-3 pb-5 overflow-auto scrolling px-7 min-w-[10rem] min-h-[5rem] max-w-[50%] relative ${
 					me
 						? " bg-my-light-violet rounded-br-none text-white"
 						: " bg-white rounded-bl-none"

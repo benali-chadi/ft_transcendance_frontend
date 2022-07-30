@@ -26,11 +26,11 @@ const Home: FC = () => {
 			initial="initial"
 			animate="animate"
 			exit="exit"
-			className="h-screen overflow-auto bg-white scroll md:h-full min-h-max md:rounded-large md:rounded-l-none md:grid md:grid-cols-5 md:grid-rows-1 "
+			className="h-screen overflow-auto bg-white scrolling md:h-full min-h-max md:rounded-large md:rounded-l-none md:grid md:grid-cols-5 md:grid-rows-1 "
 		>
 			{/* Game System */}
 			<div
-				className="p-8 overflow-auto bg-no-repeat bg-cover scroll h-3/5 min-h-max rounded-b-large md:col-span-3 md:h-full md:justify-center md:rounded-large md:rounded-l-none "
+				className="p-8 overflow-auto bg-no-repeat bg-cover scrolling h-3/5 min-h-max rounded-b-large md:col-span-3 md:h-full md:justify-center md:rounded-large md:rounded-l-none "
 				style={backgroundStyle}
 			>
 				{/* Headers */}
@@ -55,7 +55,7 @@ const Home: FC = () => {
 				</div>
 			</div>
 			{/* The Right\bottom Side */}
-			<div className="flex flex-col gap-8 p-8 overflow-auto scroll md:col-span-2">
+			<div className="flex flex-col gap-8 p-8 overflow-auto scrolling md:col-span-2">
 				{/* User */}
 				<div className="hidden w-full h-fit md:block">
 					<UserCard user={currentUser} />

@@ -40,7 +40,7 @@ const Login: FC = () => {
             "
 				style={backgroundStyle}
 			>
-				<div className="flex flex-col items-center justify-center gap-8 py-8 h-3/5 scroll min-h-fit bg-my-dark-lavender rounded-t-large md:col-span-3 md:h-full md:justify-center md:rounded-large ">
+				<div className="flex flex-col items-center justify-center gap-8 py-8 h-3/5 scrolling min-h-fit bg-my-dark-lavender rounded-t-large md:col-span-3 md:h-full md:justify-center md:rounded-large ">
 					<img src={logo} alt="logo" className="h-32 2xl:h-48" />
 					<h1 className="text-4xl font-extrabold font-header xl:text-5xl 2xl:text-6xl">
 						Welcome To Pong

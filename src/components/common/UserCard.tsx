@@ -1,8 +1,10 @@
+import axios from "axios";
 import React, { FC, useContext, useEffect } from "react";
 import { useState } from "react";
 import { UserState } from "../helpers/context";
 import { userContext } from "../helpers/context";
 import UpdateUser from "../pages/login/UpdateUser";
+import Button from "./Button";
 
 interface Props {
 	user: {
@@ -15,8 +17,76 @@ interface Props {
 const UserCard: FC<Props> = ({ user }) => {
 	const { currentUser } = useContext<UserState>(userContext);
 	const [showUpdateUser, setShowUpdateUser] = useState(false);
+	const [buttonMessage, setButton] = useState("");
 
 	const cond = user.id === currentUser.id;
+	async function updateRelation() {
+		try {
+			let obj: any;
+			if (buttonMessage === "Add friend") {
+				obj = await axios.post(
+					"http://localhost:3000/user/add_friend",
+					{
+						user: user.id,
+					},
+					{ withCredentials: true }
+				);
+			} else if (buttonMessage === "Accept invitation") {
+				obj = await axios.post(
+					"http://localhost:3000/user/accept_friend",
+					{
+						user: user.id,
+					},
+					{ withCredentials: true }
+				);
+			} else if (buttonMessage === "unfriend") {
+				obj = await axios.post(
+					"http://localhost:3000/user/unfriend",
+					{
+						user: user.id,
+					},
+					{ withCredentials: true }
+				);
+			}
+			let data = obj.data;
+			if (data.blocked) setButton("unblock");
+			if (data.relation === "friends") setButton("unfriend");
+			if (data.relation === "none") setButton("Add friend");
+			if (data.relation === "Accept invitation")
+				setButton("Accept invitation");
+			if (data.relation === "Invitation Sent")
+				setButton("Invitation Sent");
+		} catch (e) {
+			console.log(e);
+		}
+	}
+
+	useEffect(() => {
+		async function getUserData() {
+			try {
+				let { data } = await axios.get(
+					`http://localhost:3000/user/${user.id}`,
+					{
+						withCredentials: true,
+					}
+				);
+				if (data.blocked) setButton("unblock");
+				if (data.relation === "friends") setButton("unfriend");
+				if (data.relation === "Accept invitation")
+					setButton("Accept invitation");
+				if (data.relation === "Invitation Sent")
+					setButton("Invitation Sent");
+				if (data.relation === "none") setButton("Add friend");
+				// data
+				console.log("data =", data);
+				// setProfileUser(data);
+				// setShow(true);
+			} catch (e) {
+				console.log(e);
+			}
+		}
+		getUserData();
+	}, []);
 
 	return (
 		<div className="flex flex-col items-center gap-2 min-w-[15rem] max-w-lg m-auto">
@@ -54,6 +124,11 @@ const UserCard: FC<Props> = ({ user }) => {
 					<div className="w-[70%] bg-my-yellow h-full rounded-med flex"></div>
 				</div>
 			</div>
+			{!cond && (
+				<Button color="bg-my-yellow" handleClick={updateRelation}>
+					<h1 className="text-xl">{buttonMessage}</h1>
+				</Button>
+			)}
 		</div>
 	);
 };
