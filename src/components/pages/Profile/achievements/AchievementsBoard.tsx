@@ -11,7 +11,7 @@ const AchievementsBoard: FC = () => {
 				<img
 					src={AchievementIcon}
 					alt="Achievement trophy"
-					className="w-[7rem] h-[7rem]"
+					className="w-[10rem] h-[10rem]"
 				/>
 				<h2 className="text-4xl font-extrabold text-my-yellow">
 					ACHIEVEMENTS
@@ -21,6 +21,16 @@ const AchievementsBoard: FC = () => {
 				<AchievementCard level="level1" />
 				<AchievementCard level="level2" />
 				<AchievementCard level="level3" />
+				<AchievementCard level="level4" />
+				<AchievementCard level="level5" />
+				<AchievementCard level="level6" />
+				<AchievementCard level="level7" />
+				<AchievementCard level="level8" />
+				<AchievementCard level="level9" />
+				<AchievementCard level="level10" />
+				<AchievementCard level="level11" />
+				<AchievementCard level="level12" />
+				
 			</div>
 		</div>
 	);
