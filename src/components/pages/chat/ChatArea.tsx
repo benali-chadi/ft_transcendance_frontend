@@ -4,7 +4,10 @@ import { ChatBubble, MsgProps } from "./ChatBubble";
 import ChatUserCard from "./ChatUserCard";
 
 const scrollToEnd = (ref) => {
-	ref.current.scrollIntoView({ behaviour: "smooth" });
+	ref.current.scroll({
+		top: ref.current.scrollHeight,
+		behavior: "smooth",
+	});
 };
 
 interface Props {
@@ -25,15 +28,15 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 	const parsedDate = (dateString: string) => {
 		let date = new Date(dateString);
 		return (
-			date.getDay() +
+			date.getHours() +
+			":" +
+			date.getMinutes() +
+			" " +
+			date.getFullYear() +
 			"-" +
 			(date.getMonth() + 1) +
 			"-" +
-			date.getFullYear() +
-			" " +
-			date.getHours() +
-			":" +
-			date.getMinutes()
+			date.getDay()
 		);
 	};
 
@@ -41,12 +44,10 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 		socket?.on("chatToClient", (msg: MsgProps) => {
 			if (msgs) setMsgs([...msgs, msg[0]]);
 			else setMsgs([msg]);
-			// executeScroll();
 		});
 	});
 
 	useEffect(() => {
-		// executeScroll();
 		if (socket) {
 			socket.emit("joinRoom", room_id, function (body) {
 				setMsgs([...body]);
@@ -54,18 +55,16 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 		}
 	}, [room_id]);
 
+	useEffect(() => {
+		executeScroll();
+	}, [msgs]);
+
 	const handleMsgSendClick = async (e?: React.FormEvent<HTMLFormElement>) => {
 		if (e) e.preventDefault();
 		if (!text.length) return;
+
 		socket.emit("chatToServer", { room_id, content: text });
-		let msg: MsgProps = {
-			text: text,
-			date: Date(),
-			me: true,
-		};
-		// executeScroll();
-		// if (msgs) setMsgs([...msgs, msg]);
-		// else setMsgs([msg]);
+
 		setText("");
 	};
 
@@ -101,7 +100,10 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 			</div>
 
 			{/* Chat Bubbles */}
-			<div className="flex flex-col h-full gap-4 p-4 mt-auto overflow-y-auto ">
+			<div
+				className="flex flex-col h-full gap-4 p-4 mt-auto overflow-y-auto"
+				ref={myRef}
+			>
 				{msgs &&
 					msgs.map((v, i) => (
 						<ChatBubble
@@ -112,7 +114,6 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 							key={i}
 						/>
 					))}
-				<div ref={myRef}></div>
 			</div>
 
 			{/* Typing Area */}
