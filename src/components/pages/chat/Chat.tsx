@@ -10,7 +10,7 @@ import { UserState } from "../../helpers/context";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-const Chat: FC<any> = () => {
+const Chat: FC = () => {
 	const { isMobile } = useContext<UserState>(userContext);
 
 	const [chatUser, setChatUser] = useState<any | null>(null);
@@ -19,9 +19,10 @@ const Chat: FC<any> = () => {
 	const [chatSocket, setSocket] = useState<any>();
 
 	const handleClick = (user: any, room_id: number) => {
-		setChatUser(null);
+		// setChatUser(null);
 		setRoomId(room_id);
-		setTimeout(() => setChatUser(user), isMobile ? 500 : 1000);
+		// setTimeout(() => setChatUser(user), isMobile ? 500 : 1000);
+		setChatUser(user);
 	};
 	const [toggle, setToggle] = useState(true);
 
@@ -34,15 +35,27 @@ const Chat: FC<any> = () => {
 				);
 
 				setDms(data);
+				// console.log("dms =", dms);
+				// console.log("data =", data);
+				// await axios
+				// 	.get("http://localhost:3000/chat/Dm_channels", {
+				// 		withCredentials: true,
+				// 	})
+				// 	.then(({ data }) => {
+				// 		// setDms(data);
+				// 		setDms(data);
+				// 		console.log("dms =", dms);
+				// 		console.log("data =", data);
+				// 	});
 			} catch (e) {}
 		}
-		getDms();
 		const socket_chat = io("http://localhost:3000/chat", {
 			withCredentials: true,
 		});
 		setSocket(socket_chat);
+		getDms();
 		return () => socket_chat.close();
-	}, [setSocket]);
+	}, [toggle]);
 	return (
 		<motion.div
 			variants={pageVariants}
@@ -93,7 +106,7 @@ const Chat: FC<any> = () => {
 				</div>
 				{/* Users */}
 				<div className="flex flex-col h-full gap-4 px-8 mt-3 overflow-auto scrolling">
-					{dms.length != 0 ? (
+					{dms.length ? (
 						dms.map((dm: any) => {
 							return (
 								<ChatUserCard
@@ -106,7 +119,7 @@ const Chat: FC<any> = () => {
 							);
 						})
 					) : (
-						<div></div>
+						<h1></h1>
 					)}
 				</div>
 			</div>

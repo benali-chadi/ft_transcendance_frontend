@@ -13,10 +13,10 @@ interface Props {
 const FriendCard: FC<Props> = ({ user }) => {
 	const navigate = useNavigate();
 	const [showDropDown, setShowDropdown] = useState(false);
+	// const { setProfileUser } = useOutletContext<outletContext>();
 
 	const [blocked, setBlocked] = useState(user.blocked);
 
-	console.log("user =", user);
 	// const { setProfileUser } = useOutletContext<outletContext>();
 
 	return (

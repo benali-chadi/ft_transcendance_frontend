@@ -1,10 +1,7 @@
-import { getSuggestedQuery } from "@testing-library/react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import React, { FC, useContext, useEffect, useState } from "react";
 import { NavLink, Outlet, useParams } from "react-router-dom";
-import Button from "../../common/Button";
-import Card from "../../common/Card";
 import UserCard from "../../common/UserCard";
 import { userContext } from "../../helpers/context";
 import { pageVariants } from "../../helpers/variants";
@@ -23,51 +20,6 @@ const Profile: FC<Props> = () => {
 	const { currentUser } = useContext(userContext);
 	const [profileUser, setProfileUser] = useState<any>({});
 	const { id } = useParams();
-	// const [buttonMessage, setButton] = useState("");
-	// const [showbutton, setShow] = useState(false);
-
-	// async function updateRelation() {
-	// 	try {
-	// 		let obj: any;
-	// 		if (buttonMessage === "Add friend") {
-	// 			obj = await axios.post(
-	// 				"http://localhost:3000/user/add_friend",
-	// 				{
-	// 					user: profileUser.id,
-	// 				},
-	// 				{ withCredentials: true }
-	// 			);
-	// 		} else if (buttonMessage === "Accept invitation") {
-	// 			obj = await axios.post(
-	// 				"http://localhost:3000/user/accept_friend",
-	// 				{
-	// 					user: profileUser.id,
-	// 				},
-	// 				{ withCredentials: true }
-	// 			);
-	// 		} else if (buttonMessage === "unfriend") {
-	// 			obj = await axios.post(
-	// 				"http://localhost:3000/user/unfriend",
-	// 				{
-	// 					user: profileUser.id,
-	// 				},
-	// 				{ withCredentials: true }
-	// 			);
-	// 		}
-	// 		let data = obj.data;
-	// 		if (data.blocked) setButton("unblock");
-	// 		if (data.relation == "friends") setButton("unfriend");
-	// 		if (data.relation == "none") setButton("Add friend");
-	// 		if (data.relation == "Accept invitation")
-	// 			setButton("Accept invitation");
-	// 		if (data.relation == "Invitation Sent")
-	// 			setButton("Invitation Sent");
-	// 		//data.user
-	// 		setProfileUser(data);
-	// 	} catch (e) {
-	// 		console.log(e);
-	// 	}
-	// }
 
 	useEffect(() => {
 		async function getUserData() {
@@ -78,16 +30,7 @@ const Profile: FC<Props> = () => {
 						withCredentials: true,
 					}
 				);
-				// if (data.blocked) setButton("unblock");
-				// if (data.relation == "friends") setButton("unfriend");
-				// if (data.relation == "Accept invitation")
-				// 	setButton("Accept invitation");
-				// if (data.relation == "Invitation Sent")
-				// 	setButton("Invitation Sent");
-				// // data
-				// console.log("data =", data);
 				setProfileUser(data);
-				// setShow(true);
 			} catch (e) {
 				console.log(e);
 			}
@@ -108,16 +51,6 @@ const Profile: FC<Props> = () => {
 				<div className="p-[5rem]">
 					<UserCard user={profileUser} />
 				</div>
-				{/* <div className="flex justify-end px-4 mb-4">
-					{showbutton && currentUser.id != profileUser.id && (
-						<Button
-							color="bg-my-yellow"
-							handleClick={updateRelation}
-						>
-							<h2 className="text-xl">{buttonMessage}</h2>
-						</Button>
-					)}
-				</div> */}
 				{/* Sub-Pages */}
 				<ul className="profile-links">
 					<li>
