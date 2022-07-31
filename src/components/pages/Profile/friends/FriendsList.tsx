@@ -5,7 +5,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import Button from "../../../common/Button";
 import { UserState } from "../../../helpers/context";
 import { userContext } from "../../../helpers/context";
-import { outletContext } from "../Profile";
+import Profile, { outletContext } from "../Profile";
 import FindFriends from "./FindFriends";
 import FriendCard from "./FriendCard";
 
@@ -16,6 +16,7 @@ export interface friend {
 }
 
 const FriendsList: FC = () => {
+	// const [currentUser, setUser] = useState<any>(null);
 	const { currentUser } = useContext<UserState>(userContext);
 	const { profileUser, id } = useOutletContext<outletContext>();
 
@@ -42,10 +43,17 @@ const FriendsList: FC = () => {
 
 	useEffect(() => {
 		getFriends();
+		// let test = localStorage.getItem("CurrentUser");
+		// if (test)
+		// 	setUser(JSON.parse(test));
 	}, []);
 
 	return (
+		
 		<div className="absolute inset-0 z-10 w-full h-screen px-6 py-20 bg-my-blue md:relative md:h-full">
+			{ 
+			currentUser !== null ? (
+				<>
 			{showFindFriends && (
 				<FindFriends handleCancel={() => setShowFindFriends(false)} />
 			)}
@@ -89,6 +97,10 @@ const FriendsList: FC = () => {
 					<h1>No users </h1>
 				)}
 			</div>
+			</>) :(
+				<div></div>
+			)
+		}
 		</div>
 	);
 };

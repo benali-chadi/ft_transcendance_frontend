@@ -8,7 +8,7 @@ import Loader from "../../common/Loader";
 import { UserState } from "../../helpers/context";
 
 const Log: FC = () => {
-	const { setUser } = useContext<UserState>(userContext);
+	const { setCurrentUser } = useContext<UserState>(userContext);
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
 
@@ -20,15 +20,16 @@ const Log: FC = () => {
 				"http://localhost:3000/auth/redirect?code=" + query[0],
 				{ withCredentials: true }
 			);
-			if (data) {
 				// const browserHistory = createHashHistory();
-
+			if (data.user)
+			{
+				setCurrentUser(data.user);
+				localStorage.setItem("CurrentUser", JSON.stringify(data.user));
 				navigate("/");
-			}
-			setUser(data.user);
+			}	
 		}
-
 		test();
+		
 	}, []);
 	return (
 		<div className="flex flex-col items-center justify-center w-screen h-screen">
