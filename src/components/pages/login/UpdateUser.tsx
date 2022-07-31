@@ -14,7 +14,7 @@ interface Props {
 }
 
 const UpdateUser: FC<Props> = ({ handleCancelClick }) => {
-	const { currentUser, setUser } = useContext<UserState>(userContext);
+	const { currentUser, setCurrentUser } = useContext<UserState>(userContext);
 	const navigate = useNavigate();
 
 	const [username, setUsername] = useState(currentUser.username);
@@ -38,7 +38,7 @@ const UpdateUser: FC<Props> = ({ handleCancelClick }) => {
 							formData,
 							{ withCredentials: true }
 						);
-						setUser({ ...currentUser, username, avatar });
+						setCurrentUser({ ...currentUser, username, avatar });
 						navigate("/");
 					} catch (e) {
 						console.log(e.response.data.message);

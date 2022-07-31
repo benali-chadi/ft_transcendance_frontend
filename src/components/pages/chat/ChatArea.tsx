@@ -38,10 +38,12 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 			"-" +
 			date.getDay()
 		);
-	};
-
+	}; 
 	useEffect(() => {
-		socket?.on("chatToClient", (msg: MsgProps) => {
+		socket?.on("chatToClient", (body: any) => {
+			const msg = body.msg
+			if (!room_id || body.room_id !== room_id)
+				return ;
 			if (msgs) setMsgs([...msgs, msg[0]]);
 			else setMsgs([msg]);
 		});
@@ -53,6 +55,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 				setMsgs([...body]);
 			});
 		}
+		return () => socket?.emit("leaveRoom", room_id);
 	}, [room_id]);
 
 	useEffect(() => {
@@ -63,7 +66,10 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 		if (e) e.preventDefault();
 		if (!text.length) return;
 
-		socket.emit("chatToServer", { room_id, content: text });
+		socket.emit("chatToServer", { room_id, content: text } , (res) => {
+			console.log(res);
+			window.alert(res.message)
+		});
 
 		setText("");
 	};
@@ -93,7 +99,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 						)}
 						{/* Text Part */}
 						<div className="md:text-white">
-							<h3 className="text-xl">{user.username}</h3>
+							<h3 className="text-xl">{user.username || user.name}</h3>
 						</div>
 					</div>
 				</div>
@@ -111,6 +117,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 							date={parsedDate(v.date)}
 							me={currentUser.id === v.user.id}
 							user={v.user}
+							room_id={room_id}
 							key={i}
 						/>
 					))}

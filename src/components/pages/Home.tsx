@@ -1,4 +1,4 @@
-import React, { FC, useContext } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import Section from "../common/Section";
 import List from "../common/List";
 import UserCard from "../common/UserCard";
@@ -8,14 +8,14 @@ import background from "../../img/game-system/background.jpg";
 import inviteImage from "../../img/game-system/section2.jpg";
 // @ts-ignore
 import randomImage from "../../img/game-system/section1.jpg";
-import { userContext } from "../helpers/context";
+import { userContext, UserState } from "../helpers/context";
 import { motion } from "framer-motion";
 import { pageVariants } from "../helpers/variants";
 // import { pageVariantDesktop, pageVariantMobile } from "./helpers/variants";
 
 const Home: FC = () => {
-	const { currentUser /*isMobile*/ } = useContext(userContext);
-
+	// const [currentUser, setUser] = useState<any>(null);
+	const {currentUser} = useContext<UserState>(userContext)
 	const backgroundStyle = {
 		backgroundImage: `url('${background}')`,
 	};

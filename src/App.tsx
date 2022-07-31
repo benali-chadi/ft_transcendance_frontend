@@ -1,8 +1,8 @@
 import Navigation from "./components/Navigation";
-import { Route, Routes, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { BrowserRouter as Router ,Route, Routes, useLocation } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import ProtectedRoute from "./components/common/ProtectedRoute";
-import { userContext } from "./components/helpers/context";
+import { userContext, UserState } from "./components/helpers/context";
 import { AnimatePresence } from "framer-motion";
 import { useMediaQuery } from "react-responsive";
 import axios from "axios";
@@ -15,46 +15,33 @@ import FriendsList from "./components/pages/Profile/friends/FriendsList";
 import MatchHistory from "./components/pages/Profile/matchHistory/MatchHistory";
 import AchievementsBoard from "./components/pages/Profile/achievements/AchievementsBoard";
 import React from "react";
-import io from "socket.io-client";
+import io from "socket.io-client"
 // import logo42 from "./img/42logo.svg"
 
 const App: React.FC = () => {
-	const [currentUser, setUser] = useState(null);
-
-	useEffect((): any => {
-		async function getUserData() {
-			try {
-				let { data } = await axios.get(
-					"http://localhost:3000/user/me",
-					{
-						withCredentials: true,
-					}
-				);
-				setUser(data);
-			} catch (e) {
-				setUser(null);
-			}
-		}
-		getUserData();
-	}, []);
-
+	
+	const [currentUser, setCurrentUser] = useState("")
+	
 	const isMobile = useMediaQuery({
 		query: "(max-width: 767px)",
 	});
 	const location = useLocation();
+	
+	useEffect(() => {
+		const userStorage = localStorage.getItem("CurrentUser");
+		if (userStorage)
+			setCurrentUser(JSON.parse(userStorage))
+	}, [])
 
 	return (
+	<userContext.Provider value={{currentUser, setCurrentUser, isMobile}} >
 		<div className="h-screen text-4xl font-bold text-center App">
-			<userContext.Provider value={{ currentUser, setUser, isMobile }}>
 				<AnimatePresence exitBeforeEnter>
-					<Routes location={location} key={location.key}>
+					<Routes>
 						<Route
 							path="/"
 							element={
-								<ProtectedRoute
-									toCheck={!currentUser}
-									location={location}
-								>
+								<ProtectedRoute >
 									<Navigation />
 								</ProtectedRoute>
 							}
@@ -62,7 +49,7 @@ const App: React.FC = () => {
 							<Route path="/" element={<Home />} />
 							<Route
 								path="profile/:id"
-								element={<Profile user={currentUser} />}
+								element={<Profile />}
 							>
 								<Route
 									path="friends"
@@ -80,31 +67,29 @@ const App: React.FC = () => {
 							<Route path="chat" element={<Chat />} />
 						</Route>
 						<Route
-							path="/login"
-							element={
-								<ProtectedRoute
-									toCheck={!!currentUser}
-									location={location}
-								>
-									<Login />
-								</ProtectedRoute>
-							}
-						/>
-						<Route
-							path="/Test"
-							element={
-								<ProtectedRoute
-									toCheck={!!currentUser}
-									location={location}
-								>
-									<Log />
-								</ProtectedRoute>
-							}
-						/>
+				path="/login"
+				element={
+					<ProtectedRoute
+						redirectPath="/"
+					>
+						<Login />
+					</ProtectedRoute>
+				}
+			/>
+			<Route
+				path="/Test"
+				element={
+					<ProtectedRoute
+						redirectPath="/"
+					>
+						<Log />
+					</ProtectedRoute>
+				}
+			/>
 					</Routes>
 				</AnimatePresence>
-			</userContext.Provider>
 		</div>
+	</userContext.Provider>
 	);
 };
 

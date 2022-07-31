@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { FC, useContext } from "react";
+import React, { FC, useContext, useEffect } from "react";
 import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import UserCard from "./common/UserCard";
@@ -9,29 +9,44 @@ import { userContext, UserState } from "./helpers/context";
 import logo from "../img/logo.png";
 import { motion } from "framer-motion";
 import { navVariants } from "./helpers/variants";
+import { useMediaQuery } from "react-responsive";
+
+
 
 const Navigation: FC = () => {
-	const { currentUser, setUser, isMobile } =
-		useContext<UserState>(userContext);
 	const [showNav, setShoweNav] = useState(false);
-
+	// const [currentUser, setUser] = useState<any>(null);
+	const {currentUser, setCurrentUser} = useContext<UserState>(userContext)
 	const navigate = useNavigate();
 
-	const handleLogOutClick = () => {
+	const isMobile = useMediaQuery({
+		query: "(max-width: 767px)",
+	});
+
+	// useEffect(()=>{
+	// 	let test = localStorage.getItem("CurrentUser");
+	// 	if (test)
+	// 		setUser(JSON.parse(test));
+	// }, [])
+	const handleLogOutClick = async () => {
 		// navigate("/login");
+		localStorage.clear();
 		async function logOut() {
 			await axios.get(
 				"http://localhost:3000/auth/logout",
 				{ withCredentials: true }
 			);
+			
 			navigate("/login");
 		}
-		logOut();
-		setUser(null);
+		await logOut();
+		setCurrentUser(null);
 	};
-
 	return (
+		
 		<div className="w-full h-screen overflow-hidden bg-gray-300 md:p-6 md:py-20 md:grid md:grid-cols-12 ">
+			{currentUser !== null ? (
+			<>
 			{/* Top Part */}
 			{isMobile && !showNav && (
 				<div className="absolute z-20 flex justify-between w-full p-2 px-4 bg-white/50">
@@ -100,7 +115,11 @@ const Navigation: FC = () => {
 			<div className="col-span-11 max-h-[80vh]">
 				<Outlet />
 			</div>
+			</>
+			):(<div></div>)
+			}
 		</div>
+		
 	);
 };
 

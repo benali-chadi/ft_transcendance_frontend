@@ -1,20 +1,22 @@
+import path from "path";
 import React, { FC } from "react";
-import { Navigate, Location } from "react-router";
+import { Navigate } from "react-router";
 import { userContext } from "../helpers/context";
 
 interface Props {
+	redirectPath?: string;
 	children: JSX.Element;
-	toCheck: boolean;
-	location: Location;
 }
 
-const ProtectedRoute: FC<Props> = ({ children, toCheck, location }) => {
-	if (location.pathname === "/login" && toCheck)
-		return <Navigate to="/" replace />;
-
-	if (location.pathname !== "/login" && toCheck)
-		return <Navigate to={location.pathname} replace />;
-
+const ProtectedRoute: FC<Props> = ({
+	redirectPath = "/login",
+	children,
+}) => {
+	let test = localStorage.getItem("CurrentUser");
+	if (!test && redirectPath !== "/")
+		return <Navigate to={redirectPath} replace />;
+	if (test && redirectPath === "/")
+		return <Navigate to={redirectPath} replace />;
 	return children;
 };
 

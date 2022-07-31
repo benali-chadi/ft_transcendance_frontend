@@ -2,13 +2,13 @@ import { createContext } from "react";
 
 export interface UserState {
 	currentUser: any,
-	setUser: React.Dispatch<React.SetStateAction<any>> | (() => void),
+	setCurrentUser: React.Dispatch<React.SetStateAction<any>> | (() => void),
 	isMobile: boolean
 }
 
 const initialState: UserState = {
 	currentUser: null,
-	setUser: () => {},
+	setCurrentUser: () => {},
 	isMobile: false
 }
 

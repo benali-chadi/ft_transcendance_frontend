@@ -1,13 +1,14 @@
 import axios from "axios";
 import { motion } from "framer-motion";
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useRef, useState } from "react";
 import { NavLink, Outlet, useParams } from "react-router-dom";
-import UserCard from "../../common/UserCard";
+import Button from "../../common/Button";
+import UserCard  from "../../common/UserCard";
+// import  {memoizedUserCard} from "../../common/UserCard";
 import { userContext } from "../../helpers/context";
 import { pageVariants } from "../../helpers/variants";
 
 interface Props {
-	user: any;
 }
 
 export interface outletContext {
@@ -17,13 +18,13 @@ export interface outletContext {
 }
 
 const Profile: FC<Props> = () => {
-	const { currentUser } = useContext(userContext);
-	const { id } = useParams();
 	const [profileUser, setProfileUser] = useState<any>({});
-
+	const { id } = useParams();
+	
 	useEffect(() => {
 		async function getUserData() {
 			try {
+				//console.log(test)
 				let { data } = await axios.get(
 					`http://localhost:3000/user/${id}`,
 					{
@@ -32,11 +33,11 @@ const Profile: FC<Props> = () => {
 				);
 				setProfileUser(data);
 			} catch (e) {
-				console.log(e);
+				//console.log(e);
 			}
 		}
 		getUserData();
-	}, []);
+	}, [id]);
 
 	return (
 		<motion.div
@@ -46,36 +47,34 @@ const Profile: FC<Props> = () => {
 			// // exit="exit"
 			className="h-screen overflow-auto scrolling min-h-max md:grid md:h-full md:justify-center md:rounded-large md:grid-cols-[2fr_5fr] md:rounded-l-none bg-my-blue"
 		>
-			{/* Side-bar */}
-			<div className="h-full md:rounded-r-large bg-my-lavender">
-				<div className="p-[5rem]">
-					<UserCard user={profileUser} />
-				</div>
-				{/* Sub-Pages */}
-				<ul className="profile-links">
-					<li>
-						<NavLink className="profile-link" to="friends">
-							<i className="fa-solid fa-user-group"></i>
-							<h2>Friends</h2>
-						</NavLink>
-					</li>
-					<li>
-						<NavLink className="profile-link" to="achievements">
-							<i className="fa-solid fa-trophy"></i>
-							<h2>Achievements</h2>
-						</NavLink>
-					</li>
-					<li>
-						<NavLink className="profile-link" to="matchHistory">
-							<i className="fa-solid fa-table-tennis-paddle-ball"></i>
-							<h2>Match History</h2>
-						</NavLink>
-					</li>
-				</ul>
+		<div className="h-full md:rounded-r-large bg-my-lavender">	
+			<div className="p-[5rem]">
+				<UserCard user={profileUser} />
 			</div>
-			<div className="w-full">
-				<Outlet context={{ profileUser, setProfileUser, id }} />
-			</div>
+			<ul className="profile-links">
+				<li>
+					<NavLink className="profile-link" to="friends">
+						<i className="fa-solid fa-user-group"></i>
+						<h2>Friends</h2>
+					</NavLink>
+				</li>
+				<li>
+					<NavLink className="profile-link" to="achievements">
+						<i className="fa-solid fa-trophy"></i>
+						<h2>Achievements</h2>
+					</NavLink>
+				</li>
+				<li>
+					<NavLink className="profile-link" to="matchHistory">
+						<i className="fa-solid fa-table-tennis-paddle-ball"></i>
+						<h2>Match History</h2>
+					</NavLink>
+				</li>
+			</ul>
+		</div>
+		<div className="w-full">
+			<Outlet context={{ profileUser, setProfileUser, id }} />
+		</div>
 		</motion.div>
 	);
 };

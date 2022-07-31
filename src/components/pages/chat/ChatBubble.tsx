@@ -5,6 +5,7 @@ export interface MsgProps {
 	date: string;
 	me: boolean;
 	user?: any;
+	room_id:number;
 }
 
 export const ChatBubble: FC<MsgProps> = ({ text, date, me, user }) => {

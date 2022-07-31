@@ -15,11 +15,12 @@ interface Props {
 }
 
 const UserCard: FC<Props> = ({ user }) => {
-	const { currentUser } = useContext<UserState>(userContext);
+	// const [currentUser, setUser] = useState<any>(null);
+	const {currentUser} = useContext<UserState>(userContext)
 	const [showUpdateUser, setShowUpdateUser] = useState(false);
 	const [buttonMessage, setButton] = useState("");
 
-	const cond = user.id === currentUser.id;
+	let cond : boolean = currentUser.id === user.id;
 	const checkRelation = (data) => {
 		// console.log("data relation =", data.relation);
 
@@ -71,6 +72,8 @@ const UserCard: FC<Props> = ({ user }) => {
 	useEffect(() => {
 		async function getUserData() {
 			try {
+				if (!user || user.id === undefined)
+				 return ;
 				let { data } = await axios.get(
 					`http://localhost:3000/user/${user.id}`,
 					{
@@ -93,6 +96,9 @@ const UserCard: FC<Props> = ({ user }) => {
 				console.log(e);
 			}
 		}
+		//let test = localStorage.getItem("CurrentUser");
+		//if (test)
+		//	setUser(JSON.parse(test));
 		getUserData();
 		// console.log(buttonMessage);
 	}, [buttonMessage, user]);
