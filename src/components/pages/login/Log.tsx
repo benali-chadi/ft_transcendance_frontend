@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 // import { createHashHistory } from "history";
 import axios from "axios";
 import { userContext } from "../../helpers/context";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import Loader from "../../common/Loader";
 import { UserState } from "../../helpers/context";
 
@@ -20,16 +20,14 @@ const Log: FC = () => {
 				"http://localhost:3000/auth/redirect?code=" + query[0],
 				{ withCredentials: true }
 			);
-				// const browserHistory = createHashHistory();
-			if (data.user)
-			{
+			// const browserHistory = createHashHistory();
+			if (data.user) {
 				setCurrentUser(data.user);
 				localStorage.setItem("CurrentUser", JSON.stringify(data.user));
 				navigate("/");
-			}	
+			}
 		}
 		test();
-		
 	}, []);
 	return (
 		<div className="flex flex-col items-center justify-center w-screen h-screen">

@@ -49,58 +49,65 @@ const FriendsList: FC = () => {
 	}, []);
 
 	return (
-		
 		<div className="absolute inset-0 z-10 w-full h-screen px-6 py-20 bg-my-blue md:relative md:h-full">
-			{ 
-			currentUser !== null ? (
+			{currentUser !== null ? (
 				<>
-			{showFindFriends && (
-				<FindFriends handleCancel={() => setShowFindFriends(false)} />
-			)}
-			{/* Back Button */}
-			<i
-				className="absolute text-white cursor-pointer left-5 top-15 fa-solid fa-arrow-left md:hidden"
-				onClick={handleClick}
-			></i>
-			{/* Search area */}
-			<div className="flex items-center p-4 m-auto bg-white h-fit rounded-large w-[70%] mb-4">
-				<i className="fa-solid fa-magnifying-glass text-[#655E5E] text-xl"></i>
-				<input
-					type="text"
-					value={text}
-					onChange={(e) => setText(e.target.value)}
-					className="h-6 max-w-[15rem] w-full p-2 text-xl rounded-large font-Poppins"
-					placeholder="Search..."
-				/>
-			</div>
-			{currentUser.id == profileUser.id && (
-				<div className="flex justify-end px-4 mb-4">
-					<Button color="bg-my-yellow">
-						<h2
-							onClick={() => setShowFindFriends(true)}
-							className="text-xl"
-						>
-							find friends
-						</h2>
-					</Button>
-				</div>
-			)}
-			{/* <div className="grid grid-cols-2 auto-rows-[5rem] gap-[2rem] md:grid-cols-4 h-full w-full"> */}
-			<div className="flex flex-wrap justify-center gap-4">
-				{friends.length != 0 ? (
-					friends
-						.filter((friend) => friend.username.includes(text))
-						.map((friend: friend) => {
-							return <FriendCard key={friend.id} user={friend} />;
-						})
-				) : (
-					<h1>No users </h1>
-				)}
-			</div>
-			</>) :(
+					{showFindFriends && (
+						<FindFriends
+							handleCancel={() => setShowFindFriends(false)}
+						/>
+					)}
+					{/* Back Button */}
+					<i
+						className="absolute text-white cursor-pointer left-5 top-15 fa-solid fa-arrow-left md:hidden"
+						onClick={handleClick}
+					></i>
+					{/* Search area */}
+					<div className="flex items-center p-4 m-auto bg-white h-fit rounded-large w-[70%] mb-4">
+						<i className="fa-solid fa-magnifying-glass text-[#655E5E] text-xl"></i>
+						<input
+							type="text"
+							value={text}
+							onChange={(e) => setText(e.target.value)}
+							className="h-6 max-w-[15rem] w-full p-2 text-xl rounded-large font-Poppins"
+							placeholder="Search..."
+						/>
+					</div>
+					{currentUser.id == profileUser.id && (
+						<div className="flex justify-end px-4 mb-4">
+							<Button color="bg-my-yellow">
+								<h2
+									onClick={() => setShowFindFriends(true)}
+									className="text-xl"
+								>
+									find friends
+								</h2>
+							</Button>
+						</div>
+					)}
+					{/* <div className="grid grid-cols-2 auto-rows-[5rem] gap-[2rem] md:grid-cols-4 h-full w-full"> */}
+					<div className="flex flex-wrap justify-center gap-4">
+						{friends.length != 0 ? (
+							friends
+								.filter((friend) =>
+									friend.username.includes(text)
+								)
+								.map((friend: friend) => {
+									return (
+										<FriendCard
+											key={friend.id}
+											user={friend}
+										/>
+									);
+								})
+						) : (
+							<h1>No users </h1>
+						)}
+					</div>
+				</>
+			) : (
 				<div></div>
-			)
-		}
+			)}
 		</div>
 	);
 };
