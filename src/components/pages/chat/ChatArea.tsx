@@ -38,12 +38,13 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 			"-" +
 			date.getDay()
 		);
-	}; 
+	};
 	useEffect(() => {
 		socket?.on("chatToClient", (body: any) => {
-			const msg = body.msg
-			if (!room_id || body.room_id !== room_id)
-				return ;
+			// const msg = body.msg;
+			// if (!room_id || body.room_id !== room_id) return;
+			const msg = body;
+			if (!room_id) return;
 			if (msgs) setMsgs([...msgs, msg[0]]);
 			else setMsgs([msg]);
 		});
@@ -66,9 +67,9 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 		if (e) e.preventDefault();
 		if (!text.length) return;
 
-		socket.emit("chatToServer", { room_id, content: text } , (res) => {
+		socket.emit("chatToServer", { room_id, content: text }, (res) => {
 			console.log(res);
-			window.alert(res.message)
+			window.alert(res.message);
 		});
 
 		setText("");
@@ -99,7 +100,9 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 						)}
 						{/* Text Part */}
 						<div className="md:text-white">
-							<h3 className="text-xl">{user.username || user.name}</h3>
+							<h3 className="text-xl">
+								{user.username || user.name}
+							</h3>
 						</div>
 					</div>
 				</div>
