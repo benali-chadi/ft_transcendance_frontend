@@ -18,8 +18,8 @@ export interface outletContext {
 
 const Profile: FC<Props> = () => {
 	const { currentUser } = useContext(userContext);
-	const [profileUser, setProfileUser] = useState<any>({});
 	const { id } = useParams();
+	const [profileUser, setProfileUser] = useState<any>({});
 
 	useEffect(() => {
 		async function getUserData() {
