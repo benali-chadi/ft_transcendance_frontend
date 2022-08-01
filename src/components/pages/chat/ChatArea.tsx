@@ -56,7 +56,11 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 				else setMsgs([msg]);
 			});
 		}
-		return () => socket?.emit("leaveRoom", room_id);
+		console.log("user =", user);
+		return () => {
+			socket?.emit("leaveRoom", room_id);
+			socket?.off("chatToClient");
+		};
 	}, [room_id]);
 
 	useEffect(() => {
@@ -127,27 +131,29 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 			</div>
 
 			{/* Typing Area */}
-			<form
-				className="flex items-center justify-center w-full gap-4 py-4 border-t-4 border-white h-max rounded-b-med bg-my-lavender"
-				onSubmit={(e) => {
-					handleMsgSendClick(e);
-				}}
-			>
-				<input
-					value={text}
-					onChange={(e) => setText(e.target.value)}
-					className="h-6 w-[70%] min-w-[10rem] p-6 text-xl rounded-large font-Poppins"
-					placeholder="Type Something..."
-				/>
-				<i
-					className={`text-2xl cursor-pointer fa-solid fa-paper-plane ${
-						text.length
-							? "hover:opacity-70 text-my-light-violet"
-							: ""
-					}`}
-					onClick={() => handleMsgSendClick()}
-				></i>
-			</form>
+			{!user.IsBlocked && (
+				<form
+					className="flex items-center justify-center w-full gap-4 py-4 border-t-4 border-white h-max rounded-b-med bg-my-lavender"
+					onSubmit={(e) => {
+						handleMsgSendClick(e);
+					}}
+				>
+					<input
+						value={text}
+						onChange={(e) => setText(e.target.value)}
+						className="h-6 w-[70%] min-w-[10rem] p-6 text-xl rounded-large font-Poppins"
+						placeholder="Type Something..."
+					/>
+					<i
+						className={`text-2xl cursor-pointer fa-solid fa-paper-plane ${
+							text.length
+								? "hover:opacity-70 text-my-light-violet"
+								: ""
+						}`}
+						onClick={() => handleMsgSendClick()}
+					></i>
+				</form>
+			)}
 		</div>
 	);
 };

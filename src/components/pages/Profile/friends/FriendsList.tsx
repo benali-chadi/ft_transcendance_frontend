@@ -34,7 +34,6 @@ const FriendsList: FC = () => {
 				`http://localhost:3000/user/${username}/friends`,
 				{ withCredentials: true }
 			);
-
 			setFriends(data);
 		} catch (e) {}
 	}
