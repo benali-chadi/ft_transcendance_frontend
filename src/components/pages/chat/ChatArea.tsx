@@ -48,7 +48,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 
 			socket.on("chatToClient", (body: any) => {
 				// const msg = body.msg;
-				// if (!room_id || body.room_id !== room_id) return;
+				if (!room_id || body.room_id !== room_id) return;
 				const msg = body.msg[0];
 				// if (!msg) return;
 				// if (!room_id) return;
