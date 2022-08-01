@@ -22,13 +22,13 @@ const ChatGroupCard: FC<Props> = ({ room, handleClick = () => {}, room_id }) => 
 					handleClick(room, room_id);
 				}}
 			>
-				{/*user.avatar && (
+				{room.icon && (
 					<img
-						src={user.avatar}
-						alt="avatar"
+						src={room.icon}
+						alt="icon"
 						className="w-[3rem] h-[3rem] rounded-full md:w-[2rem] md:h-[2rem]"
 					/>
-                )*/}
+                )}
 				{/* Text Part */}
 				<div className="text-left">
 					<h3 className="text-xl">{room.name}</h3>
