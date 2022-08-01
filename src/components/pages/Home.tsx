@@ -11,6 +11,7 @@ import randomImage from "../../img/game-system/section1.jpg";
 import { userContext, UserState } from "../helpers/context";
 import { motion } from "framer-motion";
 import { pageVariants } from "../helpers/variants";
+import { useNavigate } from "react-router-dom";
 // import { pageVariantDesktop, pageVariantMobile } from "./helpers/variants";
 
 const Home: FC = () => {
@@ -19,6 +20,8 @@ const Home: FC = () => {
 	const backgroundStyle = {
 		backgroundImage: `url('${background}')`,
 	};
+
+	const navigate = useNavigate()
 
 	return (
 		<motion.div
@@ -34,7 +37,7 @@ const Home: FC = () => {
 				style={backgroundStyle}
 			>
 				{/* Headers */}
-				<div className="sticky flex flex-col items-start justify-center mb-3 top-5 left-3 ">
+				<div className="sticky flex flex-col text-center mb-3 top-5 left-3 ">
 					<h1 className="text-6xl font-extrabold text-my-yellow">
 						PONG
 					</h1>
@@ -42,16 +45,20 @@ const Home: FC = () => {
 				</div>
 				{/* Sections */}
 				<div className="flex flex-col justify-center h-full gap-4 ">
-					<Section
-						title="Invite Friends"
-						image={inviteImage}
-						color="bg-my-orange"
-					/>
-					<Section
-						title="Random"
-						image={randomImage}
-						color="bg-my-green"
-					/>
+					
+						<Section
+							handleClick={() => {navigate("/invitefriend")}}
+							title="Invite Friends"
+							image={inviteImage}
+							color="bg-my-orange"
+						/>
+						<Section
+							handleClick={() => {navigate("/game")}}
+							title="Random"
+							image={randomImage}
+							color="bg-my-green"
+
+						/>
 				</div>
 			</div>
 			{/* The Right\bottom Side */}
