@@ -11,6 +11,7 @@ import axios from "axios";
 import { io } from "socket.io-client";
 import ChatGroupCard from "./ChatGroupCard";
 import { MsgProps } from "./ChatBubble";
+import CreateChannel from "./CreateChannel";
 
 const Chat: FC = () => {
 	const { isMobile } = useContext<UserState>(userContext);
@@ -20,7 +21,7 @@ const Chat: FC = () => {
 	const [roomId, setRoomId] = useState<number>(0);
 	const [chatSocket, setSocket] = useState<any>();
 	const [channels, setChannels] = useState([]);
-	const [allMsgs, setAllMgs] = useState<any>([]);
+	const [showCreateChannel, setShowCreateChannel] = useState(false);
 
 	const handleClick = (user: any, room_id: number) => {
 		// setChatUser(null);
@@ -70,9 +71,14 @@ const Chat: FC = () => {
 			exit="exit"
 			className="h-screen md:h-full bg-my-lavender min-h-max md:rounded-large md:rounded-l-none md:grid md:grid-cols-[1fr_4fr] md:grid-rows-1 "
 		>
+			{!toggle && showCreateChannel && (
+				<CreateChannel
+					handleCancelClick={() => setShowCreateChannel(false)}
+				/>
+			)}
 			<div className={isMobile && chatUser ? "hidden" : "chatSideBar"}>
 				{/* Upper part */}
-				<div className="flex flex-col gap-4 py-16 bg-[#F0F4FC] md:bg-my-lavender rounded-b-large sticky top-0 max-h-[15rem] md:py-8 z-10 md:pl-3">
+				<div className="flex flex-col gap-4 py-16 bg-[#F0F4FC] md:bg-my-lavender pr-3 rounded-b-large sticky top-0 min-h-[20rem] max-h-[15rem] md:py-8 z-10 md:pl-3">
 					{/* Buttons */}
 					<div className="flex justify-center gap-10">
 						<Button
@@ -109,6 +115,14 @@ const Chat: FC = () => {
 							placeholder="Search..."
 						/>
 					</div>
+					{!toggle && (
+						<Button
+							color="bg-my-yellow self-end"
+							handleClick={() => setShowCreateChannel(true)}
+						>
+							<p className="text-xl">Create a Channel</p>
+						</Button>
+					)}
 				</div>
 				{/* Users */}
 				<div className="flex flex-col h-full gap-4 px-8 mt-3 overflow-auto scrolling">

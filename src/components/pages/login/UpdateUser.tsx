@@ -30,7 +30,7 @@ const UpdateUser: FC<Props> = ({ handleCancelClick }) => {
 					try {
 						const formData = new FormData();
 						formData.append("username", username);
-						if (selectedfile != null) {
+						if (selectedfile) {
 							formData.append("avatar", selectedfile);
 						}
 						const updated = await axios.post(
@@ -106,8 +106,6 @@ const UpdateUser: FC<Props> = ({ handleCancelClick }) => {
 										);
 									}
 									setAvatar(file);
-									// if (e.target.files)
-									// 	setFile(e.target.files[0])
 								}}
 							/>
 						</div>
