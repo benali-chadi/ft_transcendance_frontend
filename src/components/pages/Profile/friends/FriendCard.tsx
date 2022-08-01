@@ -73,6 +73,7 @@ const FriendCard: FC<Props> = ({ user }) => {
 										{ to_block: user.id },
 										{ withCredentials: true }
 									);
+									console.log(data);
 									setBlocked(data.blocked);
 								}
 							}}
@@ -98,6 +99,7 @@ const FriendCard: FC<Props> = ({ user }) => {
 										{ to_unblock: user.id },
 										{ withCredentials: true }
 									);
+									console.log(data);
 									setBlocked(data.blocked);
 								}
 							}}
