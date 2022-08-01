@@ -56,7 +56,6 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 				else setMsgs([msg]);
 			});
 		}
-		console.log("user =", user);
 		return () => {
 			socket?.emit("leaveRoom", room_id);
 			socket?.off("chatToClient");
@@ -72,7 +71,6 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 		if (!text.length) return;
 
 		socket.emit("chatToServer", { room_id, content: text }, (res) => {
-			console.log(res);
 			window.alert(res.message);
 		});
 

@@ -32,11 +32,11 @@ const Card: FC<Props> = ({
 					x: "100vw",
 					transition: { type: "tween", duration: 0.5 },
 				}}
-				className="h-[30%] min-h-[20rem] w-[20%] min-w-fit overflow-auto bg-white p-4 flex flex-col justify-between rounded-xl shadow-lg"
+				className="h-[30%] min-h-max w-[20%] min-w-fit overflow-auto bg-white p-4 flex flex-col justify-between rounded-xl shadow-lg"
 			>
 				{/* Head Part */}
 				<div className="flex justify-between">
-					<h1>{title}</h1>
+					<h1 className="text-xl font-bold">{title}</h1>
 					<i className={icon}></i>
 				</div>
 				{/* Main Part */}
