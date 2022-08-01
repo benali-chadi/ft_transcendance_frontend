@@ -69,6 +69,12 @@ const App: React.FC = () => {
 								/>
 							</Route>
 							<Route path="chat" element={<Chat />} />
+						<Route
+							path="/game"
+							element={
+								<Game />
+							}
+						/>
 						</Route>
 						<Route
 							path="/login"
@@ -76,12 +82,6 @@ const App: React.FC = () => {
 								<ProtectedRoute redirectPath="/">
 									<Login />
 								</ProtectedRoute>
-							}
-						/>
-						<Route
-							path="/game"
-							element={
-								<Game />
 							}
 						/>
 						<Route
