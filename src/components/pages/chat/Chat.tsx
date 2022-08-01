@@ -19,7 +19,8 @@ const Chat: FC = () => {
 	const [dms, setDms] = useState([]);
 	const [roomId, setRoomId] = useState<number>(0);
 	const [chatSocket, setSocket] = useState<any>();
-	const [channels, setChannels] = useState([])
+	const [channels, setChannels] = useState([]);
+	const [allMsgs, setAllMgs] = useState<any>([]);
 
 	const handleClick = (user: any, room_id: number) => {
 		// setChatUser(null);
@@ -36,7 +37,7 @@ const Chat: FC = () => {
 		});
 		setSocket(socket_chat);
 		return () => socket_chat.close();
-	}, [])
+	}, []);
 
 	useEffect((): any => {
 		async function getDms() {
@@ -46,9 +47,10 @@ const Chat: FC = () => {
 					{ withCredentials: true }
 				);
 				setDms(data);
+				console.log(data);
 			} catch (e) {}
 		}
-		async function  getGroupChannels() {
+		async function getGroupChannels() {
 			try {
 				let { data } = await axios.get(
 					"http://localhost:3000/chat/group_channels",
@@ -122,17 +124,19 @@ const Chat: FC = () => {
 								/>
 							);
 						})
-					) : (
-						channels.length ? (channels.map((channel:any) => {
+					) : channels.length ? (
+						channels.map((channel: any) => {
 							return (
 								<ChatGroupCard
-								key={channel.id}
-								room={channel}
-								room_id={channel.id}
-								handleClick={handleClick}
+									key={channel.id}
+									room={channel}
+									room_id={channel.id}
+									handleClick={handleClick}
 								/>
-							)
-						})) : ( <div></div>)
+							);
+						})
+					) : (
+						<div></div>
 					)}
 				</div>
 			</div>
