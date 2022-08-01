@@ -56,11 +56,13 @@ const Chat: FC = () => {
 					"http://localhost:3000/chat/group_channels",
 					{ withCredentials: true }
 				);
+				console.log(data);
 				setChannels(data);
 			} catch (e) {}
 		}
 		getDms();
 		getGroupChannels();
+		
 	}, []);
 	return (
 		<motion.div
