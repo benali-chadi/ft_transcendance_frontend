@@ -1,12 +1,25 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useOutletContext } from "react-router";
 import AchievementIcon from "../../../../img/trophy.png";
+import { userContext, UserState } from "../../../helpers/context";
+import { outletContext } from "../Profile";
 import AchievementCard from "./AchievementCard";
 
 const AchievementsBoard: FC = () => {
+	const navigate = useNavigate();
+	const { username } = useOutletContext<outletContext>();
+
+	const handleClick = () => {
+		navigate(`/profile/${username}`);
+	};
 	return (
 		<div className="absolute inset-0 z-10 w-full h-screen px-6 py-20 bg-my-blue md:relative md:h-full">
+			{/* Back Button */}
+			<i
+				className="absolute text-white cursor-pointer left-5 top-15 fa-solid fa-arrow-left md:hidden"
+				onClick={handleClick}
+			></i>
 			<div className="flex flex-col items-center justify-center gap-4 py-8">
 				<img
 					src={AchievementIcon}
@@ -30,7 +43,6 @@ const AchievementsBoard: FC = () => {
 				<AchievementCard level="level10" />
 				<AchievementCard level="level11" />
 				<AchievementCard level="level12" />
-				
 			</div>
 		</div>
 	);

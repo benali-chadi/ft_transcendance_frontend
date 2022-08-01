@@ -48,7 +48,6 @@ const Chat: FC = () => {
 					{ withCredentials: true }
 				);
 				setDms(data);
-				console.log(data);
 			} catch (e) {}
 		}
 		async function getGroupChannels() {

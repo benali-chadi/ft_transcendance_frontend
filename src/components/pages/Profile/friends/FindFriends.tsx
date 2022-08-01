@@ -24,7 +24,6 @@ const FindFriends: FC<Props> = ({ handleCancel }) => {
 						withCredentials: true,
 					}
 				);
-				console.log(data);
 				setUsers(data);
 			} catch (e) {}
 		}
