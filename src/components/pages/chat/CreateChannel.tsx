@@ -1,3 +1,4 @@
+import axios from "axios";
 import { motion } from "framer-motion";
 import React, { FC, useState } from "react";
 import Button from "../../common/Button";
@@ -10,8 +11,8 @@ interface Props {
 
 const CreateChannel: FC<Props> = ({ handleCancelClick }) => {
 	const [channelName, setChannelName] = useState("");
-	const [privacy, setPrivacy] = useState<"public" | "private" | "protected">(
-		"public"
+	const [privacy, setPrivacy] = useState<"Public" | "Private" | "Protected">(
+		"Public"
 	);
 	const [password, setPassword] = useState("");
 
@@ -27,11 +28,15 @@ const CreateChannel: FC<Props> = ({ handleCancelClick }) => {
 					e.preventDefault();
 					try {
 						const formData = new FormData();
-						formData.append("channelName", channelName);
-						formData.append("channelPrivacy", privacy);
+						formData.append("name", channelName);
+						formData.append("type", privacy);
 						if (selectedfile)
-							formData.append("channelAvatar", selectedfile);
+							formData.append("icon", selectedfile);
 						if (password) formData.append("password", password);
+						let {data} = await axios.post("http://localhost:3000/chat/create_room",
+						formData,
+						{withCredentials: true});
+						
 						handleCancelClick();
 					} catch (e) {
 						setShowError(true);
@@ -125,37 +130,37 @@ const CreateChannel: FC<Props> = ({ handleCancelClick }) => {
 						<div className="flex bg-my-violet rounded-med">
 							<h2
 								className={`p-2 text-white cursor-pointer rounded-l-med ${
-									privacy === "public"
+									privacy === "Public"
 										? "bg-my-light-violet font-bold"
 										: ""
 								}`}
-								onClick={() => setPrivacy("public")}
+								onClick={() => setPrivacy("Public")}
 							>
 								Public
 							</h2>
 							<h2
 								className={`p-2 text-white cursor-pointer border-x-2 ${
-									privacy === "private"
+									privacy === "Private"
 										? "bg-my-light-violet font-bold"
 										: ""
 								}`}
-								onClick={() => setPrivacy("private")}
+								onClick={() => setPrivacy("Private")}
 							>
 								Private
 							</h2>
 							<h2
 								className={`p-2 text-white cursor-pointer rounded-r-med ${
-									privacy === "protected"
+									privacy === "Protected"
 										? "bg-my-light-violet font-bold"
 										: ""
 								}`}
-								onClick={() => setPrivacy("protected")}
+								onClick={() => setPrivacy("Protected")}
 							>
 								Protected
 							</h2>
 						</div>
 						{/* Password */}
-						{privacy === "protected" ? (
+						{privacy === "Protected" ? (
 							<input
 								type="password"
 								placeholder="Type Your Password"
