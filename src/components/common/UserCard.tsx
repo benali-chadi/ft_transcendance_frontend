@@ -16,28 +16,37 @@ interface Props {
 
 const UserCard: FC<Props> = ({ user }) => {
 	// const [currentUser, setUser] = useState<any>(null);
-	const {currentUser} = useContext<UserState>(userContext)
+	const { currentUser } = useContext<UserState>(userContext);
 	const [showUpdateUser, setShowUpdateUser] = useState(false);
 	const [buttonMessage, setButton] = useState("");
 
-	let cond : boolean = currentUser.id === user.id;
+	let cond: boolean = currentUser.id === user.id;
 	const checkRelation = (data) => {
-		// console.log("data relation =", data.relation);
-
 		if (data.blocked) setButton("unblock");
-		else if (data.relation === "friends") setButton("unfriend");
-		else if (data.relation === "none") setButton("Add friend");
-		else if (data.relation === "Accept invitation")
-			setButton("Accept invitation");
-		else if (data.relation === "Invitation Sent")
-			setButton("Invitation Sent");
+		else if (!data.blocked) {
+			if (!data.relation) setButton("You're blocked");
+			else if (data.relation === "friends") setButton("unfriend");
+			else if (data.relation === "none") setButton("Add friend");
+			else if (data.relation === "Accept invitation")
+				setButton("Accept invitation");
+			else if (data.relation === "Invitation Sent")
+				setButton("Invitation Sent");
+		}
 
 		// console.log("button =", buttonMessage);
 	};
 	async function updateRelation() {
 		try {
 			let obj: any;
-			if (buttonMessage === "Add friend") {
+			if (buttonMessage === "unblock") {
+				obj = await axios.post(
+					"http://localhost:3000/user/unblock_user",
+					{
+						to_unblock: user.id,
+					},
+					{ withCredentials: true }
+				);
+			} else if (buttonMessage === "Add friend") {
 				obj = await axios.post(
 					"http://localhost:3000/user/add_friend",
 					{
@@ -72,35 +81,19 @@ const UserCard: FC<Props> = ({ user }) => {
 	useEffect(() => {
 		async function getUserData() {
 			try {
-				if (!user || user.id === undefined)
-				 return ;
+				if (!user || user.id === undefined) return;
 				let { data } = await axios.get(
-					`http://localhost:3000/user/${user.id}`,
+					`http://localhost:3000/user/${user.username}`,
 					{
 						withCredentials: true,
 					}
 				);
 				checkRelation(data);
-				// if (data.blocked) setButton("unblock");
-				// if (data.relation === "friends") setButton("unfriend");
-				// if (data.relation === "Accept invitation")
-				// 	setButton("Accept invitation");
-				// if (data.relation === "Invitation Sent")
-				// 	setButton("Invitation Sent");
-				// if (data.relation === "none") setButton("Add friend");
-				// data
-				// console.log("data =", data);
-				// setProfileUser(data);
-				// setShow(true);
 			} catch (e) {
 				console.log(e);
 			}
 		}
-		//let test = localStorage.getItem("CurrentUser");
-		//if (test)
-		//	setUser(JSON.parse(test));
 		getUserData();
-		// console.log(buttonMessage);
 	}, [buttonMessage, user]);
 
 	return (

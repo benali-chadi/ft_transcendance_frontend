@@ -106,7 +106,7 @@ const Navigation: FC = () => {
 							<li>
 								<NavLink
 									className="inactive"
-									to={`profile/${currentUser.id}`}
+									to={`profile/${currentUser.username}`}
 								>
 									<i
 										className="fa-solid fa-user"

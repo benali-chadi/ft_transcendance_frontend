@@ -19,7 +19,7 @@ interface Props {
 
 const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 	const { currentUser } = useContext<UserState>(userContext);
-	const [msgs, setMsgs] = useState<MsgProps[] | null>(null);
+	const [msgs, setMsgs] = useState<MsgProps[]>([]);
 	const [text, setText] = useState("");
 
 	const myRef = useRef(null);
@@ -36,25 +36,24 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 			"-" +
 			(date.getMonth() + 1) +
 			"-" +
-			date.getDay()
+			date.getDate()
 		);
 	};
-	useEffect(() => {
-		socket?.on("chatToClient", (body: any) => {
-			// const msg = body.msg;
-			// if (!room_id || body.room_id !== room_id) return;
-			const msg = body.msg[0];
-			if (!room_id) return;
-			console.log(msg);
-			if (msgs) setMsgs([...msgs, msg]);
-			else setMsgs([msg]);
-		});
-	});
 
 	useEffect(() => {
 		if (socket) {
 			socket.emit("joinRoom", room_id, function (body) {
 				setMsgs([...body]);
+			});
+
+			socket.on("chatToClient", (body: any) => {
+				// const msg = body.msg;
+				// if (!room_id || body.room_id !== room_id) return;
+				const msg = body.msg[0];
+				// if (!msg) return;
+				// if (!room_id) return;
+				if (msgs) setMsgs((prev) => [...prev, msg]);
+				else setMsgs([msg]);
 			});
 		}
 		return () => socket?.emit("leaveRoom", room_id);
@@ -111,7 +110,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 
 			{/* Chat Bubbles */}
 			<div
-				className="flex flex-col h-full gap-4 p-4 mt-auto overflow-y-auto"
+				className="flex flex-col h-full gap-4 p-4 mt-auto overflow-y-auto scrolling"
 				ref={myRef}
 			>
 				{msgs &&

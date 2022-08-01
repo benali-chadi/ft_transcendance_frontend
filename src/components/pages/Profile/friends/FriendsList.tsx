@@ -8,6 +8,7 @@ import { userContext } from "../../../helpers/context";
 import Profile, { outletContext } from "../Profile";
 import FindFriends from "./FindFriends";
 import FriendCard from "./FriendCard";
+import Invitations from "./Invitations";
 
 export interface friend {
 	avatar: string;
@@ -18,18 +19,19 @@ export interface friend {
 const FriendsList: FC = () => {
 	// const [currentUser, setUser] = useState<any>(null);
 	const { currentUser } = useContext<UserState>(userContext);
-	const { profileUser, id } = useOutletContext<outletContext>();
+	const { profileUser, username } = useOutletContext<outletContext>();
 
 	const navigate = useNavigate();
 
 	const [friends, setFriends] = useState<friend[]>([]);
 	const [showFindFriends, setShowFindFriends] = useState(false);
+	const [showInvitations, setShowInvitations] = useState(false);
 	const [text, setText] = useState("");
 
 	async function getFriends() {
 		try {
 			const { data } = await axios.get(
-				`http://localhost:3000/user/${id}/friends`,
+				`http://localhost:3000/user/${username}/friends`,
 				{ withCredentials: true }
 			);
 
@@ -38,7 +40,7 @@ const FriendsList: FC = () => {
 	}
 
 	const handleClick = () => {
-		navigate(`/profile/${id}`);
+		navigate(`/profile/${username}`);
 	};
 
 	useEffect(() => {
@@ -55,6 +57,11 @@ const FriendsList: FC = () => {
 					{showFindFriends && (
 						<FindFriends
 							handleCancel={() => setShowFindFriends(false)}
+						/>
+					)}
+					{showInvitations && (
+						<Invitations
+							handleCancel={() => setShowInvitations(false)}
 						/>
 					)}
 					{/* Back Button */}
@@ -74,14 +81,18 @@ const FriendsList: FC = () => {
 						/>
 					</div>
 					{currentUser.id == profileUser.id && (
-						<div className="flex justify-end px-4 mb-4">
-							<Button color="bg-my-yellow">
-								<h2
-									onClick={() => setShowFindFriends(true)}
-									className="text-xl"
-								>
-									find friends
-								</h2>
+						<div className="flex justify-between px-4 mb-4">
+							<Button
+								color="bg-my-yellow"
+								handleClick={() => setShowInvitations(true)}
+							>
+								<h2 className="text-xl">Show Invitations</h2>
+							</Button>
+							<Button
+								color="bg-my-yellow"
+								handleClick={() => setShowFindFriends(true)}
+							>
+								<h2 className="text-xl">find friends</h2>
 							</Button>
 						</div>
 					)}

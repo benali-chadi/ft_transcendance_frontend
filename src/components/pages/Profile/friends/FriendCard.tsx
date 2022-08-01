@@ -27,7 +27,7 @@ const FriendCard: FC<Props> = ({ user }) => {
 				onClick={() => {
 					setShowDropdown(false);
 					// setProfileUser(user);
-					navigate(`/profile/${user.id}`);
+					navigate(`/profile/${user.username}`);
 					// handleClick(user);
 				}}
 			>

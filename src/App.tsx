@@ -50,7 +50,10 @@ const App: React.FC = () => {
 							}
 						>
 							<Route path="/" element={<Home />} />
-							<Route path="profile/:id" element={<Profile />}>
+							<Route
+								path="profile/:username"
+								element={<Profile />}
+							>
 								<Route
 									path="friends"
 									element={<FriendsList />}
