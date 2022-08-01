@@ -14,30 +14,10 @@ const AuthProvider: FC<Props> = ({ children }) => {
 		query: "(max-width: 767px)",
 	});
 
-	// useEffect((): any => {
-	// 	async function getUserData() {
-	// 		try {
-	// 			let { data } = await axios.get(
-	// 				"http://localhost:3000/user/me",
-	// 				{
-	// 					withCredentials: true,
-	// 				}
-	// 			);
-	// 			setCurrentUser(data);
-	// 			setIsLogged(true);
-	// 		} catch (e) {
-	// 			setCurrentUser(null);
-	// 			// setIsLogged(false);
-	// 		}
-	// 	}
-	// 	getUserData();
-	// }, []);
 	useEffect(() => {
 		let storage = localStorage.getItem("CurrentUser");
-		//console.log(storage);
 		if (storage) {
 			setCurrentUser(JSON.parse(storage));
-			// setIsLogged(true);
 		}
 	}, []);
 

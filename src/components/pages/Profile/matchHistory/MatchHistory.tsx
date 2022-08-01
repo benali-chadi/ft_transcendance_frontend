@@ -9,10 +9,10 @@ import { outletContext } from "../Profile";
 const MatchHistory: FC = () => {
 	const navigate = useNavigate();
 	const [filter, setFilter] = useState("all");
-	const { id } = useOutletContext<outletContext>();
+	const { username } = useOutletContext<outletContext>();
 
 	const handleClick = () => {
-		navigate(`/profile/${id}`);
+		navigate(`/profile/${username}`);
 	};
 
 	return (
