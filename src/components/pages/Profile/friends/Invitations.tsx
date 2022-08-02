@@ -24,7 +24,7 @@ const Invitations: FC<Props> = ({ handleCancel }) => {
 		async function showUsers() {
 			try {
 				const { data } = await axios.get(
-					`${env.BACKEND_URL}user/friend_requests`,
+					`${process.env.REACT_APP_BACKEND_URL}user/friend_requests`,
 					{
 						withCredentials: true,
 					}
@@ -41,7 +41,7 @@ const Invitations: FC<Props> = ({ handleCancel }) => {
 
 	const addFriend = async (user) => {
 		const obj = await axios.post(
-			`${env.BACKEND_URL}user/accept_friend`,
+			`${process.env.REACT_APP_BACKEND_URL}user/accept_friend`,
 			{
 				user: user.id,
 			},

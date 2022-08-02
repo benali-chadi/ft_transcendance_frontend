@@ -27,7 +27,7 @@ const Navigation: FC = () => {
 	const handleLogOutClick = async () => {
 		localStorage.clear();
 		async function logOut() {
-			await axios.get(`${env.BACKEND_URL}auth/logout`, {
+			await axios.get(`${process.env.REACT_APP_BACKEND_URL}auth/logout`, {
 				withCredentials: true,
 			});
 

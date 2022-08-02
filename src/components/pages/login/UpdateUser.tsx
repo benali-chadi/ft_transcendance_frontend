@@ -35,7 +35,7 @@ const UpdateUser: FC<Props> = ({ handleCancelClick }) => {
 							formData.append("avatar", selectedfile);
 						}
 						const updated = await axios.post(
-							`${env.BACKEND_URL}user/update_profile`,
+							`${process.env.REACT_APP_BACKEND_URL}user/update_profile`,
 							formData,
 							{ withCredentials: true }
 						);

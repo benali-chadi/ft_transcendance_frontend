@@ -93,10 +93,19 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 				{/* User Area */}
 				<div className="flex p-4 pb-0 md:p-0">
 					<div className="min-h-[3rem] min-w-[3rem] rounded-full flex gap-4 items-center w-full">
+						{/* User's Avatar */}
 						{user.avatar && (
 							<img
 								src={user.avatar}
-								alt="avatar"
+								alt="User avatar"
+								className="w-[3rem] h-[3rem] rounded-full"
+							/>
+						)}
+						{/* Channel's Icon */}
+						{user.icon && (
+							<img
+								src={user.icon}
+								alt="Channel icon"
 								className="w-[3rem] h-[3rem] rounded-full"
 							/>
 						)}

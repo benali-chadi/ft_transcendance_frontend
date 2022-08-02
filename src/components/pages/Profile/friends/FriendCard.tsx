@@ -72,7 +72,7 @@ const FriendCard: FC<Props> = ({ user }) => {
 								setShowDropdown(false);
 								if (window.confirm("YOU WANT TO BLOCK ME?!")) {
 									const { data } = await axios.post(
-										`${env.BACKEND_URL}user/block_user`,
+										`${process.env.REACT_APP_BACKEND_URL}user/block_user`,
 										{ to_block: user.id },
 										{ withCredentials: true }
 									);
@@ -97,7 +97,7 @@ const FriendCard: FC<Props> = ({ user }) => {
 									window.confirm("YOU WANT TO UNBLOCK ME?!")
 								) {
 									const { data } = await axios.post(
-										`${env.BACKEND_URL}user/unblock_user`,
+										`${process.env.REACT_APP_BACKEND_URL}user/unblock_user`,
 										{ to_unblock: user.id },
 										{ withCredentials: true }
 									);

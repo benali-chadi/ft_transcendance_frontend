@@ -34,7 +34,7 @@ const CreateChannel: FC<Props> = ({ handleCancelClick }) => {
 						if (selectedfile) formData.append("icon", selectedfile);
 						if (password) formData.append("password", password);
 						let { data } = await axios.post(
-							`${env.BACKEND_URL}chat/create_room`,
+							`${process.env.REACT_APP_BACKEND_URL}chat/create_room`,
 							formData,
 							{ withCredentials: true }
 						);

@@ -1,10 +1,11 @@
-import React, { FC, useState } from "react";
+import React, { FC, useContext, useState } from "react";
 import { motion } from "framer-motion";
 // @ts-ignore
 import { threeDotsVariants } from "../../../helpers/variants";
 import axios from "axios";
 import env from "react-dotenv";
 import ChannelMembers from "./ChannelMembers";
+import { ChatContext, ChatState } from "../../../helpers/context";
 
 interface Props {
 	room_id: number;
@@ -21,29 +22,46 @@ const ChatGroupCard: FC<Props> = ({
 	const [showMembers, setShowMembers] = useState(false);
 	const [inChannel, setInChannel] = useState(room.In);
 
-	console.log("room =", room);
+	const { channels, setChannels } = useContext<ChatState>(ChatContext);
 
 	const handleJoinClick = async () => {
 		setShowDropdown(false);
 		try {
 			const { data } = await axios.post(
-				`${env.BACKEND_URL}chat/join_room`,
+				`${process.env.REACT_APP_BACKEND_URL}chat/join_room`,
 				{ room_id: room_id, password: null },
 				{ withCredentials: true }
 			);
-			setInChannel(true);
-		} catch (e) {}
+			let tempChatUser = [...channels];
+			console.log("temp =", tempChatUser);
+			tempChatUser[room_id].In = true;
+
+			setChannels(tempChatUser);
+			// console.log(data);
+			setInChannel(channels.In);
+		} catch (e) {
+			console.log(e);
+		}
 	};
 	const handleLeaveClick = async () => {
 		setShowDropdown(false);
 		try {
 			const { data } = await axios.post(
-				`${env.BACKEND_URL}chat/leave_room`,
+				`${process.env.REACT_APP_BACKEND_URL}chat/leave_room`,
 				{ room_id: room_id },
 				{ withCredentials: true }
 			);
-			setInChannel(false);
-		} catch (e) {}
+
+			let tempChatUser = [...channels];
+			console.log("temp =", tempChatUser);
+			tempChatUser[room_id].In = false;
+
+			setChannels(tempChatUser);
+			console.log(channels.In);
+			setInChannel(channels.In);
+		} catch (e) {
+			console.log(e);
+		}
 	};
 
 	return (

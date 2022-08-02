@@ -19,7 +19,7 @@ const FindChannels: FC<Props> = ({ handleCancel }) => {
 		async function showGroups() {
 			try {
 				const { data } = await axios.get(
-					`${env.BACKEND_URL}chat/all_channels`,
+					`${process.env.REACT_APP_BACKEND_URL}chat/all_channels`,
 					{
 						withCredentials: true,
 					}
