@@ -1,31 +1,16 @@
-import axios from "axios";
 import { motion } from "framer-motion";
-import env from "react-dotenv";
-import React, { useState } from "react";
-import { useEffect } from "react";
-import { FC } from "react";
+import React, { FC, useState } from "react";
 import Modal from "../../../common/Modal";
-import FriendCard from "./FriendCard";
+import FriendCard from "../../Profile/friends/FriendCard";
 
 interface Props {
-	handleCancel: () => void;
+	handleCancel: () => {};
+	members: any;
+	ChannelName: string;
 }
 
-const FindFriends: FC<Props> = ({ handleCancel }) => {
-	const [users, setUsers] = useState([]);
+const ChannelMembers: FC<Props> = ({ handleCancel, members, ChannelName }) => {
 	const [text, setText] = useState("");
-
-	useEffect(() => {
-		async function showUsers() {
-			try {
-				const { data } = await axios.get(`${env.BACKEND_URL}user/all`, {
-					withCredentials: true,
-				});
-				setUsers(data);
-			} catch (e) {}
-		}
-		showUsers();
-	}, []);
 
 	return (
 		<Modal>
@@ -51,6 +36,12 @@ const FindFriends: FC<Props> = ({ handleCancel }) => {
 					>
 						<i className="fa-solid fa-xmark"></i>
 					</div>
+					{/* Channel's Name */}
+					<div className="py-2 text-center">
+						<h1 className="text-2xl font-bold capitalize text-my-blue">
+							{ChannelName} Members
+						</h1>
+					</div>
 					{/* Search area */}
 					<div className="flex items-center p-4 self-center bg-white h-fit rounded-large w-[70%] mb-4">
 						<i className="fa-solid fa-magnifying-glass text-[#655E5E] text-xl"></i>
@@ -62,20 +53,18 @@ const FindFriends: FC<Props> = ({ handleCancel }) => {
 							placeholder="Search..."
 						/>
 					</div>
-					{/* Users */}
+					{/* Data */}
 					<div className="flex flex-wrap justify-center gap-2">
-						{users.length != 0 ? (
-							users
+						{members.length != 0 ? (
+							members
 								.filter((user: any) =>
-									user.username.includes(text)
+									user.member.username.includes(text)
 								)
 								.map((user: any) => {
-									return (
-										<FriendCard key={user.id} user={user} />
-									);
+									return <FriendCard user={user.member} />;
 								})
 						) : (
-							<h1>No Users</h1>
+							<h1>No Data</h1>
 						)}
 					</div>
 				</motion.div>
@@ -84,4 +73,4 @@ const FindFriends: FC<Props> = ({ handleCancel }) => {
 	);
 };
 
-export default FindFriends;
+export default ChannelMembers;

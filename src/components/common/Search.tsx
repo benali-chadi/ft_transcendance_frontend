@@ -4,27 +4,27 @@ import env from "react-dotenv";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { FC } from "react";
-import Modal from "../../../common/Modal";
-import FriendCard from "./FriendCard";
+import Modal from "./Modal";
+import FriendCard from "../pages/Profile/friends/FriendCard";
 
 interface Props {
 	handleCancel: () => void;
 }
 
-const FindFriends: FC<Props> = ({ handleCancel }) => {
-	const [users, setUsers] = useState([]);
+const Search: FC<Props> = ({ handleCancel }) => {
+	const [data, setData] = useState([]);
 	const [text, setText] = useState("");
 
 	useEffect(() => {
-		async function showUsers() {
+		async function showdata() {
 			try {
 				const { data } = await axios.get(`${env.BACKEND_URL}user/all`, {
 					withCredentials: true,
 				});
-				setUsers(data);
+				setData(data);
 			} catch (e) {}
 		}
-		showUsers();
+		showdata();
 	}, []);
 
 	return (
@@ -62,20 +62,25 @@ const FindFriends: FC<Props> = ({ handleCancel }) => {
 							placeholder="Search..."
 						/>
 					</div>
-					{/* Users */}
+					{/* Data */}
 					<div className="flex flex-wrap justify-center gap-2">
-						{users.length != 0 ? (
-							users
+						{data.length != 0 ? (
+							data
 								.filter((user: any) =>
 									user.username.includes(text)
 								)
 								.map((user: any) => {
 									return (
-										<FriendCard key={user.id} user={user} />
+										<div
+											key={user.id}
+											onClick={handleCancel}
+										>
+											<FriendCard user={user} />
+										</div>
 									);
 								})
 						) : (
-							<h1>No Users</h1>
+							<h1>No Data</h1>
 						)}
 					</div>
 				</motion.div>
@@ -84,4 +89,4 @@ const FindFriends: FC<Props> = ({ handleCancel }) => {
 	);
 };
 
-export default FindFriends;
+export default Search;

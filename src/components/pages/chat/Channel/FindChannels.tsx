@@ -5,26 +5,29 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { FC } from "react";
 import Modal from "../../../common/Modal";
-import FriendCard from "./FriendCard";
-
+import ChatUserCard from "../Inbox/ChatUserCard";
+import ChatGroupCard from "./ChatGroupCard";
 interface Props {
 	handleCancel: () => void;
 }
 
-const FindFriends: FC<Props> = ({ handleCancel }) => {
-	const [users, setUsers] = useState([]);
+const FindChannels: FC<Props> = ({ handleCancel }) => {
+	const [channels, setChannels] = useState([]);
 	const [text, setText] = useState("");
 
 	useEffect(() => {
-		async function showUsers() {
+		async function showGroups() {
 			try {
-				const { data } = await axios.get(`${env.BACKEND_URL}user/all`, {
-					withCredentials: true,
-				});
-				setUsers(data);
+				const { data } = await axios.get(
+					`${env.BACKEND_URL}chat/all_channels`,
+					{
+						withCredentials: true,
+					}
+				);
+				setChannels(data);
 			} catch (e) {}
 		}
-		showUsers();
+		showGroups();
 	}, []);
 
 	return (
@@ -62,20 +65,21 @@ const FindFriends: FC<Props> = ({ handleCancel }) => {
 							placeholder="Search..."
 						/>
 					</div>
-					{/* Users */}
+					{/* channels */}
 					<div className="flex flex-wrap justify-center gap-2">
-						{users.length != 0 ? (
-							users
-								.filter((user: any) =>
-									user.username.includes(text)
-								)
-								.map((user: any) => {
-									return (
-										<FriendCard key={user.id} user={user} />
-									);
-								})
+						{channels.length != 0 ? (
+							channels.map((channel: any) => {
+								return (
+									<ChatGroupCard
+										key={channel.id}
+										room={channel}
+										room_id={channel.id}
+									/>
+								);
+								return <div></div>;
+							})
 						) : (
-							<h1>No Users</h1>
+							<h1>No channels</h1>
 						)}
 					</div>
 				</motion.div>
@@ -84,4 +88,4 @@ const FindFriends: FC<Props> = ({ handleCancel }) => {
 	);
 };
 
-export default FindFriends;
+export default FindChannels;
