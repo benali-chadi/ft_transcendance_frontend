@@ -47,10 +47,12 @@ const FriendCard: FC<Props> = ({ user }) => {
 			</div>
 			{/* Three Dots Part */}
 			<div className="relative flex flex-col">
-				<i
-					className="text-xl rounded-full cursor-pointer fa-solid fa-ellipsis-vertical hover:bg-gray-100 w-[2rem] self-end"
+				<div
+					className="hover:bg-gray-100 w-[2rem] cursor-pointer rounded-full flex justify-center items-center"
 					onClick={() => setShowDropdown(!showDropDown)}
-				></i>
+				>
+					<i className="text-xl fa-solid fa-ellipsis-vertical "></i>
+				</div>
 
 				{!blocked ? (
 					<motion.div

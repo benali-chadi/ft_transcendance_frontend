@@ -2,9 +2,9 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import env from "react-dotenv";
 import React, { FC, useState } from "react";
-import Button from "../../common/Button";
-import Card from "../../common/Card";
-import Modal from "../../common/Modal";
+import Modal from "../../../common/Modal";
+import Card from "../../../common/Card";
+import Button from "../../../common/Button";
 
 interface Props {
 	handleCancelClick: () => void;

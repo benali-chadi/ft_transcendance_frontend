@@ -1,7 +1,7 @@
 import React, { FC, useContext, useEffect, useRef, useState } from "react";
 import { userContext, UserState } from "../../helpers/context";
 import { ChatBubble, MsgProps } from "./ChatBubble";
-import ChatUserCard from "./ChatUserCard";
+import ChatUserCard from "./Inbox/ChatUserCard";
 
 const scrollToEnd = (ref) => {
 	ref.current.scroll({

@@ -4,31 +4,32 @@ import Button from "../../common/Button";
 import { userContext } from "../../helpers/context";
 import { chatAreaVariants, pageVariants } from "../../helpers/variants";
 import ChatArea from "./ChatArea";
-import ChatUserCard from "./ChatUserCard";
+import ChatUserCard from "./Inbox/ChatUserCard";
 import { motion } from "framer-motion";
 import { UserState } from "../../helpers/context";
 import axios from "axios";
 import { io } from "socket.io-client";
-import ChatGroupCard from "./ChatGroupCard";
-import { MsgProps } from "./ChatBubble";
-import CreateChannel from "./CreateChannel";
+import ChatGroupCard from "./Channel/ChatGroupCard";
 import env from "react-dotenv";
+import FindChannels from "./Channel/FindChannels";
+import CreateChannel from "./Channel/CreateChannel";
 
 const Chat: FC = () => {
 	const { isMobile } = useContext<UserState>(userContext);
+	const [dms, setDms] = useState([]);
 
 	const [chatUser, setChatUser] = useState<any | null>(null);
-	const [dms, setDms] = useState([]);
 	const [roomId, setRoomId] = useState<number>(0);
 	const [chatSocket, setSocket] = useState<any>();
 	const [channels, setChannels] = useState([]);
 	const [showCreateChannel, setShowCreateChannel] = useState(false);
+	const [showChannels, setShowChannels] = useState(false);
 
 	const handleClick = (user: any, room_id: number) => {
-		// setChatUser(null);
+		setChatUser(null);
 		setRoomId(room_id);
-		// setTimeout(() => setChatUser(user), isMobile ? 500 : 1000);
-		setChatUser(user);
+		setTimeout(() => setChatUser(user), isMobile ? 200 : 700);
+		// setChatUser(user);
 	};
 
 	const [toggle, setToggle] = useState(true);
@@ -78,6 +79,11 @@ const Chat: FC = () => {
 				/>
 			)}
 			<div className={isMobile && chatUser ? "hidden" : "chatSideBar"}>
+				{showChannels && (
+					<FindChannels
+						handleCancel={() => setShowChannels(false)}
+					></FindChannels>
+				)}
 				{/* Upper part */}
 				<div className="flex flex-col gap-4 py-16 bg-[#F0F4FC] md:bg-my-lavender pr-3 rounded-b-large sticky top-0 min-h-[20rem] max-h-[15rem] md:py-8 z-10 md:pl-3">
 					{/* Buttons */}
@@ -116,13 +122,22 @@ const Chat: FC = () => {
 							placeholder="Search..."
 						/>
 					</div>
+					{/* Channel Buttons */}
 					{!toggle && (
-						<Button
-							color="bg-my-yellow self-end"
-							handleClick={() => setShowCreateChannel(true)}
-						>
-							<p className="text-xl">Create a Channel</p>
-						</Button>
+						<div className="flex justify-around">
+							<Button
+								color="bg-my-yellow"
+								handleClick={() => setShowChannels(true)}
+							>
+								<p className="text-base">all Channels</p>
+							</Button>
+							<Button
+								color="bg-my-yellow"
+								handleClick={() => setShowCreateChannel(true)}
+							>
+								<p className="text-base">Create Channel</p>
+							</Button>
+						</div>
 					)}
 				</div>
 				{/* Users */}
@@ -132,7 +147,6 @@ const Chat: FC = () => {
 							return (
 								<ChatUserCard
 									key={dm.room_id}
-									status={dm.member.status}
 									user={dm.member}
 									room_id={dm.room_id}
 									handleClick={handleClick}
