@@ -5,6 +5,7 @@ import { threeDotsVariants } from "../../../helpers/variants";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { outletContext } from "../Profile";
 import axios from "axios";
+import env from "react-dotenv";
 
 interface Props {
 	user: any;
@@ -69,7 +70,7 @@ const FriendCard: FC<Props> = ({ user }) => {
 								setShowDropdown(false);
 								if (window.confirm("YOU WANT TO BLOCK ME?!")) {
 									const { data } = await axios.post(
-										"http://localhost:3000/user/block_user",
+										`${env.BACKEND_URL}user/block_user`,
 										{ to_block: user.id },
 										{ withCredentials: true }
 									);
@@ -94,7 +95,7 @@ const FriendCard: FC<Props> = ({ user }) => {
 									window.confirm("YOU WANT TO UNBLOCK ME?!")
 								) {
 									const { data } = await axios.post(
-										"http://localhost:3000/user/unblock_user",
+										`${env.BACKEND_URL}user/unblock_user`,
 										{ to_unblock: user.id },
 										{ withCredentials: true }
 									);

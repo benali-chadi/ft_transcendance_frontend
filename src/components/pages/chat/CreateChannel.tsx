@@ -1,5 +1,6 @@
 import axios from "axios";
 import { motion } from "framer-motion";
+import env from "react-dotenv";
 import React, { FC, useState } from "react";
 import Button from "../../common/Button";
 import Card from "../../common/Card";
@@ -30,13 +31,14 @@ const CreateChannel: FC<Props> = ({ handleCancelClick }) => {
 						const formData = new FormData();
 						formData.append("name", channelName);
 						formData.append("type", privacy);
-						if (selectedfile)
-							formData.append("icon", selectedfile);
+						if (selectedfile) formData.append("icon", selectedfile);
 						if (password) formData.append("password", password);
-						let {data} = await axios.post("http://localhost:3000/chat/create_room",
-						formData,
-						{withCredentials: true});
-						
+						let { data } = await axios.post(
+							`${env.BACKEND_URL}chat/create_room`,
+							formData,
+							{ withCredentials: true }
+						);
+
 						handleCancelClick();
 					} catch (e) {
 						setShowError(true);

@@ -1,4 +1,5 @@
 import axios from "axios";
+import env from "react-dotenv";
 import React, { FC, useContext, useEffect } from "react";
 import { useState } from "react";
 import { UserState } from "../helpers/context";
@@ -40,7 +41,7 @@ const UserCard: FC<Props> = ({ user }) => {
 			let obj: any;
 			if (buttonMessage === "unblock") {
 				obj = await axios.post(
-					"http://localhost:3000/user/unblock_user",
+					`${env.BACKEND_URL}user/unblock_user`,
 					{
 						to_unblock: user.id,
 					},
@@ -48,7 +49,7 @@ const UserCard: FC<Props> = ({ user }) => {
 				);
 			} else if (buttonMessage === "Add friend") {
 				obj = await axios.post(
-					"http://localhost:3000/user/add_friend",
+					`${env.BACKEND_URL}user/add_friend`,
 					{
 						user: user.id,
 					},
@@ -56,7 +57,7 @@ const UserCard: FC<Props> = ({ user }) => {
 				);
 			} else if (buttonMessage === "Accept invitation") {
 				obj = await axios.post(
-					"http://localhost:3000/user/accept_friend",
+					`${env.BACKEND_URL}user/accept_friend`,
 					{
 						user: user.id,
 					},
@@ -64,7 +65,7 @@ const UserCard: FC<Props> = ({ user }) => {
 				);
 			} else if (buttonMessage === "unfriend") {
 				obj = await axios.post(
-					"http://localhost:3000/user/unfriend",
+					`${env.BACKEND_URL}user/unfriend`,
 					{
 						user: user.id,
 					},
@@ -83,7 +84,7 @@ const UserCard: FC<Props> = ({ user }) => {
 			try {
 				if (!user || user.id === undefined) return;
 				let { data } = await axios.get(
-					`http://localhost:3000/user/${user.username}`,
+					`${env.BACKEND_URL}user/${user.username}`,
 					{
 						withCredentials: true,
 					}

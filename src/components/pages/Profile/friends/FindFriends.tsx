@@ -1,5 +1,6 @@
 import axios from "axios";
 import { motion } from "framer-motion";
+import env from "react-dotenv";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { FC } from "react";
@@ -18,12 +19,9 @@ const FindFriends: FC<Props> = ({ handleCancel }) => {
 	useEffect(() => {
 		async function showUsers() {
 			try {
-				const { data } = await axios.get(
-					"http://localhost:3000/user/all",
-					{
-						withCredentials: true,
-					}
-				);
+				const { data } = await axios.get(`${env.BACKEND_URL}user/all`, {
+					withCredentials: true,
+				});
 				setUsers(data);
 			} catch (e) {}
 		}

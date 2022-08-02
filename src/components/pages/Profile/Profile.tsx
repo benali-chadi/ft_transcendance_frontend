@@ -28,7 +28,7 @@ const Profile: FC<Props> = () => {
 			try {
 				//console.log(test)
 				let { data } = await axios.get(
-					`http://localhost:3000/user/${username}`,
+					`${env.BACKEND_URL}user/${username}`,
 					{
 						withCredentials: true,
 					}

@@ -7,6 +7,7 @@ import logo from "../../../img/logo.png";
 import { ReactComponent as Logo42 } from "../../../img/42logo.svg";
 // import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import env from "react-dotenv";
 // import { useState } from "react";
 
 const Login: FC = () => {
@@ -18,8 +19,8 @@ const Login: FC = () => {
 
 	const handleLoginClick = async () => {
 		// setShowUpdateUser(!showUpdateUser);
-		document.location.href = "http://localhost:3000/auth";
-		//let ret = await axios.get("http://localhost:3000/auth")
+		document.location.href = `${env.BACKEND_URL}auth`;
+		//let ret = await axios.get("${env.BACKEND_URL}auth")
 	};
 
 	return (

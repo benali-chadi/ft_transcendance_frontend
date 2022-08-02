@@ -1,4 +1,5 @@
 import axios from "axios";
+import env from "react-dotenv";
 import React, { FC, useEffect, useState } from "react";
 import { useContext } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
@@ -31,7 +32,7 @@ const FriendsList: FC = () => {
 	async function getFriends() {
 		try {
 			const { data } = await axios.get(
-				`http://localhost:3000/user/${username}/friends`,
+				`${env.BACKEND_URL}user/${username}/friends`,
 				{ withCredentials: true }
 			);
 			setFriends(data);
