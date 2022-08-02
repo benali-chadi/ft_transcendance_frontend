@@ -18,9 +18,12 @@ const Search: FC<Props> = ({ handleCancel }) => {
 	useEffect(() => {
 		async function showdata() {
 			try {
-				const { data } = await axios.get(`${env.BACKEND_URL}user/all`, {
-					withCredentials: true,
-				});
+				const { data } = await axios.get(
+					`${process.env.REACT_APP_BACKEND_URL}user/all`,
+					{
+						withCredentials: true,
+					}
+				);
 				setData(data);
 			} catch (e) {}
 		}

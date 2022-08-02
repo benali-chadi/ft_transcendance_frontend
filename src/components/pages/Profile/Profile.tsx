@@ -1,6 +1,7 @@
 import axios from "axios";
 import { motion } from "framer-motion";
 import React, { FC, useContext, useEffect, useRef, useState } from "react";
+import env from "react-dotenv";
 import { NavLink, Outlet, useParams } from "react-router-dom";
 import Button from "../../common/Button";
 import NoDataFound from "../../common/NoDataFound";
@@ -28,7 +29,7 @@ const Profile: FC<Props> = () => {
 			try {
 				//console.log(test)
 				let { data } = await axios.get(
-					`${env.BACKEND_URL}user/${username}`,
+					`${process.env.REACT_APP_BACKEND_URL}user/${username}`,
 					{
 						withCredentials: true,
 					}

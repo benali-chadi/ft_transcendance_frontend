@@ -17,7 +17,7 @@ interface Props {
 
 const UserCard: FC<Props> = ({ user }) => {
 	// const [currentUser, setUser] = useState<any>(null);
-	const { currentUser } = useContext<UserState>(userContext);
+	const { currentUser, userSocket } = useContext<UserState>(userContext);
 	const [showUpdateUser, setShowUpdateUser] = useState(false);
 	const [buttonMessage, setButton] = useState("");
 
@@ -41,7 +41,7 @@ const UserCard: FC<Props> = ({ user }) => {
 			let obj: any;
 			if (buttonMessage === "unblock") {
 				obj = await axios.post(
-					`${env.BACKEND_URL}user/unblock_user`,
+					`${process.env.REACT_APP_BACKEND_URL}user/unblock_user`,
 					{
 						to_unblock: user.id,
 					},
@@ -49,15 +49,19 @@ const UserCard: FC<Props> = ({ user }) => {
 				);
 			} else if (buttonMessage === "Add friend") {
 				obj = await axios.post(
-					`${env.BACKEND_URL}user/add_friend`,
+					`${process.env.REACT_APP_BACKEND_URL}user/add_friend`,
 					{
 						user: user.id,
 					},
 					{ withCredentials: true }
 				);
+				// userSocket?.emit("add friend", { to_add: user.id }, (data) => {
+				// 	console.log(data);
+				// 	obj = data;
+				// });
 			} else if (buttonMessage === "Accept invitation") {
 				obj = await axios.post(
-					`${env.BACKEND_URL}user/accept_friend`,
+					`${process.env.REACT_APP_BACKEND_URL}user/accept_friend`,
 					{
 						user: user.id,
 					},
@@ -65,7 +69,7 @@ const UserCard: FC<Props> = ({ user }) => {
 				);
 			} else if (buttonMessage === "unfriend") {
 				obj = await axios.post(
-					`${env.BACKEND_URL}user/unfriend`,
+					`${process.env.REACT_APP_BACKEND_URL}user/unfriend`,
 					{
 						user: user.id,
 					},
@@ -84,7 +88,7 @@ const UserCard: FC<Props> = ({ user }) => {
 			try {
 				if (!user || user.id === undefined) return;
 				let { data } = await axios.get(
-					`${env.BACKEND_URL}user/${user.username}`,
+					`${process.env.REACT_APP_BACKEND_URL}user/${user.username}`,
 					{
 						withCredentials: true,
 					}

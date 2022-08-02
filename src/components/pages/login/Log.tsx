@@ -18,7 +18,7 @@ const Log: FC = () => {
 	useEffect(() => {
 		async function test() {
 			let { data } = await axios.get(
-				`${env.BACKEND_URL}auth/redirect?code=${query[0]}`,
+				`${process.env.REACT_APP_BACKEND_URL}auth/redirect?code=${query[0]}`,
 				{ withCredentials: true }
 			);
 			// const browserHistory = createHashHistory();

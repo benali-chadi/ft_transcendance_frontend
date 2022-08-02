@@ -19,8 +19,8 @@ const Login: FC = () => {
 
 	const handleLoginClick = async () => {
 		// setShowUpdateUser(!showUpdateUser);
-		document.location.href = `${env.BACKEND_URL}auth`;
-		//let ret = await axios.get("${env.BACKEND_URL}auth")
+		document.location.href = `${process.env.REACT_APP_BACKEND_URL}auth`;
+		//let ret = await axios.get("${process.env.REACT_APP_BACKEND_URL}auth")
 	};
 
 	return (

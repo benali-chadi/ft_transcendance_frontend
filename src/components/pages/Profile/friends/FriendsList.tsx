@@ -32,7 +32,7 @@ const FriendsList: FC = () => {
 	async function getFriends() {
 		try {
 			const { data } = await axios.get(
-				`${env.BACKEND_URL}user/${username}/friends`,
+				`${process.env.REACT_APP_BACKEND_URL}user/${username}/friends`,
 				{ withCredentials: true }
 			);
 			setFriends(data);
