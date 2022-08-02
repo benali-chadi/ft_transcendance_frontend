@@ -6,6 +6,7 @@ import { userContext } from "../../helpers/context";
 // import { motion } from "framer-motion";
 import Loader from "../../common/Loader";
 import { UserState } from "../../helpers/context";
+import env from "react-dotenv";
 
 const Log: FC = () => {
 	const { setCurrentUser } = useContext<UserState>(userContext);
@@ -17,7 +18,7 @@ const Log: FC = () => {
 	useEffect(() => {
 		async function test() {
 			let { data } = await axios.get(
-				"http://localhost:3000/auth/redirect?code=" + query[0],
+				`${env.BACKEND_URL}auth/redirect?code=${query[0]}`,
 				{ withCredentials: true }
 			);
 			// const browserHistory = createHashHistory();

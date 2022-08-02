@@ -1,5 +1,6 @@
 import axios from "axios";
 import { motion } from "framer-motion";
+import env from "react-dotenv";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { FC } from "react";
@@ -23,7 +24,7 @@ const Invitations: FC<Props> = ({ handleCancel }) => {
 		async function showUsers() {
 			try {
 				const { data } = await axios.get(
-					`http://localhost:3000/user/friend_requests`,
+					`${env.BACKEND_URL}user/friend_requests`,
 					{
 						withCredentials: true,
 					}
@@ -40,7 +41,7 @@ const Invitations: FC<Props> = ({ handleCancel }) => {
 
 	const addFriend = async (user) => {
 		const obj = await axios.post(
-			"http://localhost:3000/user/accept_friend",
+			`${env.BACKEND_URL}user/accept_friend`,
 			{
 				user: user.id,
 			},

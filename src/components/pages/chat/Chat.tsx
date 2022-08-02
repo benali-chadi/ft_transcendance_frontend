@@ -12,6 +12,7 @@ import { io } from "socket.io-client";
 import ChatGroupCard from "./ChatGroupCard";
 import { MsgProps } from "./ChatBubble";
 import CreateChannel from "./CreateChannel";
+import env from "react-dotenv";
 
 const Chat: FC = () => {
 	const { isMobile } = useContext<UserState>(userContext);
@@ -33,7 +34,7 @@ const Chat: FC = () => {
 	const [toggle, setToggle] = useState(true);
 
 	useEffect((): any => {
-		const socket_chat = io("http://localhost:3000/chat", {
+		const socket_chat = io(`${env.BACKEND_URL}chat`, {
 			withCredentials: true,
 		});
 		setSocket(socket_chat);
@@ -44,7 +45,7 @@ const Chat: FC = () => {
 		async function getDms() {
 			try {
 				let { data } = await axios.get(
-					"http://localhost:3000/chat/Dm_channels",
+					`${env.BACKEND_URL}chat/Dm_channels`,
 					{ withCredentials: true }
 				);
 				setDms(data);
@@ -53,7 +54,7 @@ const Chat: FC = () => {
 		async function getGroupChannels() {
 			try {
 				let { data } = await axios.get(
-					"http://localhost:3000/chat/group_channels",
+					`${env.BACKEND_URL}chat/group_channels`,
 					{ withCredentials: true }
 				);
 				console.log(data);
@@ -62,7 +63,6 @@ const Chat: FC = () => {
 		}
 		getDms();
 		getGroupChannels();
-		
 	}, []);
 	return (
 		<motion.div

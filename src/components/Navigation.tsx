@@ -10,6 +10,7 @@ import logo from "../img/logo.png";
 import { motion } from "framer-motion";
 import { navVariants } from "./helpers/variants";
 import { useMediaQuery } from "react-responsive";
+import env from "react-dotenv";
 
 const Navigation: FC = () => {
 	const [showNav, setShoweNav] = useState(false);
@@ -30,7 +31,7 @@ const Navigation: FC = () => {
 		// navigate("/login");
 		localStorage.clear();
 		async function logOut() {
-			await axios.get("http://localhost:3000/auth/logout", {
+			await axios.get(`${env.BACKEND_URL}auth/logout`, {
 				withCredentials: true,
 			});
 

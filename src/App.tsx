@@ -78,12 +78,7 @@ const App: React.FC = () => {
 								</ProtectedRoute>
 							}
 						/>
-						<Route
-							path="/game"
-							element={
-								<Game />
-							}
-						/>
+						<Route path="/game" element={<Game />} />
 						<Route
 							path="/Test"
 							element={

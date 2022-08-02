@@ -1,5 +1,6 @@
 import axios from "axios";
 import { motion } from "framer-motion";
+import env from "react-dotenv";
 import React, { FC, useContext } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -34,7 +35,7 @@ const UpdateUser: FC<Props> = ({ handleCancelClick }) => {
 							formData.append("avatar", selectedfile);
 						}
 						const updated = await axios.post(
-							"http://localhost:3000/user/update_profile",
+							`${env.BACKEND_URL}user/update_profile`,
 							formData,
 							{ withCredentials: true }
 						);
