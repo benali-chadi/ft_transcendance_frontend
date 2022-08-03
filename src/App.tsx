@@ -68,6 +68,7 @@ const App: React.FC = () => {
 									element={<MatchHistory />}
 								/>
 							</Route>
+							<Route path="game" element={<Game />} />
 							<Route path="chat" element={<Chat />} />
 						</Route>
 						<Route
@@ -78,7 +79,6 @@ const App: React.FC = () => {
 								</ProtectedRoute>
 							}
 						/>
-						<Route path="/game" element={<Game />} />
 						<Route
 							path="/Test"
 							element={
