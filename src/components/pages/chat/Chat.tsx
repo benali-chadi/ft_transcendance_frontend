@@ -5,7 +5,7 @@ import { ChatContext, userContext } from "../../helpers/context";
 import { chatAreaVariants, pageVariants } from "../../helpers/variants";
 import ChatArea from "./ChatArea";
 import ChatUserCard from "./Inbox/ChatUserCard";
-import { motion } from "framer-motion";
+import { motion, useForceUpdate } from "framer-motion";
 import { UserState } from "../../helpers/context";
 import axios from "axios";
 import { io } from "socket.io-client";
@@ -20,7 +20,7 @@ const Chat: FC = () => {
 
 	const [chatUser, setChatUser] = useState<any | null>(null);
 	const [roomId, setRoomId] = useState<number>(0);
-	const [chatSocket, setSocket] = useState<any>();
+	const [chatSocket, setChatSocket] = useState<any>();
 	const [channels, setChannels] = useState([]);
 	const [showCreateChannel, setShowCreateChannel] = useState(false);
 	const [showChannels, setShowChannels] = useState(false);
@@ -37,7 +37,7 @@ const Chat: FC = () => {
 		const socket_chat = io(`${process.env.REACT_APP_BACKEND_URL}chat`, {
 			withCredentials: true,
 		});
-		setSocket(socket_chat);
+		setChatSocket(socket_chat);
 		return () => socket_chat.close();
 	}, []);
 
@@ -57,13 +57,14 @@ const Chat: FC = () => {
 					`${process.env.REACT_APP_BACKEND_URL}chat/group_channels`,
 					{ withCredentials: true }
 				);
-				console.log(data);
 				setChannels(data);
 			} catch (e) {}
 		}
 		getDms();
 		getGroupChannels();
 	}, []);
+
+
 	return (
 		<ChatContext.Provider value={{ channels, setChannels }}>
 			<motion.div

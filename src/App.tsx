@@ -10,7 +10,6 @@ import ProtectedRoute from "./components/common/ProtectedRoute";
 import { userContext, UserState } from "./components/helpers/context";
 import { AnimatePresence } from "framer-motion";
 import { useMediaQuery } from "react-responsive";
-// import axios from "axios";
 import Log from "./components/pages/login/Log";
 import Login from "./components/pages/login/Login";
 import Home from "./components/pages/Home";
@@ -21,24 +20,46 @@ import MatchHistory from "./components/pages/Profile/matchHistory/MatchHistory";
 import AchievementsBoard from "./components/pages/Profile/achievements/AchievementsBoard";
 import Game from "./components/game/Game";
 import React from "react";
-// import io from "socket.io-client"
-// import logo42 from "./img/42logo.svg"
+import { io } from "socket.io-client";
 
 const App: React.FC = () => {
 	const [currentUser, setCurrentUser] = useState("");
+	const [userSocket, setSocket] = useState<any>();
+	const [updated, setupdated] = useState(0);
+	const [updatedRelation, setUpdated] = useState(0);
 
 	const isMobile = useMediaQuery({
 		query: "(max-width: 767px)",
 	});
-	const location = useLocation();
 
-	useEffect(() => {
+	useEffect(() : any => {
 		const userStorage = localStorage.getItem("CurrentUser");
 		if (userStorage) setCurrentUser(JSON.parse(userStorage));
+		const socket = io(`${process.env.REACT_APP_BACKEND_URL}user`, {
+			query:{user: userStorage},
+			withCredentials: true
+		}).connect()
+		socket.on("client status", () =>{
+			setupdated((prev) => {
+				return prev + 1
+			});
+		})
+		socket.on("relation status", () =>{
+			setUpdated((prev) => {
+				return prev + 1
+			});
+			window.alert("relation status updated");
+		})
+		setSocket(socket);
+		return () => {
+			userSocket.off("client status");
+			userSocket.off("relation status");
+			userSocket.disconnect();
+		}
 	}, []);
 
 	return (
-		<userContext.Provider value={{ currentUser, setCurrentUser, isMobile }}>
+		<userContext.Provider value={{ currentUser, setCurrentUser, isMobile , userSocket, updated, updatedRelation}}>
 			<div className="h-screen text-4xl font-bold text-center App">
 				<AnimatePresence exitBeforeEnter>
 					<Routes>
