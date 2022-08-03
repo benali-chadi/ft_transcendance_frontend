@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 // @ts-ignore
 import { threeDotsVariants } from "../../../helpers/variants";
@@ -6,18 +6,34 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import { outletContext } from "../Profile";
 import axios from "axios";
 import env from "react-dotenv";
+import { userContext, UserState } from "../../../helpers/context";
 
 interface Props {
 	user: any;
 }
 
 const FriendCard: FC<Props> = ({ user }) => {
+	const { userSocket, updated } = useContext<UserState>(userContext);
 	const navigate = useNavigate();
 	const [showDropDown, setShowDropdown] = useState(false);
 	// const { setProfileUser } = useOutletContext<outletContext>();
+	const [_user, setUser] = useState(user);
 
-	const [blocked, setBlocked] = useState(user.blocked);
+	const [blocked, setBlocked] = useState(_user.blocked);
 
+	async function getUser() {
+		try {
+			const { data } = await axios.get(
+				`${process.env.REACT_APP_BACKEND_URL}user/${_user.username}`,
+				{ withCredentials: true }
+			);
+			setUser(data);
+		} catch (e) {}
+	}
+
+	useEffect(()=> {
+		getUser();
+	}, [updated])
 	// const { setProfileUser } = useOutletContext<outletContext>();
 
 	return (
@@ -28,21 +44,21 @@ const FriendCard: FC<Props> = ({ user }) => {
 				onClick={() => {
 					setShowDropdown(false);
 					// setProfileUser(user);
-					navigate(`/profile/${user.username}`);
+					navigate(`/profile/${_user.username}`);
 					// handleClick(user);
 				}}
 			>
-				{user.avatar && (
+				{_user.avatar && (
 					<img
-						src={user.avatar}
+						src={_user.avatar}
 						alt="avatar"
 						className="w-[3rem] h-[3rem] rounded-full"
 					/>
 				)}
 				{/* Text Part */}
 				<div className="text-left">
-					<h3 className="text-xl">{user.username}</h3>
-					<div className="text-sm font-semibold">{user.status}</div>
+					<h3 className="text-xl">{_user.username}</h3>
+					<div className="text-sm font-semibold">{_user.status}</div>
 				</div>
 			</div>
 			{/* Three Dots Part */}
@@ -71,12 +87,13 @@ const FriendCard: FC<Props> = ({ user }) => {
 							onClick={async () => {
 								setShowDropdown(false);
 								if (window.confirm("YOU WANT TO BLOCK ME?!")) {
-									const { data } = await axios.post(
-										`${process.env.REACT_APP_BACKEND_URL}user/block_user`,
-										{ to_block: user.id },
-										{ withCredentials: true }
-									);
-									setBlocked(data.blocked);
+									userSocket?.emit("relation status", {
+										id: _user.id, to_do: "block_user"
+									}, (res) =>{
+										setBlocked((prev) => {
+											return res.blocked;
+										})
+									})
 								}
 							}}
 						>
@@ -96,12 +113,13 @@ const FriendCard: FC<Props> = ({ user }) => {
 								if (
 									window.confirm("YOU WANT TO UNBLOCK ME?!")
 								) {
-									const { data } = await axios.post(
-										`${process.env.REACT_APP_BACKEND_URL}user/unblock_user`,
-										{ to_unblock: user.id },
-										{ withCredentials: true }
-									);
-									setBlocked(data.blocked);
+									userSocket?.emit("relation status", {
+										id: _user.id, to_do: "unblock_user"
+									}, (res) =>{
+										setBlocked((prev) => {
+											return res.blocked;
+										})
+									})
 								}
 							}}
 						>

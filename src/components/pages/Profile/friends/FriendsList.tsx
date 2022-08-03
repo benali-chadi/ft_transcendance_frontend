@@ -15,13 +15,13 @@ export interface friend {
 	avatar: string;
 	id: number;
 	username: string;
+	status: string;
 }
 
 const FriendsList: FC = () => {
 	// const [currentUser, setUser] = useState<any>(null);
-	const { currentUser } = useContext<UserState>(userContext);
+	const { currentUser, updatedRelation } = useContext<UserState>(userContext);
 	const { profileUser, username } = useOutletContext<outletContext>();
-
 	const navigate = useNavigate();
 
 	const [friends, setFriends] = useState<friend[]>([]);
@@ -48,8 +48,12 @@ const FriendsList: FC = () => {
 		// let test = localStorage.getItem("CurrentUser");
 		// if (test)
 		// 	setUser(JSON.parse(test));
-	}, []);
+	}, [updatedRelation]);
 
+	//useEffect(() => {
+//
+	//},[friends])
+	
 	return (
 		<div className="absolute inset-0 z-10 w-full h-screen px-6 py-20 bg-my-blue md:relative md:h-full">
 			{currentUser !== null ? (

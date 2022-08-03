@@ -17,7 +17,7 @@ interface Props {
 
 const UserCard: FC<Props> = ({ user }) => {
 	// const [currentUser, setUser] = useState<any>(null);
-	const { currentUser, userSocket } = useContext<UserState>(userContext);
+	const { currentUser, userSocket , updatedRelation} = useContext<UserState>(userContext);
 	const [showUpdateUser, setShowUpdateUser] = useState(false);
 	const [buttonMessage, setButton] = useState("");
 
@@ -38,46 +38,17 @@ const UserCard: FC<Props> = ({ user }) => {
 	};
 	async function updateRelation() {
 		try {
-			let obj: any;
-			if (buttonMessage === "unblock") {
-				obj = await axios.post(
-					`${process.env.REACT_APP_BACKEND_URL}user/unblock_user`,
-					{
-						to_unblock: user.id,
-					},
-					{ withCredentials: true }
-				);
-			} else if (buttonMessage === "Add friend") {
-				obj = await axios.post(
-					`${process.env.REACT_APP_BACKEND_URL}user/add_friend`,
-					{
-						user: user.id,
-					},
-					{ withCredentials: true }
-				);
-				// userSocket?.emit("add friend", { to_add: user.id }, (data) => {
-				// 	console.log(data);
-				// 	obj = data;
-				// });
-			} else if (buttonMessage === "Accept invitation") {
-				obj = await axios.post(
-					`${process.env.REACT_APP_BACKEND_URL}user/accept_friend`,
-					{
-						user: user.id,
-					},
-					{ withCredentials: true }
-				);
-			} else if (buttonMessage === "unfriend") {
-				obj = await axios.post(
-					`${process.env.REACT_APP_BACKEND_URL}user/unfriend`,
-					{
-						user: user.id,
-					},
-					{ withCredentials: true }
-				);
-			}
-			let data = obj.data;
-			checkRelation(data);
+			let to_do :string;
+			if (buttonMessage === "unblock") to_do = "unblock_user";
+			else if (buttonMessage === "Add friend") to_do = "add_friend";
+			else if (buttonMessage === "Accept invitation") to_do = "accept_friend";
+			else to_do = "unfriend";
+
+			userSocket?.emit("relation status",{
+				id: user.id, to_do: to_do
+			}, (res: any)=>{
+				checkRelation(res);
+			})
 		} catch (e) {
 			console.log(e);
 		}
@@ -99,7 +70,7 @@ const UserCard: FC<Props> = ({ user }) => {
 			}
 		}
 		getUserData();
-	}, [buttonMessage, user]);
+	}, [buttonMessage, user, updatedRelation]);
 
 	return (
 		<div className="flex flex-col items-center gap-2 min-w-[15rem] max-w-lg m-auto">
