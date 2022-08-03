@@ -1,8 +1,10 @@
-import React, { FC, useState } from "react";
-import { motion } from "framer-motion";
+import React, { FC, useContext, useEffect, useState } from "react";
+import { motion, useForceUpdate } from "framer-motion";
 // @ts-ignore
 import { threeDotsVariants } from "../../../helpers/variants";
 import { useNavigate } from "react-router-dom";
+import { userContext, UserState } from "../../../helpers/context";
+import axios from "axios";
 
 interface Props {
 	user: any;
@@ -11,8 +13,24 @@ interface Props {
 }
 
 const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
+	const { userSocket, updated } = useContext<UserState>(userContext);
 	const [showDropDown, setShowDropdown] = useState(false);
 	const navigate = useNavigate();
+	 const [_user, setUser] = useState(user);
+
+	 async function getUser() {
+	 	try {
+	 		const { data } = await axios.get(
+	 			`${process.env.REACT_APP_BACKEND_URL}user/${_user.username}`,
+	 			{ withCredentials: true }
+	 		);
+	 		setUser(data);
+	 	} catch (e) {}
+		}
+	 
+	useEffect(()=> {
+		getUser();
+	}, [updated])
 
 	return (
 		<div className="flex justify-around p-4 rounded-xl hover:bg-my-light-violet/30 hover:shadow-md">
@@ -21,20 +39,20 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 				className="min-h-[3rem] min-w-[3rem] rounded-full flex justify-center items-center gap-1 cursor-pointer"
 				onClick={() => {
 					setShowDropdown(false);
-					handleClick(user, room_id);
+					handleClick(_user, room_id);
 				}}
 			>
-				{user.avatar && (
+				{_user.avatar && (
 					<img
-						src={user.avatar}
+						src={_user.avatar}
 						alt="avatar"
 						className="w-[3rem] h-[3rem] rounded-full"
 					/>
 				)}
 				{/* Text Part */}
 				<div className="text-left">
-					<h3 className="text-xl">{user.username}</h3>
-					<div className="text-sm font-semibold">{user.status}</div>
+					<h3 className="text-xl">{_user.username}</h3>
+					<div className="text-sm font-semibold">{_user.status}</div>
 				</div>
 			</div>
 			{/* Three Dots Part */}
@@ -52,7 +70,7 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 						className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
 						onClick={() => {
 							setShowDropdown(false);
-							navigate(`/profile/${user.username}`);
+							navigate(`/profile/${_user.username}`);
 						}}
 					>
 						Go to Profile

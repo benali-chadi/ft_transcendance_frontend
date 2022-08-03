@@ -1,11 +1,12 @@
 import axios from "axios";
 import { motion } from "framer-motion";
 import env from "react-dotenv";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useEffect } from "react";
 import { FC } from "react";
 import Modal from "../../../common/Modal";
 import FriendCard from "./FriendCard";
+import { userContext, UserState } from "../../../helpers/context";
 
 interface Props {
 	handleCancel: () => void;

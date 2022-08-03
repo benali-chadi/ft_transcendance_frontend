@@ -1,6 +1,7 @@
 const path = require("path");
 
 const Dotenv = require("dotenv-webpack");
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
 	entry: "./src/index.ts",
@@ -20,5 +21,5 @@ module.exports = {
 		filename: "bundle.js",
 		path: path.resolve(__dirname, "dist"),
 	},
-	plugins: [new Dotenv()],
+	plugins: [new Dotenv(), new ForkTsCheckerWebpackPlugin()],
 };

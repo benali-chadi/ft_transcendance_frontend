@@ -7,7 +7,7 @@ import Button from "../../common/Button";
 import NoDataFound from "../../common/NoDataFound";
 import UserCard from "../../common/UserCard";
 // import  {memoizedUserCard} from "../../common/UserCard";
-import { userContext } from "../../helpers/context";
+import { userContext, UserState } from "../../helpers/context";
 import { pageVariants } from "../../helpers/variants";
 
 interface Props {}
@@ -19,6 +19,7 @@ export interface outletContext {
 }
 
 const Profile: FC<Props> = () => {
+	const { updatedRelation } = useContext<UserState>(userContext);
 	const [profileUser, setProfileUser] = useState<any>({});
 	const { username } = useParams();
 	const [noUserData, setNoUserData] = useState(false);
@@ -28,6 +29,7 @@ const Profile: FC<Props> = () => {
 		async function getUserData() {
 			try {
 				//console.log(test)
+				setIsBlocked(false);
 				let { data } = await axios.get(
 					`${process.env.REACT_APP_BACKEND_URL}user/${username}`,
 					{
@@ -42,7 +44,7 @@ const Profile: FC<Props> = () => {
 			}
 		}
 		getUserData();
-	}, [username]);
+	}, [username, updatedRelation]);
 
 	return (
 		<motion.div
