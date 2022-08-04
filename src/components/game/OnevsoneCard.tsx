@@ -28,9 +28,7 @@ const OnevsoneCard: FC<Props> = ({ /*user1, user2*/ username1, username2, score1
 		>
 			{/* User 1 */}
             <div>
-                <div
-                    className="min-h-[4rem] min-w-[4rem] rounded-full flex justify-center items-center gap-4"
-                >
+                <div className="min-h-[4rem] min-w-[4rem] rounded-full flex justify-center items-center gap-4" >
                     {avatar1 && (
                         <img
                             src={avatar1}
@@ -50,9 +48,7 @@ const OnevsoneCard: FC<Props> = ({ /*user1, user2*/ username1, username2, score1
 
 			{/* User 2 */}
             <div>
-                <div
-                    className="min-h-[4rem] min-w-[4rem] rounded-full flex justify-center items-center gap-4"
-                >
+                <div className="min-h-[4rem] min-w-[4rem] rounded-full flex justify-center items-center gap-4" >
                     {avatar2 && (
                         <img
                             src={avatar2}
@@ -62,7 +58,6 @@ const OnevsoneCard: FC<Props> = ({ /*user1, user2*/ username1, username2, score1
                     )}
                 </div>
                 <h2 className=" font-medium text-lg">{username2}</h2>
-
             </div>
 		</div>
 	);

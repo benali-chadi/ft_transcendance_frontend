@@ -12,21 +12,19 @@ import { useOutletContext } from "react-router-dom";
 // }
 
 interface Props {
+    rank: string,
     username: string,
     avatar: string,
+    xppoints: string,
 }
 
-const LeaderBoardCard: FC<Props> = ({ /*user1, user2*/ username, avatar}) => {
+const LeaderBoardCard: FC<Props> = ({ /*user1, user2*/rank, username, avatar ,xppoints}) => {
 
 	return (
-		<div
-			className={`p-1.5 m-1 flex justify-center gap-[10%] bg-my-green rounded-xl shadow-lg w-[90%]`}
-		>
+		<div className="p-1.5 m-1 gap-3 flex items-center bg-my-green rounded-xl shadow-lg w-[90%]">
 			{/* User CARD*/}
-            <div>
-                <div
-                    className="min-h-[4rem] min-w-[4rem] rounded-full flex  justify-center items-center gap-4"
-                >
+                <h2 className="text-lg font-bold ">{rank}</h2>
+                <div className="min-h-[4rem] min-w-[4rem] rounded-full gap-4" >
                     {avatar && (
                         <img
                             src={avatar}
@@ -35,9 +33,8 @@ const LeaderBoardCard: FC<Props> = ({ /*user1, user2*/ username, avatar}) => {
                         />
                     )}
                 </div>
-                <h2 className=" font-medium text-lg">{username}</h2>
-            
-            </div>
+                <h2 className="font-medium text-lg text-left flex-auto ">{username}</h2>
+                <h2 className="text-lg  text-left font-bold ">{xppoints}</h2>
 		</div>
 	);
 };
