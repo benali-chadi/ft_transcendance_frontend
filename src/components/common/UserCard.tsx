@@ -17,7 +17,8 @@ interface Props {
 
 const UserCard: FC<Props> = ({ user }) => {
 	// const [currentUser, setUser] = useState<any>(null);
-	const { currentUser, userSocket , updatedRelation} = useContext<UserState>(userContext);
+	const { currentUser, userSocket, updatedRelation } =
+		useContext<UserState>(userContext);
 	const [showUpdateUser, setShowUpdateUser] = useState(false);
 	const [buttonMessage, setButton] = useState("");
 
@@ -38,17 +39,23 @@ const UserCard: FC<Props> = ({ user }) => {
 	};
 	async function updateRelation() {
 		try {
-			let to_do :string;
+			let to_do: string;
 			if (buttonMessage === "unblock") to_do = "unblock_user";
 			else if (buttonMessage === "Add friend") to_do = "add_friend";
-			else if (buttonMessage === "Accept invitation") to_do = "accept_friend";
+			else if (buttonMessage === "Accept invitation")
+				to_do = "accept_friend";
 			else to_do = "unfriend";
 
-			userSocket?.emit("relation status",{
-				id: user.id, to_do: to_do
-			}, (res: any)=>{
-				checkRelation(res);
-			})
+			userSocket?.emit(
+				"relation status",
+				{
+					id: user.id,
+					to_do: to_do,
+				},
+				(res: any) => {
+					checkRelation(res);
+				}
+			);
 		} catch (e) {
 			console.log(e);
 		}
@@ -80,13 +87,18 @@ const UserCard: FC<Props> = ({ user }) => {
 				/>
 			)}
 			<div
-				className={`min-h-[8rem] min-w-[8rem] rounded-full bg-gray-300 flex justify-center ${
-					cond ? "cursor-pointer hover:opacity-80" : ""
-				}`}
-				onClick={() => {
-					if (cond) setShowUpdateUser(!showUpdateUser);
-				}}
+				className={`relative min-h-[8rem] min-w-[8rem] rounded-full bg-gray-300 flex justify-center`}
 			>
+				{cond && (
+					<div
+						className={`absolute h-[2rem] w-[2rem] rounded-full bg-blue-500 bottom-0 right-3 flex items-center justify-center cursor-pointer hover:bg-blue-300`}
+						onClick={() => {
+							setShowUpdateUser(!showUpdateUser);
+						}}
+					>
+						<i className="fa-solid fa-pen-to-square text-[1.2rem]"></i>
+					</div>
+				)}
 				{user.avatar && (
 					<img
 						src={user.avatar}
@@ -99,7 +111,6 @@ const UserCard: FC<Props> = ({ user }) => {
 				<h3 className="text-xl text-center text-my-blue">
 					{user.username}
 				</h3>
-				{/* <div className="text-lg">level</div> */}
 				{/* Ladder level */}
 				<div className="relative self-stretch w-full mt-2 bg-gray-300 h-9 rounded-med">
 					<p className="absolute text-base left-[40%] top-[10%]">

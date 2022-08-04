@@ -6,6 +6,7 @@ import axios from "axios";
 import env from "react-dotenv";
 import ChannelMembers from "./ChannelMembers";
 import { ChatContext, ChatState } from "../../../helpers/context";
+import ChannelSettings from "./channelSettings/ChannelSettings";
 
 interface Props {
 	room_id: number;
@@ -21,9 +22,10 @@ const ChatGroupCard: FC<Props> = ({
 	const [showDropDown, setShowDropdown] = useState(false);
 	const [showMembers, setShowMembers] = useState(false);
 	const [inChannel, setInChannel] = useState(room.In);
+	const [showSetting, setShowSettings] = useState(false);
 
 	const { channels, setChannels } = useContext<ChatState>(ChatContext);
-	const ref : any = useRef()
+	const ref: any = useRef();
 	const handleJoinClick = async () => {
 		setShowDropdown(false);
 		try {
@@ -63,21 +65,25 @@ const ChatGroupCard: FC<Props> = ({
 			console.log(e);
 		}
 	};
+	const handleAddMemeberClick = async () => {};
 	useEffect(() => {
 		function handleClickOutside(event) {
 			if (ref.current && !ref.current.contains(event.target)) {
 				setShowDropdown(false);
 			}
-		  }
-		  document.addEventListener("mousedown", handleClickOutside);
-		  return () => {
+		}
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
 			// Unbind the event listener on clean up
 			document.removeEventListener("mousedown", handleClickOutside);
-		  };
-	}, [ref])
+		};
+	}, [ref]);
 
 	return (
-		<div ref={ref} className="flex bg-white justify-around p-4 w-full rounded-xl hover:bg-my-light-violet/30 hover:shadow-md min-w-[15rem]">
+		<div
+			ref={ref}
+			className="flex bg-white justify-around p-4 w-full rounded-xl hover:bg-my-light-violet/30 hover:shadow-md min-w-[15rem]"
+		>
 			{/* Showing Channel's Memebers */}
 			{showMembers && (
 				<ChannelMembers
@@ -86,9 +92,15 @@ const ChatGroupCard: FC<Props> = ({
 					ChannelName={room.name}
 				/>
 			)}
+			{showSetting && (
+				<ChannelSettings
+					room_id={room_id}
+					handleCancel={() => setShowSettings(false)}
+				/>
+			)}
 			{/* Avatar Part */}
 			<div
-				className="min-h-[3rem] min-w-[3rem] rounded-full flex justify-center items-center gap-2 cursor-pointer"
+				className="min-h-[3.5rem] min-w-[3.5rem] rounded-full flex justify-center items-center gap-2 cursor-pointer"
 				onClick={() => {
 					setShowDropdown(false);
 					handleClick(room, room_id);
@@ -96,9 +108,9 @@ const ChatGroupCard: FC<Props> = ({
 			>
 				{room.icon && (
 					<img
-						src={room.icon}
+						src={`${process.env.REACT_APP_BACKEND_URL}${room.icon}`}
 						alt="icon"
-						className="w-[3rem] h-[3rem] rounded-full"
+						className="w-[3.5rem] h-[3.5rem] rounded-full"
 					/>
 				)}
 				{/* Text Part */}
@@ -117,10 +129,10 @@ const ChatGroupCard: FC<Props> = ({
 				<motion.div
 					variants={threeDotsVariants}
 					animate={showDropDown ? "open" : "close"}
-					className={`p-2 text-sm font-light bg-white rounded-xl absolute z-10 top-[25px] left-[-3rem] w-max`}
+					className={`p-2 text-sm font-light bg-white rounded-xl absolute z-10 top-[25px] left-[-5rem] w-max`}
 				>
 					<p
-						className="pb-1 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
+						className="p-1 pb-1 font-normal rounded-md rounded-b-none cursor-pointer hover:bg-gray-100"
 						onClick={() => {
 							setShowDropdown(false);
 							setShowMembers(true);
@@ -128,26 +140,18 @@ const ChatGroupCard: FC<Props> = ({
 					>
 						See members
 					</p>
-					{
-						room.role === "Admin" || room.role === "Owner" ?(
-							<div>
+					{room.role === "Admin" || room.role === "Owner" ? (
+						<div>
 							<p
-							className="p-1 font-normal cursor-pointer hover:bg-gray-100"
-							onClick={handleLeaveClick}
+								className="p-1 border-b-[1px] border-black/50 font-normal cursor-pointer hover:bg-gray-100"
+								onClick={() => setShowSettings(true)}
 							>
-								Add members
+								Channel's settings
 							</p>
-							<p
-							className="p-1 border-b-[1px] border-black/50 font-normal cursor-pointer hover:bg-gray-100"
-							onClick={handleLeaveClick}
-							>
-								remove members
-							</p>
-							</div>
-						):(
-							<div></div>
-						)
-					}
+						</div>
+					) : (
+						<div></div>
+					)}
 					{inChannel ? (
 						<p
 							className="p-1 font-normal cursor-pointer hover:bg-gray-100"
