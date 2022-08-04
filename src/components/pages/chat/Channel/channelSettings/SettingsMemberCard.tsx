@@ -22,11 +22,11 @@ const SettingsMemberCard: FC<Props> = ({
 
 	const [_user, setUser] = useState(user);
 	const [onMute, setOnMute] = useState(false);
-
 	// Mute Settings
 	const [days, setDays] = useState(0);
 	const [hours, setHours] = useState(0);
 	const [minutes, setMinutes] = useState(0);
+	const [muted, setmuted] = useState(false);
 
 	const handleAddMemberClick = async () => {
 		setShowDropdown(false);
@@ -98,6 +98,8 @@ const SettingsMemberCard: FC<Props> = ({
 	const ref: any = useRef();
 
 	useEffect(() => {
+		if (!user.IsMuted || (user.muteDate === new Date()))
+			setmuted(true);
 		getUser();
 	}, [updated]);
 	// const { setProfileUser } = useOutletContext<outletContext>();
@@ -184,33 +186,44 @@ const SettingsMemberCard: FC<Props> = ({
 						>
 							Ban
 						</p>
-						<p
+						{muted && (<p
 							className="p-1 pb-1 font-normal rounded-md rounded-b-none cursor-pointer hover:bg-gray-100"
 							onClick={handleMuteClick}
 						>
 							Mute
-						</p>
+						</p>)}
 						{onMute && (
 							<form
 								className="flex flex-col"
-								onSubmit={(e) => {
+								onSubmit={async (e) => {
 									e.preventDefault();
 
 									setShowDropdown(false);
 									setOnMute(false);
+									try{
+										let date = new Date();
 
-									let date = new Date();
-
-									date.setUTCDate(date.getDate() + days);
-									date.setUTCHours(date.getHours() + hours);
-									date.setUTCMinutes(
-										date.getMinutes() + minutes
-									);
-
-									setDays(0);
-									setHours(0);
-									setMinutes(0);
-									console.log("date =", date);
+										console.log("date =", date);
+										console.log("days =", days);
+										date.setUTCDate(date.getDate() + days);
+										date.setUTCHours(date.getHours() + hours - 1);
+										date.setUTCMinutes(
+											date.getMinutes() + minutes
+										);
+										let { data } = await axios.post(`${process.env.REACT_APP_BACKEND_URL}chat/mute_user`,
+										{
+											user_id: user.id,
+											room_id: room_id,
+											date_unmute: date
+										},
+										{withCredentials: true})
+										setDays(0);
+										setHours(0);
+										setMinutes(0);
+										console.log("data =", data);
+									}catch(e){
+										
+									}
 								}}
 							>
 								<div className="flex justify-between">

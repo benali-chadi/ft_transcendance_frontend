@@ -79,8 +79,6 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 		setText("");
 	};
 
-	console.log(user);
-
 	return (
 		<div className="flex flex-col h-screen md:grid md:grid-rows-[70px_5fr_70px] md:h-full md:shadow-lg md:shadow-gray-400 rounded-med">
 			{/* Channel's Settings */}
