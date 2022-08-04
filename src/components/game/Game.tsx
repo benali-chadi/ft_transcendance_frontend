@@ -282,10 +282,10 @@ export default class Game extends React.Component {
     }
     return (
       <div className="bg-my-lavender md:h-full h-screen md:rounded-r-large px-4 flex flex-col justify-center items-center gap-3">
-        <button onClick={this.startGame}>start game  click</button>
+        {/* <button onClick={this.startGame}>start game  click</button> */}
         {/* {<h1> you vs {this.state.username} </h1>} */}
         <OnevsoneCard username1={obj.Player1UserName} username2={obj.Player2UserName} score1={obj.Player1Score} score2={obj.Player2Score} avatar1={obj.Player1Avatar} avatar2={obj.Player2Avatar} />
-        <div className="rounded-med w-[80%] md:h-[50%] h-[30%] bg-gradient-to-r from-[#D8E3F7] to-[#E4CFBA] flex justify-center" ref={this.myRef}>
+        <div className="rounded-med w-[90%] md:h-[50%] h-[30%] bg-gradient-to-r from-[#D8E3F7] to-[#E4CFBA] flex justify-center relative" ref={this.myRef}>
           <Sketch setup={this.setup} draw={this.sketch} />
         </div>
       </div>

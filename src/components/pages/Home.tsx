@@ -12,7 +12,20 @@ import { userContext, UserState } from "../helpers/context";
 import { motion } from "framer-motion";
 import { pageVariants } from "../helpers/variants";
 import { useNavigate } from "react-router-dom";
+import CurrentlyPlayingCard from "./homecards/CurrentlyPlayingCard";
+import LeaderBoardCard from "./homecards/LeaderBoardCard";
+
+
+
 // import { pageVariantDesktop, pageVariantMobile } from "./helpers/variants";
+
+let obj = {
+	GameId : "1",
+	Player1Score : 0,
+	Player2Score : 2,
+	Player1Avatar : "https://cdn.intra.42.fr/users/small_ybarhdad.jpg",
+	Player2Avatar : "https://cdn.intra.42.fr/users/small_razaha.jpg"
+  }
 
 const Home: FC = () => {
 	// const [currentUser, setUser] = useState<any>(null);
@@ -68,11 +81,19 @@ const Home: FC = () => {
 					<UserCard user={currentUser} />
 				</div>
 				{/* Lists */}
-				<List title="leaderboard" icon="fa-solid fa-crown fa-xs"></List>
-				<List
-					title="Currently Playing"
-					icon="fa-solid fa-table-tennis-paddle-ball fa-xs"
-				></List>
+				<List title="leaderboard" icon="fa-solid fa-crown fa-xs">
+					<div className="flex flex-col items-center p-2 w-full ">
+						<LeaderBoardCard username="ybarhdad" avatar="https://cdn.intra.42.fr/users/small_ybarhdad.jpg" />
+					</div>
+				</List>
+				<List  title="Currently Playing"icon="fa-solid fa-table-tennis-paddle-ball fa-xs">
+					<div className="flex flex-col items-center p-2 w-full ">
+						<CurrentlyPlayingCard score1={obj.Player1Score} score2={obj.Player2Score} avatar1={obj.Player1Avatar} avatar2={obj.Player2Avatar} />
+						<CurrentlyPlayingCard score1={obj.Player1Score} score2={obj.Player2Score} avatar1={obj.Player1Avatar} avatar2={obj.Player2Avatar} />
+						<CurrentlyPlayingCard score1={obj.Player1Score} score2={obj.Player2Score} avatar1={obj.Player1Avatar} avatar2={obj.Player2Avatar} />
+						<CurrentlyPlayingCard score1={obj.Player1Score} score2={obj.Player2Score} avatar1={obj.Player1Avatar} avatar2={obj.Player2Avatar} />
+					</div>
+				</List>
 			</div>
 		</motion.div>
 	);
