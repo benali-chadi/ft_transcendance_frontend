@@ -8,6 +8,7 @@ export interface UserState {
 	setCurrentUser: React.Dispatch<React.SetStateAction<any>> | (() => void),
 	isMobile: boolean,
 	userSocket?: Socket | null,
+	chatSocket?: Socket | null,
 	updated: number,
 	updatedRelation :number
 }
@@ -18,7 +19,8 @@ const initialState: UserState = {
 	isMobile: false,
 	userSocket: null,
 	updated :0,
-	updatedRelation:0
+	updatedRelation:0,
+	chatSocket : null
 }
 
 export const userContext = createContext<UserState>(initialState);

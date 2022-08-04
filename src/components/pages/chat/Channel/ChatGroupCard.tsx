@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState } from "react";
+import React, { FC, useContext, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 // @ts-ignore
 import { threeDotsVariants } from "../../../helpers/variants";
@@ -23,7 +23,7 @@ const ChatGroupCard: FC<Props> = ({
 	const [inChannel, setInChannel] = useState(room.In);
 
 	const { channels, setChannels } = useContext<ChatState>(ChatContext);
-
+	const ref : any = useRef()
 	const handleJoinClick = async () => {
 		setShowDropdown(false);
 		try {
@@ -63,9 +63,21 @@ const ChatGroupCard: FC<Props> = ({
 			console.log(e);
 		}
 	};
+	useEffect(() => {
+		function handleClickOutside(event) {
+			if (ref.current && !ref.current.contains(event.target)) {
+				setShowDropdown(false);
+			}
+		  }
+		  document.addEventListener("mousedown", handleClickOutside);
+		  return () => {
+			// Unbind the event listener on clean up
+			document.removeEventListener("mousedown", handleClickOutside);
+		  };
+	}, [ref])
 
 	return (
-		<div className="flex bg-white justify-around p-4 w-full rounded-xl hover:bg-my-light-violet/30 hover:shadow-md min-w-[15rem]">
+		<div ref={ref} className="flex bg-white justify-around p-4 w-full rounded-xl hover:bg-my-light-violet/30 hover:shadow-md min-w-[15rem]">
 			{/* Showing Channel's Memebers */}
 			{showMembers && (
 				<ChannelMembers
@@ -108,7 +120,7 @@ const ChatGroupCard: FC<Props> = ({
 					className={`p-2 text-sm font-light bg-white rounded-xl absolute z-10 top-[25px] left-[-3rem] w-max`}
 				>
 					<p
-						className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
+						className="pb-1 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
 						onClick={() => {
 							setShowDropdown(false);
 							setShowMembers(true);
@@ -116,6 +128,26 @@ const ChatGroupCard: FC<Props> = ({
 					>
 						See members
 					</p>
+					{
+						room.role === "Admin" || room.role === "Owner" ?(
+							<div>
+							<p
+							className="p-1 font-normal cursor-pointer hover:bg-gray-100"
+							onClick={handleLeaveClick}
+							>
+								Add members
+							</p>
+							<p
+							className="p-1 border-b-[1px] border-black/50 font-normal cursor-pointer hover:bg-gray-100"
+							onClick={handleLeaveClick}
+							>
+								remove members
+							</p>
+							</div>
+						):(
+							<div></div>
+						)
+					}
 					{inChannel ? (
 						<p
 							className="p-1 font-normal cursor-pointer hover:bg-gray-100"

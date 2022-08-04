@@ -1,14 +1,11 @@
 import axios from "axios";
 import { motion } from "framer-motion";
 import React, { FC, useContext, useEffect, useRef, useState } from "react";
-import env from "react-dotenv";
 import { NavLink, Outlet, useParams } from "react-router-dom";
-import Button from "../../common/Button";
 import NoDataFound from "../../common/NoDataFound";
 import UserCard from "../../common/UserCard";
 // import  {memoizedUserCard} from "../../common/UserCard";
 import { userContext, UserState } from "../../helpers/context";
-import { pageVariants } from "../../helpers/variants";
 
 interface Props {}
 
