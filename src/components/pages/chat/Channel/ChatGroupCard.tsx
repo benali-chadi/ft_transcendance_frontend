@@ -64,7 +64,6 @@ const ChatGroupCard: FC<Props> = ({
 		}
 	};
 
-	console.log("room =", room);
 	const handleAddMemeberClick = async () => {};
 	useEffect(() => {
 		function handleClickOutside(event) {
