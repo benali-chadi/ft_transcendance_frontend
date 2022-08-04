@@ -51,7 +51,7 @@ const UpdateUser: FC<Props> = ({ handleCancelClick }) => {
 			>
 				<Card
 					title="Update Profile"
-					icon="fa-solid fa-right-to-bracket"
+					icon="fa-solid fa-pen-to-square text-[1.5rem]"
 					MainButton={
 						<Button
 							color="bg-my-yellow"
