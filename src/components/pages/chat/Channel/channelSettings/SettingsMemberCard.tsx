@@ -19,8 +19,14 @@ const SettingsMemberCard: FC<Props> = ({
 	const { userSocket, updated } = useContext<UserState>(userContext);
 	const navigate = useNavigate();
 	const [showDropDown, setShowDropdown] = useState(false);
-	// const { setProfileUser } = useOutletContext<outletContext>();
+
 	const [_user, setUser] = useState(user);
+	const [onMute, setOnMute] = useState(false);
+
+	// Mute Settings
+	const [days, setDays] = useState(0);
+	const [hours, setHours] = useState(0);
+	const [minutes, setMinutes] = useState(0);
 
 	const handleAddMemberClick = async () => {
 		setShowDropdown(false);
@@ -60,7 +66,8 @@ const SettingsMemberCard: FC<Props> = ({
 		setShowDropdown(false);
 	};
 	const handleMuteClick = () => {
-		setShowDropdown(false);
+		setOnMute(!onMute);
+		// setShowDropdown(false);
 	};
 	const handleDeleteMemberClick = async () => {
 		setShowDropdown(false);
@@ -183,6 +190,88 @@ const SettingsMemberCard: FC<Props> = ({
 						>
 							Mute
 						</p>
+						{onMute && (
+							<form
+								className="flex flex-col"
+								onSubmit={(e) => {
+									e.preventDefault();
+
+									setShowDropdown(false);
+									setOnMute(false);
+
+									let date = new Date();
+
+									date.setUTCDate(date.getDate() + days);
+									date.setUTCHours(date.getHours() + hours);
+									date.setUTCMinutes(
+										date.getMinutes() + minutes
+									);
+
+									setDays(0);
+									setHours(0);
+									setMinutes(0);
+									console.log("date =", date);
+								}}
+							>
+								<div className="flex justify-between">
+									<input
+										type="number"
+										value={days}
+										onChange={(e) => {
+											const value = parseInt(
+												e.target.value
+											);
+											if (!isNaN(value) && value >= 0)
+												setDays(value);
+										}}
+										className="w-[3rem]"
+									/>
+									<p className="self-center text-xs text-gray-500">
+										Days
+									</p>
+								</div>
+								<div className="flex justify-between">
+									<input
+										type="number"
+										value={hours}
+										onChange={(e) => {
+											const value = parseInt(
+												e.target.value
+											);
+											if (!isNaN(value) && value >= 0)
+												setHours(value);
+										}}
+										className="w-[3rem]"
+									/>
+									<p className="self-center text-xs text-gray-500">
+										Hours
+									</p>
+								</div>
+								<div className="flex justify-between">
+									<input
+										type="number"
+										value={minutes}
+										onChange={(e) => {
+											const value = parseInt(
+												e.target.value
+											);
+											if (!isNaN(value) && value >= 0)
+												setMinutes(value);
+										}}
+										className="w-[3rem]"
+									/>
+									<p className="self-center text-xs text-gray-500">
+										Minutes
+									</p>
+								</div>
+								<button
+									type="submit"
+									className="self-center p-1 mt-1 rounded-lg bg-my-yellow hover:opacity-80"
+								>
+									<p className="text-xs">Mute</p>
+								</button>
+							</form>
+						)}
 						<p
 							className="p-1 pb-1 font-normal rounded-md rounded-b-none cursor-pointer hover:bg-gray-100"
 							onClick={handleDeleteMemberClick}

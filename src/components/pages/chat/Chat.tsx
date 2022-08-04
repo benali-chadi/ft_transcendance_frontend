@@ -55,7 +55,6 @@ const Chat: FC = () => {
 					`${process.env.REACT_APP_BACKEND_URL}chat/group_channels`,
 					{ withCredentials: true }
 				);
-				console.log(data);
 				setChannels(data);
 			} catch (e) {}
 		}

@@ -1,7 +1,8 @@
 import axios from "axios";
 import { motion } from "framer-motion";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import Button from "../../../../common/Button";
+import { userContext, UserState } from "../../../../helpers/context";
 
 interface Props {
 	room_id: number;
@@ -9,6 +10,8 @@ interface Props {
 }
 
 const EditChannelInfo: FC<Props> = ({ handleCancelClick, room_id }) => {
+	const { isMobile } = useContext<UserState>(userContext);
+
 	const [channelName, setChannelName] = useState("");
 	const [privacy, setPrivacy] = useState<"Public" | "Private" | "Protected">(
 		"Public"
@@ -51,6 +54,7 @@ const EditChannelInfo: FC<Props> = ({ handleCancelClick, room_id }) => {
 						formData,
 						{ withCredentials: true }
 					);
+					if (isMobile) handleCancelClick();
 				} catch (e) {
 					setShowError(true);
 					setTimeout(() => {
@@ -65,6 +69,16 @@ const EditChannelInfo: FC<Props> = ({ handleCancelClick, room_id }) => {
 					className="absolute cursor-pointer top-3 fa-solid fa-arrow-left md:hidden text-[1.5rem] hover:text-white"
 					onClick={handleCancelClick}
 				></i>
+				{showError && (
+					<motion.div
+						animate={{ opacity: 1, y: 0 }}
+						initial={{ opacity: 0, y: -100 }}
+						transition={{ type: "tween", delay: 0.5 }}
+						className="absolute z-10 top-2 left-[25%] p-2 text-white rounded-lg bg-red-400/70 opacity-40"
+					>
+						<p>Channel Name already exists</p>
+					</motion.div>
+				)}
 				{/* Group Avatar */}
 				<div className="flex flex-col items-center gap-1">
 					<h2 className="font-bold text-white">
@@ -104,16 +118,6 @@ const EditChannelInfo: FC<Props> = ({ handleCancelClick, room_id }) => {
 						/>
 					</div>
 				</div>
-				{showError && (
-					<motion.div
-						animate={{ opacity: 1, y: 0 }}
-						initial={{ opacity: 0, y: -100 }}
-						transition={{ type: "tween", delay: 0.5 }}
-						className="absolute p-2 text-white rounded-lg bg-red-400/70 opacity-40"
-					>
-						<p>Channel Name already exists</p>
-					</motion.div>
-				)}
 				{/* Group Name Input */}
 				<div className="flex flex-col items-center gap-1">
 					<h2 className="font-bold text-white">
