@@ -7,6 +7,7 @@ import { FC } from "react";
 import Modal from "../../../common/Modal";
 import FriendCard from "./FriendCard";
 import { userContext, UserState } from "../../../helpers/context";
+import { cardVariants } from "../../../helpers/variants";
 
 interface Props {
 	handleCancel: () => void;
@@ -39,13 +40,10 @@ const FindFriends: FC<Props> = ({ handleCancel }) => {
 					onClick={handleCancel}
 				></div>
 				<motion.div
-					initial={{ x: "-100vw" }}
-					animate={{ x: 0 }}
-					transition={{ type: "spring", stiffness: 120 }}
-					exit={{
-						x: "100vw",
-						transition: { type: "tween", duration: 0.5 },
-					}}
+					variants={cardVariants}
+					initial="initial"
+					animate="animate"
+					exit="exit"
 					className="h-[50%] min-h-[30rem] w-[50%] min-w-fit overflow-auto bg-my-lavender p-4 flex flex-col rounded-xl shadow-lg relative"
 				>
 					{/* Close Icon */}

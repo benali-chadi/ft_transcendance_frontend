@@ -93,3 +93,23 @@ export const chatAreaVariants = {
 		transitionEnd: { display: "none" },
 	},
 };
+
+export const cardVariants = {
+	initial: {
+		x: "-100vw"
+	},
+	animate: {
+		x: 0,
+		transition: {
+			type: "spring",
+			stiffness: 70
+		}
+	},
+	exit: {
+		x: "100vw",
+		transition: {
+			type: "tween",
+			duration: 0.5
+		}
+	}
+};

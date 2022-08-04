@@ -1,5 +1,6 @@
 import React, { FC, useContext, useEffect, useRef, useState } from "react";
 import { userContext, UserState } from "../../helpers/context";
+import ChannelSettings from "./Channel/channelSettings/ChannelSettings";
 import { ChatBubble, MsgProps } from "./ChatBubble";
 import ChatUserCard from "./Inbox/ChatUserCard";
 
@@ -21,6 +22,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 	const { currentUser } = useContext<UserState>(userContext);
 	const [msgs, setMsgs] = useState<MsgProps[]>([]);
 	const [text, setText] = useState("");
+	const [showSetting, setShowSettings] = useState(false);
 
 	const myRef = useRef(null);
 	const executeScroll = () => scrollToEnd(myRef);
@@ -79,6 +81,14 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 
 	return (
 		<div className="flex flex-col h-screen md:grid md:grid-rows-[70px_5fr_70px] md:h-full md:shadow-lg md:shadow-gray-400 rounded-med">
+			{/* Channel's Settings */}
+			{showSetting && (
+				<ChannelSettings
+					room_id={room_id}
+					handleCancel={() => setShowSettings(false)}
+				/>
+			)}
+
 			{/* Upper Area */}
 			<div className="flex flex-col gap-4 py-16 px-4 bg-[#F0F4FC] md:bg-my-violet rounded-b-large sticky top-0 max-h-[15rem] md:rounded-t-med md:rounded-b-none md:max-h-max md:p-4 md:px-6 md:flex-row-reverse md:justify-between md:gap-0 md:h-full md:items-center md:static">
 				{/* Icons */}
@@ -87,7 +97,12 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 						className="cursor-pointer fa-solid fa-arrow-left md:hidden"
 						onClick={handleClick}
 					></i>
-					<i className="cursor-pointer fa-solid fa-gear md:text-white md:text-2xl"></i>
+					{user.In !== undefined && user.role !== "Member" && (
+						<i
+							className="cursor-pointer fa-solid fa-gear md:text-white md:text-2xl"
+							onClick={() => setShowSettings(true)}
+						></i>
+					)}
 				</div>
 
 				{/* User Area */}
@@ -104,7 +119,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 						{/* Channel's Icon */}
 						{user.icon && (
 							<img
-								src={user.icon}
+								src={`${process.env.REACT_APP_BACKEND_URL}${user.icon}`}
 								alt="Channel icon"
 								className="w-[3rem] h-[3rem] rounded-full"
 							/>
