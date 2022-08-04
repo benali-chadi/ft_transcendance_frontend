@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useRef, useState } from "react";
 import { motion, useForceUpdate } from "framer-motion";
 // @ts-ignore
 import { threeDotsVariants } from "../../../helpers/variants";
@@ -18,6 +18,8 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 	const navigate = useNavigate();
 	 const [_user, setUser] = useState(user);
 
+	 const ref : any = useRef()
+
 	 async function getUser() {
 	 	try {
 	 		const { data } = await axios.get(
@@ -32,8 +34,20 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 		getUser();
 	}, [updated])
 
+	useEffect(() => {
+		function handleClickOutside(event) {
+			if (ref.current && !ref.current.contains(event.target)) {
+				setShowDropdown(false);
+			}
+		  }
+		  document.addEventListener("mousedown", handleClickOutside);
+		  return () => {
+			// Unbind the event listener on clean up
+			document.removeEventListener("mousedown", handleClickOutside);
+		  };
+	}, [ref])
 	return (
-		<div className="flex justify-around p-4 rounded-xl hover:bg-my-light-violet/30 hover:shadow-md">
+		<div ref={ref} className="flex justify-around p-4 rounded-xl hover:bg-my-light-violet/30 hover:shadow-md">
 			{/* Avatar Part */}
 			<div
 				className="min-h-[3rem] min-w-[3rem] rounded-full flex justify-center items-center gap-1 cursor-pointer"

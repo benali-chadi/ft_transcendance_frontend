@@ -8,19 +8,17 @@ import ChatUserCard from "./Inbox/ChatUserCard";
 import { motion, useForceUpdate } from "framer-motion";
 import { UserState } from "../../helpers/context";
 import axios from "axios";
-import { io } from "socket.io-client";
 import ChatGroupCard from "./Channel/ChatGroupCard";
-import env from "react-dotenv";
 import FindChannels from "./Channel/FindChannels";
 import CreateChannel from "./Channel/CreateChannel";
 
 const Chat: FC = () => {
-	const { isMobile } = useContext<UserState>(userContext);
+	const { isMobile, chatSocket } = useContext<UserState>(userContext);
 	const [dms, setDms] = useState([]);
 
 	const [chatUser, setChatUser] = useState<any | null>(null);
 	const [roomId, setRoomId] = useState<number>(0);
-	const [chatSocket, setChatSocket] = useState<any>();
+	//const [chatSocket, setChatSocket] = useState<any>();
 	const [channels, setChannels] = useState([]);
 	const [showCreateChannel, setShowCreateChannel] = useState(false);
 	const [showChannels, setShowChannels] = useState(false);
@@ -33,13 +31,13 @@ const Chat: FC = () => {
 
 	const [toggle, setToggle] = useState(true);
 
-	useEffect((): any => {
-		const socket_chat = io(`${process.env.REACT_APP_BACKEND_URL}chat`, {
-			withCredentials: true,
-		});
-		setChatSocket(socket_chat);
-		return () => socket_chat.close();
-	}, []);
+	//useEffect((): any => {
+		//const socket_chat = io(`${process.env.REACT_APP_BACKEND_URL}chat`, {
+		//	withCredentials: true,
+		//}).connect();
+		//setChatSocket(socket_chat);
+		//return () => socket_chat.disconnect();
+	//}, []);
 
 	useEffect((): any => {
 		async function getDms() {
