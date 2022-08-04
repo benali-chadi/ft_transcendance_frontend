@@ -1,8 +1,5 @@
 import React, { FC } from "react";
-import { useContext } from "react";
-import { userContext } from "../../../helpers/context";
 import pongRackets from "../../../../img/table-tennis.png";
-import { UserState } from "../../../helpers/context";
 import { useOutletContext } from "react-router-dom";
 import { outletContext } from "../Profile";
 

@@ -61,7 +61,7 @@ const ChannelMembers: FC<Props> = ({ handleCancel, members, ChannelName }) => {
 									user.member.username.includes(text)
 								)
 								.map((user: any) => {
-									return <FriendCard key={user.id} user={user.member} />;
+									return <FriendCard key={user.member.id} user={user.member} />;
 								})
 						) : (
 							<h1>No Data</h1>
