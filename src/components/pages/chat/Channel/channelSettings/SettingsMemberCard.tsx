@@ -1,25 +1,83 @@
-import React, { FC, useContext, useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
-// @ts-ignore
-import { threeDotsVariants } from "../../../helpers/variants";
-import { useNavigate, useOutletContext } from "react-router-dom";
-import { outletContext } from "../Profile";
 import axios from "axios";
-import env from "react-dotenv";
-import { userContext, UserState } from "../../../helpers/context";
+import { motion } from "framer-motion";
+import React, { FC, useContext, useEffect, useRef, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+import { userContext, UserState } from "../../../../helpers/context";
+import { threeDotsVariants } from "../../../../helpers/variants";
 
 interface Props {
 	user: any;
+	setMembersUpdated: React.Dispatch<React.SetStateAction<{}>>;
+	room_id: number;
 }
 
-const FriendCard: FC<Props> = ({ user }) => {
+const SettingsMemberCard: FC<Props> = ({
+	user,
+	setMembersUpdated,
+	room_id,
+}) => {
 	const { userSocket, updated } = useContext<UserState>(userContext);
 	const navigate = useNavigate();
 	const [showDropDown, setShowDropdown] = useState(false);
 	// const { setProfileUser } = useOutletContext<outletContext>();
 	const [_user, setUser] = useState(user);
 
-	const [blocked, setBlocked] = useState(_user.blocked);
+	const handleAddMemberClick = async () => {
+		setShowDropdown(false);
+		try {
+			let { data } = await axios.post(
+				`${process.env.REACT_APP_BACKEND_URL}chat/add_member`,
+				{
+					room_id: room_id,
+					user_id: user.id,
+				},
+				{
+					withCredentials: true,
+				}
+			);
+			setMembersUpdated({});
+		} catch (e) {}
+	};
+	const handleChangeMemberRolesClick = async () => {
+		setShowDropdown(false);
+		try {
+			let role = user.role === "Member" ? "Admin" : "Member";
+			let { data } = await axios.post(
+				`${process.env.REACT_APP_BACKEND_URL}chat/change_member_role`,
+				{
+					room_id: room_id,
+					user_id: user.id,
+					role: role,
+				},
+				{
+					withCredentials: true,
+				}
+			);
+			setMembersUpdated({});
+		} catch (e) {}
+	};
+	const handleBanClick = () => {
+		setShowDropdown(false);
+	};
+	const handleMuteClick = () => {
+		setShowDropdown(false);
+	};
+	const handleDeleteMemberClick = async () => {
+		setShowDropdown(false);
+		try {
+			let { data } = await axios.post(
+				`${process.env.REACT_APP_BACKEND_URL}chat/remove_member`,
+				{
+					room_id: room_id,
+					user_id: user.id,
+				},
+				{
+					withCredentials: true,
+				}
+			);
+			setMembersUpdated({});
+		} catch (e) {}
+	};
 
 	async function getUser() {
 		try {
@@ -86,39 +144,17 @@ const FriendCard: FC<Props> = ({ user }) => {
 					<i className="text-xl fa-solid fa-ellipsis-vertical "></i>
 				</div>
 
-				{!blocked ? (
+				{user.role === undefined ? (
 					<motion.div
 						variants={threeDotsVariants}
 						animate={showDropDown ? "open" : "close"}
 						className={`p-2 text-sm font-light bg-white rounded-xl absolute z-10 top-[25px] left-[-3rem] w-max`}
 					>
 						<p
-							className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
-							onClick={() => setShowDropdown(false)}
+							className="p-1 pb-1 font-normal rounded-md rounded-b-none cursor-pointer hover:bg-gray-100"
+							onClick={handleAddMemberClick}
 						>
-							Invite for a game
-						</p>
-						<p
-							className="p-1 font-normal cursor-pointer hover:bg-gray-100"
-							onClick={async () => {
-								setShowDropdown(false);
-								if (window.confirm("YOU WANT TO BLOCK ME?!")) {
-									userSocket?.emit(
-										"relation status",
-										{
-											id: _user.id,
-											to_do: "block_user",
-										},
-										(res) => {
-											setBlocked((prev) => {
-												return res.blocked;
-											});
-										}
-									);
-								}
-							}}
-						>
-							Block User
+							Add Member
 						</p>
 					</motion.div>
 				) : (
@@ -128,28 +164,30 @@ const FriendCard: FC<Props> = ({ user }) => {
 						className={`p-2 text-sm font-light bg-white rounded-xl absolute z-10 top-[25px] left-[-3rem] w-max`}
 					>
 						<p
-							className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
-							onClick={async () => {
-								setShowDropdown(false);
-								if (
-									window.confirm("YOU WANT TO UNBLOCK ME?!")
-								) {
-									userSocket?.emit(
-										"relation status",
-										{
-											id: _user.id,
-											to_do: "unblock_user",
-										},
-										(res) => {
-											setBlocked((prev) => {
-												return res.blocked;
-											});
-										}
-									);
-								}
-							}}
+							className="p-1 pb-1 font-normal rounded-md rounded-b-none cursor-pointer hover:bg-gray-100"
+							onClick={handleChangeMemberRolesClick}
 						>
-							Unblock
+							{user.role === "Member"
+								? "set as admin"
+								: "remove privlige"}
+						</p>
+						<p
+							className="p-1 pb-1 font-normal rounded-md rounded-b-none cursor-pointer hover:bg-gray-100"
+							onClick={handleBanClick}
+						>
+							Ban
+						</p>
+						<p
+							className="p-1 pb-1 font-normal rounded-md rounded-b-none cursor-pointer hover:bg-gray-100"
+							onClick={handleMuteClick}
+						>
+							Mute
+						</p>
+						<p
+							className="p-1 pb-1 font-normal rounded-md rounded-b-none cursor-pointer hover:bg-gray-100"
+							onClick={handleDeleteMemberClick}
+						>
+							Remove Member
 						</p>
 					</motion.div>
 				)}
@@ -158,4 +196,4 @@ const FriendCard: FC<Props> = ({ user }) => {
 	);
 };
 
-export default FriendCard;
+export default SettingsMemberCard;

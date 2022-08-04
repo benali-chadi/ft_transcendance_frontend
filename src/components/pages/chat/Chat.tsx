@@ -32,11 +32,11 @@ const Chat: FC = () => {
 	const [toggle, setToggle] = useState(true);
 
 	//useEffect((): any => {
-		//const socket_chat = io(`${process.env.REACT_APP_BACKEND_URL}chat`, {
-		//	withCredentials: true,
-		//}).connect();
-		//setChatSocket(socket_chat);
-		//return () => socket_chat.disconnect();
+	//const socket_chat = io(`${process.env.REACT_APP_BACKEND_URL}chat`, {
+	//	withCredentials: true,
+	//}).connect();
+	//setChatSocket(socket_chat);
+	//return () => socket_chat.disconnect();
 	//}, []);
 
 	useEffect((): any => {
@@ -55,13 +55,13 @@ const Chat: FC = () => {
 					`${process.env.REACT_APP_BACKEND_URL}chat/group_channels`,
 					{ withCredentials: true }
 				);
+				console.log(data);
 				setChannels(data);
 			} catch (e) {}
 		}
 		getDms();
 		getGroupChannels();
 	}, []);
-
 
 	return (
 		<ChatContext.Provider value={{ channels, setChannels }}>

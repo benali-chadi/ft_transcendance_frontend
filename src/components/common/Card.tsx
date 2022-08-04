@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import React, { FC } from "react";
+import { cardVariants } from "../helpers/variants";
 
 interface Props {
 	title: string;
@@ -25,13 +26,10 @@ const Card: FC<Props> = ({
 				onClick={handleCancel}
 			></div>
 			<motion.div
-				initial={{ x: "-100vw" }}
-				animate={{ x: 0 }}
-				transition={{ type: "spring", stiffness: 120 }}
-				exit={{
-					x: "100vw",
-					transition: { type: "tween", duration: 0.5 },
-				}}
+				variants={cardVariants}
+				initial="initial"
+				animate="animate"
+				exit="exit"
 				className="h-[30%] min-h-max w-[20%] min-w-fit overflow-auto bg-white p-4 flex flex-col justify-between rounded-xl shadow-lg"
 			>
 				{/* Head Part */}
