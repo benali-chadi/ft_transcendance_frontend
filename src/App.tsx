@@ -1,11 +1,9 @@
 import Navigation from "./components/Navigation";
 import {
-	BrowserRouter as Router,
 	Route,
 	Routes,
-	useLocation,
 } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 import { userContext, UserState } from "./components/helpers/context";
 import { AnimatePresence } from "framer-motion";
@@ -25,6 +23,7 @@ import { io } from "socket.io-client";
 const App: React.FC = () => {
 	const [currentUser, setCurrentUser] = useState("");
 	const [userSocket, setSocket] = useState<any>();
+	const [chatSocket, setChatSocket] = useState<any>();
 	const [updated, setupdated] = useState(0);
 	const [updatedRelation, setUpdated] = useState(0);
 
@@ -39,6 +38,9 @@ const App: React.FC = () => {
 			query:{user: userStorage},
 			withCredentials: true
 		}).connect()
+		const socket_chat = io(`${process.env.REACT_APP_BACKEND_URL}chat`, {
+			withCredentials: true,
+		}).connect();
 		socket.on("client status", () =>{
 			setupdated((prev) => {
 				return prev + 1
@@ -51,15 +53,17 @@ const App: React.FC = () => {
 			window.alert("relation status updated");
 		})
 		setSocket(socket);
+		setChatSocket(socket_chat);
 		return () => {
 			userSocket.off("client status");
 			userSocket.off("relation status");
 			userSocket.disconnect();
+			socket_chat.disconnect();
 		}
 	}, []);
 
 	return (
-		<userContext.Provider value={{ currentUser, setCurrentUser, isMobile , userSocket, updated, updatedRelation}}>
+		<userContext.Provider value={{ currentUser, setCurrentUser, isMobile , userSocket, updated, updatedRelation, chatSocket}}>
 			<div className="h-screen text-4xl font-bold text-center App">
 				<AnimatePresence exitBeforeEnter>
 					<Routes>

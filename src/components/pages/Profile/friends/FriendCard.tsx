@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 // @ts-ignore
 import { threeDotsVariants } from "../../../helpers/variants";
@@ -30,14 +30,27 @@ const FriendCard: FC<Props> = ({ user }) => {
 			setUser(data);
 		} catch (e) {}
 	}
+	const ref : any = useRef()
 
 	useEffect(()=> {
 		getUser();
 	}, [updated])
 	// const { setProfileUser } = useOutletContext<outletContext>();
 
+	useEffect(() => {
+		function handleClickOutside(event) {
+			if (ref.current && !ref.current.contains(event.target)) {
+				setShowDropdown(false);
+			}
+		  }
+		  document.addEventListener("mousedown", handleClickOutside);
+		  return () => {
+			// Unbind the event listener on clean up
+			document.removeEventListener("mousedown", handleClickOutside);
+		  };
+	}, [ref])
 	return (
-		<div className="flex flex-shrink-0 justify-around w-fit p-4 bg-white rounded-xl hover:bg-white/50 hover:shadow-lg min-w-[15rem]">
+		<div ref={ref} className="flex flex-shrink-0 justify-around w-fit p-4 bg-white rounded-xl hover:bg-white/50 hover:shadow-lg min-w-[15rem]">
 			{/* Avatar Part */}
 			<div
 				className="min-h-[3rem] min-w-[3rem] rounded-full flex justify-center items-center gap-4 cursor-pointer"

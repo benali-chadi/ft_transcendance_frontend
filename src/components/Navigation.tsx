@@ -10,7 +10,6 @@ import logo from "../img/logo.png";
 import { motion } from "framer-motion";
 import { navVariants } from "./helpers/variants";
 import { useMediaQuery } from "react-responsive";
-import env from "react-dotenv";
 import Search from "./common/Search";
 
 const Navigation: FC = () => {
