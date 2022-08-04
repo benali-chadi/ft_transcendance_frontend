@@ -82,7 +82,7 @@ const ChatGroupCard: FC<Props> = ({
 	return (
 		<div
 			ref={ref}
-			className="flex bg-white justify-around p-4 w-full rounded-xl hover:bg-my-light-violet/30 hover:shadow-md min-w-[15rem]"
+			className="grid grid-cols-[4fr_1fr] bg-white p-4 w-full rounded-xl hover:bg-my-light-violet/30 hover:shadow-md min-w-[15rem]"
 		>
 			{/* Showing Channel's Memebers */}
 			{showMembers && (
@@ -101,7 +101,7 @@ const ChatGroupCard: FC<Props> = ({
 			)}
 			{/* Avatar Part */}
 			<div
-				className="min-h-[3.5rem] min-w-[3.5rem] rounded-full flex justify-center items-center gap-2 cursor-pointer"
+				className=" min-h-[3.5rem] min-w-[3.5rem] rounded-full flex items-center gap-2 cursor-pointer"
 				onClick={() => {
 					setShowDropdown(false);
 					handleClick(room, room_id);
