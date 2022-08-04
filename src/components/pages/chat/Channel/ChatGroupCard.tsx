@@ -55,16 +55,16 @@ const ChatGroupCard: FC<Props> = ({
 			);
 
 			let tempChatUser = [...channels];
-			console.log("temp =", tempChatUser);
 			tempChatUser[room_id].In = false;
 
 			setChannels(tempChatUser);
-			console.log(channels.In);
 			setInChannel(channels.In);
 		} catch (e) {
 			console.log(e);
 		}
 	};
+
+	console.log("room =", room);
 	const handleAddMemeberClick = async () => {};
 	useEffect(() => {
 		function handleClickOutside(event) {
@@ -95,6 +95,7 @@ const ChatGroupCard: FC<Props> = ({
 			{showSetting && (
 				<ChannelSettings
 					room_id={room_id}
+					channelName={room.name}
 					handleCancel={() => setShowSettings(false)}
 				/>
 			)}

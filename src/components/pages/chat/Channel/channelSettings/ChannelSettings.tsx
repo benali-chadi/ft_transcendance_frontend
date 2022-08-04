@@ -9,10 +9,11 @@ import { userContext, UserState } from "../../../../helpers/context";
 
 interface Props {
 	room_id: number;
+	channelName: string;
 	handleCancel: () => void;
 }
 
-const ChannelSettings: FC<Props> = ({ handleCancel, room_id }) => {
+const ChannelSettings: FC<Props> = ({ handleCancel, channelName, room_id }) => {
 	const [toShow, setToShow] = useState<"" | "edit" | "add" | "member">("");
 	const { isMobile } = useContext<UserState>(userContext);
 
@@ -39,15 +40,18 @@ const ChannelSettings: FC<Props> = ({ handleCancel, room_id }) => {
 					{/* Head Part */}
 					<div className="sticky top-0 flex items-center justify-between p-4 shadow-md bg-my-lavender ">
 						<h1 className="text-xl font-bold">
-							'Channel Name' Settings
+							{channelName} Settings
 						</h1>
-						<i className="text-4xl fa-solid fa-gear text-my-violet"></i>
+						<i
+							className="text-4xl cursor-pointer fa-solid fa-xmark text-my-violet hover:opacity-60"
+							onClick={handleCancel}
+						></i>
 					</div>
 					{/* Main Part */}
 					<div className="h-full bg-my-lavender min-h-max md:grid md:grid-cols-[1.5fr_4fr] md:grid-rows-1">
 						{/* Side Bar */}
 						<div
-							className={`h-full flex flex-col justify-between ${
+							className={`h-full flex flex-col justify-between md:shadow-lg z-10 ${
 								toShow !== "" && isMobile ? "hidden" : ""
 							}`}
 						>
@@ -64,6 +68,16 @@ const ChannelSettings: FC<Props> = ({ handleCancel, room_id }) => {
 								</div>
 								<div
 									className={`p-4 cursor-pointer ${
+										toShow === "member"
+											? "bg-gray-300"
+											: "bg-white hover:bg-gray-200"
+									}`}
+									onClick={() => setToShow("member")}
+								>
+									<h2>members settings</h2>
+								</div>
+								<div
+									className={`p-4 cursor-pointer ${
 										toShow === "add"
 											? "bg-gray-300"
 											: "bg-white hover:bg-gray-200"
@@ -71,16 +85,6 @@ const ChannelSettings: FC<Props> = ({ handleCancel, room_id }) => {
 									onClick={() => setToShow("add")}
 								>
 									<h2>add members</h2>
-								</div>
-								<div
-									className={`p-4 cursor-pointer ${
-										toShow === "member"
-											? "bg-gray-300"
-											: "bg-white hover:bg-gray-200"
-									}`}
-									onClick={() => setToShow("member")}
-								>
-									<h2>memebers settings</h2>
 								</div>
 							</div>
 
@@ -91,7 +95,7 @@ const ChannelSettings: FC<Props> = ({ handleCancel, room_id }) => {
 							</div>
 						</div>
 						{/* Setting Part */}
-						<div className="h-full bg-blue-900">
+						<div className="h-full ">
 							{toShow === "edit" && (
 								<EditChannelInfo
 									handleCancelClick={handleCancelClick}
