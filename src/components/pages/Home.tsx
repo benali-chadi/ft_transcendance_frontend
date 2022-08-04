@@ -83,7 +83,9 @@ const Home: FC = () => {
 				{/* Lists */}
 				<List title="leaderboard" icon="fa-solid fa-crown fa-xs">
 					<div className="flex flex-col items-center p-2 w-full ">
-						<LeaderBoardCard username="ybarhdad" avatar="https://cdn.intra.42.fr/users/small_ybarhdad.jpg" />
+						<LeaderBoardCard rank="1" username="ybarhdad" avatar="https://cdn.intra.42.fr/users/small_ybarhdad.jpg" xppoints="300 XP" />
+						<LeaderBoardCard rank="2" username="razaha" avatar="https://cdn.intra.42.fr/users/small_razaha.jpg" xppoints="200 XP" />
+						<LeaderBoardCard rank="3" username="alagrini" avatar="https://cdn.intra.42.fr/users/small_alagrini.jpg" xppoints="100 XP" />
 					</div>
 				</List>
 				<List  title="Currently Playing"icon="fa-solid fa-table-tennis-paddle-ball fa-xs">

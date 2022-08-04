@@ -7,6 +7,8 @@ import OnevsoneCard from "./OnevsoneCard";
 
 const ENDPOINT = "http://localhost:3000/game";
 
+const aspectRatio = 16/9;
+
 const PLAYER_UP = 38; // up arrow
 const PLAYER_DOWN = 40; // down arrow
 const OPPONENT_UP = 90; /* z */
@@ -17,13 +19,12 @@ let directionX = 1;
 let directionY = 1;
 let rn = Math.floor(Math.random() * 100) + 1;
 
-
 export default class Game extends React.Component {
   state = {
     isMaster: false,
     gameStart: false,
     username: "",
-	avatar: "",
+	  avatar: "",
     socket: io(ENDPOINT, { withCredentials: true }),
     width: 0,
     height: 0,
@@ -48,15 +49,26 @@ export default class Game extends React.Component {
   parent : Element;
   lastChangeInX  : boolean= false;
   myRef: React.RefObject<HTMLDivElement>;
+  
+  
   constructor(props: any) {
     super(props);
     this.startGame = this.startGame.bind(this);
     this.updateDimensions = this.updateDimensions.bind(this);
     this.myRef = React.createRef();
   }
+  
   updateDimensions = () => {
     let width = this.myRef.current ? this.myRef.current.clientWidth : (window.innerWidth) * 0.8;
-    let height = this.myRef.current ? this.myRef.current.clientHeight : window.innerHeight * 0.8;
+    let height = width / aspectRatio;
+    if( this.myRef.current && this.myRef.current.clientHeight < height)
+    {
+      height = this.myRef.current ? this.myRef.current.clientHeight : window.innerHeight * 0.8;
+      width = height * aspectRatio;
+      console.log("resize");
+    }
+    // let height = this.myRef.current ? this.myRef.current.lientHeight : window.innerHeight * 0.8;
+
     // let slaveY = this.state.slave.y;
     // let masterY = this.state.master.y;
     this.state.slave.x = width - 25;
@@ -65,8 +77,8 @@ export default class Game extends React.Component {
     // this.state.ball.x÷
     this.setState({ piddaleSize: height / 8 });
     this.setState({
-      width: this.myRef.current ? this.myRef.current.clientWidth : (window.innerWidth) * 0.8,
-      height: this.myRef.current ? this.myRef.current.clientHeight : window.innerHeight * 0.8,
+      width: width,
+      height: height,
     });
   };
 
@@ -92,16 +104,25 @@ export default class Game extends React.Component {
   };
 
   componentDidMount() {
+    
     let width = this.myRef.current ? this.myRef.current.clientWidth : (window.innerWidth) * 0.8;
-    let height = this.myRef.current ? this.myRef.current.clientHeight : window.innerHeight * 0.8;
+    let height = width / aspectRatio;
+    if( this.myRef.current && this.myRef.current.clientHeight < height)
+    {
+      height = this.myRef.current ? this.myRef.current.clientHeight : window.innerHeight * 0.8;
+      width = height * aspectRatio;
+      console.log("resize");
+    }
     this.setState({ lastWidth: width, lastheight: height });
     this.setState({ ball: { x: 0.5, y: 0.4}});
     window.addEventListener("resize", this.updateDimensions);
     this.setState({
       // width: (window.innerWidth) * 0.8,
-      width: (this.myRef.current) ? this.myRef.current.clientWidth : (window.innerWidth) * 0.8,
-      height: this.myRef.current ? this.myRef.current.clientHeight : window.innerHeight * 0.8,
+      width: width,
+      height: height,
     });
+
+
     this.setState({ master: { x: 5, y: 0.45 } });
     this.setState({ slave: { x:  width - 25, y: 0.45 } });
     this.setState({ piddaleSize: height / 8 });
@@ -282,10 +303,11 @@ export default class Game extends React.Component {
     }
     return (
       <div className="bg-my-lavender md:h-full h-screen md:rounded-r-large px-4 flex flex-col justify-center items-center gap-3">
-        {/* <button onClick={this.startGame}>start game  click</button> */}
+        <button onClick={this.startGame}>start game  click</button>
         {/* {<h1> you vs {this.state.username} </h1>} */}
-        <OnevsoneCard username1={obj.Player1UserName} username2={obj.Player2UserName} score1={obj.Player1Score} score2={obj.Player2Score} avatar1={obj.Player1Avatar} avatar2={obj.Player2Avatar} />
-        <div className="rounded-med w-[90%] md:h-[50%] h-[30%] bg-gradient-to-r from-[#D8E3F7] to-[#E4CFBA] flex justify-center relative" ref={this.myRef}>
+        
+        <div className=" w-[90%] md:h-[50%] h-[30%] flex flex-col justify-center items-center gap-2" ref={this.myRef}>
+          <OnevsoneCard username1={obj.Player1UserName} username2={obj.Player2UserName} score1={obj.Player1Score} score2={obj.Player2Score} avatar1={obj.Player1Avatar} avatar2={obj.Player2Avatar} />
           <Sketch setup={this.setup} draw={this.sketch} />
         </div>
       </div>
