@@ -11,6 +11,7 @@ import axios from "axios";
 import ChatGroupCard from "./Channel/ChatGroupCard";
 import FindChannels from "./Channel/FindChannels";
 import CreateChannel from "./Channel/CreateChannel";
+import { useNavigate } from "react-router-dom";
 
 const Chat: FC = () => {
 	const { isMobile, chatSocket } = useContext<UserState>(userContext);
@@ -22,7 +23,8 @@ const Chat: FC = () => {
 	const [channels, setChannels] = useState([]);
 	const [showCreateChannel, setShowCreateChannel] = useState(false);
 	const [showChannels, setShowChannels] = useState(false);
-
+	const navigate = useNavigate();
+	
 	const handleClick = (user: any, room_id: number) => {
 		setChatUser(null);
 		setRoomId(room_id);
@@ -48,7 +50,13 @@ const Chat: FC = () => {
 				);
 				console.log(data);
 				setDms(data);
-			} catch (e) {}
+			} catch (e) {
+				if(e.response.status === 401)
+				{
+					localStorage.clear();
+					navigate("/")
+				}
+			}
 		}
 		async function getGroupChannels() {
 			try {
@@ -58,7 +66,13 @@ const Chat: FC = () => {
 				);
 				console.log(data);
 				setChannels(data);
-			} catch (e) {}
+			} catch (e) {
+				if(e.response.status === 401)
+				{
+					localStorage.clear();
+					navigate("/")
+				}
+			}
 		}
 		getDms();
 		getGroupChannels();

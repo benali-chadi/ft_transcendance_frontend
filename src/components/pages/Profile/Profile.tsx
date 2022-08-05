@@ -1,7 +1,7 @@
 import axios from "axios";
 import { motion } from "framer-motion";
 import React, { FC, useContext, useEffect, useRef, useState } from "react";
-import { NavLink, Outlet, useParams } from "react-router-dom";
+import { NavLink, Outlet, useNavigate, useParams } from "react-router-dom";
 import NoDataFound from "../../common/NoDataFound";
 import UserCard from "../../common/UserCard";
 // import  {memoizedUserCard} from "../../common/UserCard";
@@ -21,6 +21,7 @@ const Profile: FC<Props> = () => {
 	const { username } = useParams();
 	const [noUserData, setNoUserData] = useState(false);
 	const [isBlocked, setIsBlocked] = useState(false);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		async function getUserData() {
@@ -37,7 +38,11 @@ const Profile: FC<Props> = () => {
 				setProfileUser(data);
 			} catch (e) {
 				setNoUserData(true);
-				console.log(e);
+				if(e.response.status === 401)
+				{
+					localStorage.clear();
+					navigate("/")
+				}
 			}
 		}
 		getUserData();
