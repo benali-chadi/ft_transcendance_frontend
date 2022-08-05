@@ -79,6 +79,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 
 		setText("");
 	};
+	const backgroundStyle = "-webkit-overflow-scrolling: touch;";
 
 	return (
 		<div className="flex flex-col h-screen md:grid md:grid-rows-[70px_5fr_70px] md:h-[70vh] md:shadow-lg md:shadow-gray-400 rounded-med">

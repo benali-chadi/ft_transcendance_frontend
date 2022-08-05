@@ -6,10 +6,11 @@ import SettingsMemberCard from "./SettingsMemberCard";
 interface Props {
 	room_id: number;
 	members: boolean;
+	unban: boolean;
 	handleCancel: () => void;
 }
 
-const EditMembers: FC<Props> = ({ handleCancel, room_id, members }) => {
+const EditMembers: FC<Props> = ({ handleCancel, room_id, members, unban }) => {
 	const [data, setData] = useState([]);
 	const [text, setText] = useState("");
 	const [memebersUpdate, setMembersUpdate] = useState({});
@@ -17,22 +18,30 @@ const EditMembers: FC<Props> = ({ handleCancel, room_id, members }) => {
 	useEffect(() => {
 		async function showdata() {
 			try {
-				let data;
-				if (members) {
-					data = await axios.get(
-						`${process.env.REACT_APP_BACKEND_URL}chat/${room_id}/channel_members`,
-						{
-							withCredentials: true,
-						}
-					);
-				} else {
+				let data: any;
+				if (!members) {
 					data = await axios.get(
 						`${process.env.REACT_APP_BACKEND_URL}chat/${room_id}/channel_not_members`,
 						{
 							withCredentials: true,
 						}
 					);
+				} else if (unban){
+					data = await axios.get(
+						`${process.env.REACT_APP_BACKEND_URL}chat/${room_id}/banned_members`,
+						{
+							withCredentials: true,
+						}
+					);
+				} else {
+					data = await axios.get(
+						`${process.env.REACT_APP_BACKEND_URL}chat/${room_id}/channel_members`,
+						{
+							withCredentials: true,
+						}
+					);
 				}
+				console.log(data.data);
 				setData(data.data);
 			} catch (e) {}
 		}

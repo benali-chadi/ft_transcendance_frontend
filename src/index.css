@@ -8,15 +8,12 @@ body {
 .scrolling {
 	overflow-y: auto;
 	scrollbar-width: none;
+	overflow: hidden;
+	-webkit-overflow-scrolling: touch;
 }
 .scrolling::-webkit-scrollbar {
 	display: none;
 }
-
-/*.Chat{
-	height: 70vh !important; 
-}*/
-
 
 @tailwind base;
 @tailwind components;

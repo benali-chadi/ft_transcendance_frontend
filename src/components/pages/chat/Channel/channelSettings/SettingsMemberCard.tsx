@@ -62,8 +62,19 @@ const SettingsMemberCard: FC<Props> = ({
 			setMembersUpdated({});
 		} catch (e) {}
 	};
-	const handleBanClick = () => {
+	const handleBanClick = async () => {
 		setShowDropdown(false);
+		try{
+			let { data } = await axios.post(`${process.env.REACT_APP_BACKEND_URL}chat/mute_user`,
+			{
+				user_id: user.id,
+				room_id: room_id,
+				date_unmute: null
+			},
+			{withCredentials: true});
+			console.log(data);
+			setMembersUpdated({});
+		}catch(e){}
 	};
 	const handleMuteClick = () => {
 		setOnMute(!onMute);
@@ -85,6 +96,19 @@ const SettingsMemberCard: FC<Props> = ({
 			setMembersUpdated({});
 		} catch (e) {}
 	};
+	const handleUnbanMemberClick = async () => {
+		setShowDropdown(false);
+		try{
+			let { data } = await axios.post(`${process.env.REACT_APP_BACKEND_URL}chat/unban`,
+			{
+				user_id: user.id,
+				room_id: room_id,
+			},
+			{withCredentials: true});
+			console.log(data);
+			setMembersUpdated({});
+		}catch(e){}
+	}
 
 	async function getUser() {
 		try {
@@ -98,7 +122,7 @@ const SettingsMemberCard: FC<Props> = ({
 	const ref: any = useRef();
 
 	useEffect(() => {
-		if (!user.IsMuted || (user.muteDate === new Date()))
+		if (!user.IsMuted || (user.muteDate instanceof Date))
 			setmuted(true);
 		getUser();
 	}, [updated]);
@@ -152,7 +176,7 @@ const SettingsMemberCard: FC<Props> = ({
 				>
 					<i className="text-xl fa-solid fa-ellipsis-vertical "></i>
 				</div>
-
+				
 				{user.role === undefined ? (
 					<motion.div
 						variants={threeDotsVariants}
@@ -167,12 +191,15 @@ const SettingsMemberCard: FC<Props> = ({
 						</p>
 					</motion.div>
 				) : (
+					
 					<motion.div
 						variants={threeDotsVariants}
 						animate={showDropDown ? "open" : "close"}
 						className={`p-2 text-sm font-light bg-white rounded-xl absolute z-10 top-[25px] left-[-3rem] w-max`}
 					>
-						<p
+						{user.muteDate ? (
+							<>
+							<p
 							className="p-1 pb-1 font-normal rounded-md rounded-b-none cursor-pointer hover:bg-gray-100"
 							onClick={handleChangeMemberRolesClick}
 						>
@@ -180,12 +207,15 @@ const SettingsMemberCard: FC<Props> = ({
 								? "set as admin"
 								: "remove privlige"}
 						</p>
+						{/* {(!user.IsMuted || user.muteDate) &&  */}
 						<p
 							className="p-1 pb-1 font-normal rounded-md rounded-b-none cursor-pointer hover:bg-gray-100"
 							onClick={handleBanClick}
 						>
 							Ban
 						</p>
+						{/* } */}
+						
 						{muted && (<p
 							className="p-1 pb-1 font-normal rounded-md rounded-b-none cursor-pointer hover:bg-gray-100"
 							onClick={handleMuteClick}
@@ -284,7 +314,22 @@ const SettingsMemberCard: FC<Props> = ({
 									<p className="text-xs">Mute</p>
 								</button>
 							</form>
+							)}
+							</>
+						) : (
+							<p
+								className="p-1 pb-1 font-normal rounded-md rounded-b-none cursor-pointer hover:bg-gray-100"
+								onClick={handleUnbanMemberClick}
+							>
+								Unban
+							</p>
 						)}
+							
+						
+						{/* {
+							user.IsMuted && user.muteDate === null && */}
+							
+						{/* } */}
 						<p
 							className="p-1 pb-1 font-normal rounded-md rounded-b-none cursor-pointer hover:bg-gray-100"
 							onClick={handleDeleteMemberClick}
