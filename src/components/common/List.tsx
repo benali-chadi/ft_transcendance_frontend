@@ -15,7 +15,7 @@ const List: FC<Props> = ({ icon, title, children }) => {
 					{title}
 				</h2>
 			</div>
-			<div className="w-full min-h-[2rem] bg-my-dark-lavender">
+			<div className="w-full min-h-[2rem] bg-my-dark-lavender max-h-[15rem] overflow-auto scrolling flex flex-col items-center">
 				{children}
 			</div>
 		</div>

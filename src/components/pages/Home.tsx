@@ -12,8 +12,8 @@ import { userContext, UserState } from "../helpers/context";
 import { motion } from "framer-motion";
 import { pageVariants } from "../helpers/variants";
 import { useNavigate } from "react-router-dom";
-import CurrentlyPlayingCard from "./homecards/CurrentlyPlayingCard";
-import LeaderBoardCard from "./homecards/LeaderBoardCard";
+import CurrentlyPlayingCard from "../common/homecards/CurrentlyPlayingCard";
+import LeaderBoardCard from "../common/homecards/LeaderBoardCard";
 
 
 
@@ -82,19 +82,19 @@ const Home: FC = () => {
 				</div>
 				{/* Lists */}
 				<List title="leaderboard" icon="fa-solid fa-crown fa-xs">
-					<div className="flex flex-col items-center p-2 w-full ">
+					<>
 						<LeaderBoardCard rank="1" username="ybarhdad" avatar="https://cdn.intra.42.fr/users/small_ybarhdad.jpg" level="7" />
 						<LeaderBoardCard rank="2" username="razaha" avatar="https://cdn.intra.42.fr/users/small_razaha.jpg" level="5" />
 						<LeaderBoardCard rank="3" username="alagrini" avatar="https://cdn.intra.42.fr/users/small_alagrini.jpg" level="3" />
-					</div>
+					</>
 				</List>
 				<List  title="Currently Playing"icon="fa-solid fa-table-tennis-paddle-ball fa-xs">
-					<div className="flex flex-col items-center p-2 w-full ">
+					<>
 						<CurrentlyPlayingCard score1={obj.Player1Score} score2={obj.Player2Score} avatar1={obj.Player1Avatar} avatar2={obj.Player2Avatar} />
 						<CurrentlyPlayingCard score1={obj.Player1Score} score2={obj.Player2Score} avatar1={obj.Player1Avatar} avatar2={obj.Player2Avatar} />
 						<CurrentlyPlayingCard score1={obj.Player1Score} score2={obj.Player2Score} avatar1={obj.Player1Avatar} avatar2={obj.Player2Avatar} />
 						<CurrentlyPlayingCard score1={obj.Player1Score} score2={obj.Player2Score} avatar1={obj.Player1Avatar} avatar2={obj.Player2Avatar} />
-					</div>
+					</>
 				</List>
 			</div>
 		</motion.div>

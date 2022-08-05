@@ -23,7 +23,7 @@ const CurrentlyPlayingCard: FC<Props> = ({ /*user1, user2*/ score1, score2, avat
 
 	return (
 		<div
-			className={`p-1.5 m-1 flex justify-center gap-[10%] bg-my-yellow rounded-xl shadow-lg w-[90%] hover:bg-my-yellow/80`}
+			className={`p-1.5 m-1 min-h-max flex justify-center gap-[10%] bg-my-yellow rounded-xl shadow-lg w-[90%] hover:bg-my-yellow/80`}
 		>
 			{/* User 1 */}
             <div>

@@ -19,6 +19,19 @@ let directionX = 1;
 let directionY = 1;
 let rn = Math.floor(Math.random() * 100) + 1;
 
+
+//To remove
+
+let obj = {
+  id : "1",
+  Player1UserName :  "ybarhdad",
+  Player2UserName : "razaha",
+  Player1Score : 0,
+  Player2Score : 2,
+  Player1Avatar : "https://cdn.intra.42.fr/users/small_ybarhdad.jpg",
+  Player2Avatar : "https://cdn.intra.42.fr/users/small_razaha.jpg"
+}
+
 export default class Game extends React.Component {
   state = {
     isMaster: false,
@@ -61,20 +74,18 @@ export default class Game extends React.Component {
   updateDimensions = () => {
     let width = this.myRef.current ? this.myRef.current.clientWidth : (window.innerWidth) * 0.8;
     let height = width / aspectRatio;
+    
+    //we flow height in case of overflowing parent div
     if( this.myRef.current && this.myRef.current.clientHeight < height)
     {
       height = this.myRef.current ? this.myRef.current.clientHeight : window.innerHeight * 0.8;
       width = height * aspectRatio;
-      console.log("resize");
     }
-    // let height = this.myRef.current ? this.myRef.current.lientHeight : window.innerHeight * 0.8;
 
-    // let slaveY = this.state.slave.y;
-    // let masterY = this.state.master.y;
+
     this.state.slave.x = width - 25;
     this.state.master.x = 5;
-    // this.setState({ ball: { x: 0.5, y: 0.5 } });
-    // this.state.ball.x÷
+
     this.setState({ piddaleSize: height / 8 });
     this.setState({
       width: width,
@@ -111,7 +122,7 @@ export default class Game extends React.Component {
     {
       height = this.myRef.current ? this.myRef.current.clientHeight : window.innerHeight * 0.8;
       width = height * aspectRatio;
-      console.log("resize");
+      // console.log("resize");
     }
     this.setState({ lastWidth: width, lastheight: height });
     this.setState({ ball: { x: 0.5, y: 0.4}});
@@ -159,7 +170,7 @@ export default class Game extends React.Component {
 
 
   sketch = (p5: p5Types) => {
-    this.image =   p5.loadImage("./test.jpeg");
+    this.image =   p5.loadImage("../../img/neon-frame.mov");
     p5.setup = () => {
       p5.createCanvas(this.state.width, this.state.height);
       // p5.image(this.image,0,0);
@@ -221,17 +232,13 @@ export default class Game extends React.Component {
 		// }
       }
       if (this.ballY() > this.state.height || this.ballY() < 0) {
-        console.log("hit the wall 1");
-		this.lastChangeInX = false;
-
+		    this.lastChangeInX = false;
         directionY = -directionY;
       }
       else if (this.ballX() > this.state.width || this.ballX() < 0) {
-        console.log("hit the wall2");
-		// alert("you lose");
-		this.state.ball.x = 0.5;
-		this.state.ball.y = 0.5;
-		this.lastChangeInX = false;
+        this.state.ball.x = 0.5;
+        this.state.ball.y = 0.5;
+        this.lastChangeInX = false;
         directionX = -directionX;
       }  
       p5.createCanvas(this.state.width  ,this.state.height).parent(this.parent);
@@ -287,28 +294,29 @@ export default class Game extends React.Component {
   };
 
   startGame() {
-	console.log("startGame");
     this.state.socket.emit("participate", { startGame: true, random: rn });
   }
 
   render() {
-    let obj = {
-      id : "1",
-      Player1UserName :  "ybarhdad",
-      Player2UserName : "razaha",
-      Player1Score : 0,
-      Player2Score : 2,
-      Player1Avatar : "https://cdn.intra.42.fr/users/small_ybarhdad.jpg",
-      Player2Avatar : "https://cdn.intra.42.fr/users/small_razaha.jpg"
-    }
+
     return (
       <div className="bg-my-lavender md:h-full h-screen md:rounded-r-large px-4 flex flex-col justify-center items-center gap-3">
-        <button onClick={this.startGame}>start game  click</button>
-        {/* {<h1> you vs {this.state.username} </h1>} */}
-        
+        {/* <button onClick={this.startGame}>start game  click</button> */}
         <div className=" w-[90%] md:h-[50%] h-[30%] flex flex-col justify-center items-center gap-2" ref={this.myRef}>
           <OnevsoneCard username1={obj.Player1UserName} username2={obj.Player2UserName} score1={obj.Player1Score} score2={obj.Player2Score} avatar1={obj.Player1Avatar} avatar2={obj.Player2Avatar} />
-          <Sketch setup={this.setup} draw={this.sketch} />
+          <Sketch setup={this.setup} draw={this.sketch}  />
+          <h1 className="text-blue-600" >Choose Skine</h1>
+          <div className="grid grid-cols-3 gap-4">
+            <button>
+              <img src={require("../../img/skin1.png")} alt="skin1" />
+            </button>
+            <button>
+              <img src={require("../../img/skin2.png")} alt="skin2" />
+            </button>
+            <button>
+              <img src={require("../../img/skin3.png")} alt="skin3" />
+            </button>
+          </div>
         </div>
       </div>
     );
