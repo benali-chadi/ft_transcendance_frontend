@@ -170,7 +170,7 @@ export default class Game extends React.Component {
 
 
   sketch = (p5: p5Types) => {
-    this.image =   p5.loadImage("../../img/neon-frame.mov");
+    // this.image =   p5.loadImage("../../img/neon-frame.mov");
     p5.setup = () => {
       p5.createCanvas(this.state.width, this.state.height);
       // p5.image(this.image,0,0);
