@@ -81,7 +81,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 	const backgroundStyle = "-webkit-overflow-scrolling: touch;"
 	
 	return (
-		<div className="flex flex-col h-screen md:grid md:grid-rows-[70px_5fr_70px] md:h-full md:shadow-lg md:shadow-gray-400 rounded-med">
+		<div  className="chat flex flex-col md:grid md:grid-rows-[70px_5fr_70px] md:h-full md:shadow-lg md:shadow-gray-400 rounded-med">
 			{/* Channel's Settings */}
 			{showSetting && (
 				<ChannelSettings
