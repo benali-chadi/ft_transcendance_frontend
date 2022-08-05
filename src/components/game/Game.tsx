@@ -308,13 +308,13 @@ export default class Game extends React.Component {
           <h1 className="text-blue-600" >Choose Skine</h1>
           <div className="grid grid-cols-3 gap-4">
             <button>
-              <img src={require("../../img/skin1.png")} alt="skin1" />
+              <img src={require("../../img/ping-pong.png")} alt="skin1" />
             </button>
             <button>
-              <img src={require("../../img/skin2.png")} alt="skin2" />
+              <img src={require("../../img/ping-pong.png")} alt="skin2" />
             </button>
             <button>
-              <img src={require("../../img/skin3.png")} alt="skin3" />
+              <img src={require("../../img/ping-pong.png")} alt="skin3" />
             </button>
           </div>
         </div>
