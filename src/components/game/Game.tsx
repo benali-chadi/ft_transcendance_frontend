@@ -34,6 +34,7 @@ let obj = {
 
 export default class Game extends React.Component {
   state = {
+    bg_color:"'#3065c8'",
     isMaster: false,
     gameStart: false,
     username: "",
@@ -243,7 +244,7 @@ export default class Game extends React.Component {
       }  
       p5.createCanvas(this.state.width  ,this.state.height).parent(this.parent);
 
-      p5.background('#3065c8');
+      p5.background(this.state.bg_color);
       p5.rect(
         this.state.master.x,
         this.getMasterY(),
@@ -307,14 +308,20 @@ export default class Game extends React.Component {
           <Sketch setup={this.setup} draw={this.sketch}  />
           <h1 className="text-blue-600" >Choose Skine</h1>
           <div className="grid grid-cols-3 gap-4">
-            <button>
-              <img src={require("../../img/ping-pong.png")} alt="skin1" />
+            <button className="bg-indigo-500" onClick={() => {
+              this.state.bg_color = "#555555";
+            }}>
+              <img src={require("../../img/skin1.jpg")} alt="skin1" />
             </button>
-            <button>
-              <img src={require("../../img/ping-pong.png")} alt="skin2" />
+            <button className="bg-red-500" onClick={() => {
+              this.state.bg_color = "#999999";
+            }}>
+             <img src={require("../../img/skin2.jpg")} alt="skin1" />
             </button>
-            <button>
-              <img src={require("../../img/ping-pong.png")} alt="skin3" />
+            <button className="bg-yellow-500" onClick={() => {
+              this.state.bg_color = "#444444";
+            }}>
+              <img src={require("../../img/skin3.jpg")} alt="skin1" />
             </button>
           </div>
         </div>
