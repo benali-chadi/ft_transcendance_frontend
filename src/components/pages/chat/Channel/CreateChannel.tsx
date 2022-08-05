@@ -71,7 +71,7 @@ const CreateChannel: FC<Props> = ({ handleCancelClick }) => {
 					}
 					handleCancel={handleCancelClick}
 				>
-					<div className="relative flex flex-col items-center gap-4 ">
+					<div className="relative flex flex-col items-center gap-4 mb-2 ">
 						{/* Group Avatar */}
 						<div className="avatarUpload">
 							<div
