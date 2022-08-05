@@ -29,6 +29,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 
 	const parsedDate = (dateString: string) => {
 		let date = new Date(dateString);
+		console.log(date.getHours());
 		return (
 			date.getHours() +
 			":" +
@@ -80,7 +81,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 	};
 
 	return (
-		<div className="flex flex-col h-screen md:grid md:grid-rows-[70px_5fr_70px] md:h-full md:shadow-lg md:shadow-gray-400 rounded-med">
+		<div className="flex flex-col h-screen md:grid md:grid-rows-[70px_5fr_70px] md:h-[70vh] md:shadow-lg md:shadow-gray-400 rounded-med">
 			{/* Channel's Settings */}
 			{showSetting && (
 				<ChannelSettings
@@ -137,7 +138,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 
 			{/* Chat Bubbles */}
 			<div
-				className="flex flex-col h-full gap-4 p-4 mt-auto overflow-y-auto scrolling"
+				className="flex flex-col max-h-full gap-4 p-4 mt-auto overflow-y-auto"
 				ref={myRef}
 			>
 				{msgs &&

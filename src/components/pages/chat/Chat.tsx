@@ -46,6 +46,7 @@ const Chat: FC = () => {
 					`${process.env.REACT_APP_BACKEND_URL}chat/Dm_channels`,
 					{ withCredentials: true }
 				);
+				console.log(data);
 				setDms(data);
 			} catch (e) {}
 		}
@@ -55,6 +56,7 @@ const Chat: FC = () => {
 					`${process.env.REACT_APP_BACKEND_URL}chat/group_channels`,
 					{ withCredentials: true }
 				);
+				console.log(data);
 				setChannels(data);
 			} catch (e) {}
 		}
@@ -69,7 +71,7 @@ const Chat: FC = () => {
 				initial="initial"
 				animate="animate"
 				exit="exit"
-				className="h-screen md:h-full bg-my-lavender min-h-max md:rounded-large md:rounded-l-none md:grid md:grid-cols-[1fr_4fr] md:grid-rows-1 "
+				className="h-screen md:h-full bg-my-lavender md:rounded-large md:rounded-l-none md:grid md:grid-cols-[1fr_4fr] md:grid-rows-1"
 			>
 				{!toggle && showCreateChannel && (
 					<CreateChannel
@@ -144,7 +146,7 @@ const Chat: FC = () => {
 					</div>
 					{/* Users or Channels */}
 					<div className="flex flex-col h-full gap-4 px-8 mt-3 overflow-auto scrolling">
-						{toggle && dms.length ? (
+						{toggle ? (
 							dms.map((dm: any) => {
 								return (
 									<ChatUserCard

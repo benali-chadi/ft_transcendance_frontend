@@ -5,7 +5,7 @@ export interface MsgProps {
 	date: string;
 	me: boolean;
 	user?: any;
-	room_id:number;
+	room_id: number;
 }
 
 export const ChatBubble: FC<MsgProps> = ({ text, date, me, user }) => {
@@ -38,7 +38,7 @@ export const ChatBubble: FC<MsgProps> = ({ text, date, me, user }) => {
 						: " bg-white rounded-bl-none"
 				}`}
 			>
-				<p className="self-start text-base font-medium text-left">
+				<p className="self-start text-base font-medium text-left break-words">
 					{text}
 				</p>
 				<p className="absolute text-sm font-normal text-gray-400 bottom-1 right-4">

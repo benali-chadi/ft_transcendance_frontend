@@ -124,7 +124,7 @@ const UpdateUser: FC<Props> = ({ handleCancelClick }) => {
 						<input
 							type="text"
 							placeholder="Choose Your Username"
-							className="rounded-large h-10 border-black border-[1px] px-3 font-Poppins"
+							className="rounded-large h-10 border-black border-[1px] px-3 font-Poppins w-[70%]"
 							required
 							value={username}
 							onChange={(e) => setUsername(e.target.value)}

@@ -30,7 +30,7 @@ const Card: FC<Props> = ({
 				initial="initial"
 				animate="animate"
 				exit="exit"
-				className="h-[30%] min-h-max w-[20%] min-w-fit overflow-auto bg-white p-4 flex flex-col justify-between rounded-xl shadow-lg"
+				className="scrolling h-[30%] min-h-max w-[20%] min-w-fit overflow-auto bg-white p-4 flex flex-col justify-between rounded-xl shadow-lg"
 			>
 				{/* Head Part */}
 				<div className="flex justify-between">

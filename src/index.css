@@ -13,6 +13,11 @@ body {
 	display: none;
 }
 
+/*.Chat{
+	height: 70vh !important; 
+}*/
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

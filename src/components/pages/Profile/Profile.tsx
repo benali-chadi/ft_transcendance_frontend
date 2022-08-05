@@ -52,7 +52,7 @@ const Profile: FC<Props> = () => {
 			className="h-screen overflow-auto scrolling min-h-max md:grid md:h-full md:justify-center md:rounded-large md:grid-cols-[2fr_5fr] md:rounded-l-none bg-my-blue"
 		>
 			{!noUserData && (
-				<div className="h-full md:rounded-r-large bg-my-lavender">
+				<div className="sticky top-0 h-full md:rounded-r-large bg-my-lavender">
 					<div className="p-[5rem]">
 						<UserCard user={profileUser} />
 					</div>
@@ -87,7 +87,7 @@ const Profile: FC<Props> = () => {
 				</div>
 			)}
 			{noUserData && <NoDataFound />}
-			<div className="w-full">
+			<div className="w-full max-h-[80vh]">
 				<Outlet context={{ profileUser, setProfileUser, username }} />
 			</div>
 		</motion.div>
