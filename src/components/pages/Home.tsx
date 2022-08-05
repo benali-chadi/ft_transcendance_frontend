@@ -28,6 +28,7 @@ let obj = {
 const Home: FC = () => {
 	// const [currentUser, setUser] = useState<any>(null);
 	const { currentUser } = useContext<UserState>(userContext);
+	const [toggle, setToggle] = useState(false);
 	const backgroundStyle = {
 		backgroundImage: `url('${background}')`,
 	};
@@ -44,7 +45,7 @@ const Home: FC = () => {
 		>
 			{/* Game System */}
 			<div
-				className="p-8 overflow-auto bg-no-repeat bg-cover scrolling h-3/5 rounded-b-large md:col-span-3 md:h-full md:justify-center md:rounded-large md:rounded-l-none "
+				className="top-0 p-8 overflow-auto bg-no-repeat bg-cover scrolling h-3/5 rounded-b-large md:col-span-3 md:h-full md:justify-center md:rounded-large md:rounded-l-none "
 				style={backgroundStyle}
 			>
 				{/* Headers */}
@@ -75,27 +76,103 @@ const Home: FC = () => {
 				</div>
 			</div>
 			{/* The Right\bottom Side */}
-			<div className="flex flex-col max-h-full gap-8 p-8 overflow-auto md:col-span-2">
+			<div className="flex flex-col gap-8 p-8 md:col-span-2">
 				{/* User */}
 				<div className="hidden w-full h-fit md:block">
 					<UserCard user={currentUser} />
 				</div>
 				{/* Lists */}
-				<List title="leaderboard" icon="fa-solid fa-crown fa-xs">
-					<>
-						<LeaderBoardCard rank="1" username="ybarhdad" avatar="https://cdn.intra.42.fr/users/small_ybarhdad.jpg" level="7" />
-						<LeaderBoardCard rank="2" username="razaha" avatar="https://cdn.intra.42.fr/users/small_razaha.jpg" level="5" />
-						<LeaderBoardCard rank="3" username="alagrini" avatar="https://cdn.intra.42.fr/users/small_alagrini.jpg" level="3" />
-					</>
-				</List>
-				<List  title="Currently Playing"icon="fa-solid fa-table-tennis-paddle-ball fa-xs">
-					<>
-						<CurrentlyPlayingCard score1={obj.Player1Score} score2={obj.Player2Score} avatar1={obj.Player1Avatar} avatar2={obj.Player2Avatar} />
-						<CurrentlyPlayingCard score1={obj.Player1Score} score2={obj.Player2Score} avatar1={obj.Player1Avatar} avatar2={obj.Player2Avatar} />
-						<CurrentlyPlayingCard score1={obj.Player1Score} score2={obj.Player2Score} avatar1={obj.Player1Avatar} avatar2={obj.Player2Avatar} />
-						<CurrentlyPlayingCard score1={obj.Player1Score} score2={obj.Player2Score} avatar1={obj.Player1Avatar} avatar2={obj.Player2Avatar} />
-					</>
-				</List>
+				<div>
+					{/* Toggle */}
+					<div className="grid grid-cols-2">
+						<div
+							className={`flex flex-col gap-1 p-4 ${
+								!toggle
+									? "bg-my-violet"
+									: "bg-my-violet/80 hover:opacity-80"
+							}  px-2 rounded-t-med cursor-pointer text-center`}
+							onClick={() => setToggle(false)}
+						>
+							<i
+								className={`fa-solid fa-crown text-my-yellow self-center`}
+							></i>
+							<h2 className="text-xl font-bold text-white uppercase ">
+								leaderboard
+							</h2>
+						</div>
+						<div
+							className={`flex flex-col gap-1 p-4 ${
+								toggle
+									? "bg-my-violet"
+									: "bg-my-violet/80 hover:opacity-80"
+							} px-7 rounded-t-med cursor-pointer text-center`}
+							onClick={() => setToggle(true)}
+						>
+							<i
+								className={`fa-solid fa-table-tennis-paddle-ball text-my-yellow self-center`}
+							></i>
+							<h2 className="text-xl font-bold text-white uppercase ">
+								Currently Playing
+							</h2>
+						</div>
+					</div>
+					{/* Leaderboard */}
+					{!toggle && (
+						<List>
+							<>
+								<LeaderBoardCard
+									rank="1"
+									username="ybarhdad"
+									avatar="https://cdn.intra.42.fr/users/small_ybarhdad.jpg"
+									level="7"
+								/>
+								<LeaderBoardCard
+									rank="2"
+									username="razaha"
+									avatar="https://cdn.intra.42.fr/users/small_razaha.jpg"
+									level="5"
+								/>
+								<LeaderBoardCard
+									rank="3"
+									username="alagrini"
+									avatar="https://cdn.intra.42.fr/users/small_alagrini.jpg"
+									level="3"
+								/>
+							</>
+						</List>
+					)}
+					{/* Currently playing */}
+					{toggle && (
+						<List>
+							<>
+								<CurrentlyPlayingCard
+									score1={obj.Player1Score}
+									score2={obj.Player2Score}
+									avatar1={obj.Player1Avatar}
+									avatar2={obj.Player2Avatar}
+								/>
+								<CurrentlyPlayingCard
+									score1={obj.Player1Score}
+									score2={obj.Player2Score}
+									avatar1={obj.Player1Avatar}
+									avatar2={obj.Player2Avatar}
+								/>
+								<CurrentlyPlayingCard
+									score1={obj.Player1Score}
+									score2={obj.Player2Score}
+									avatar1={obj.Player1Avatar}
+									avatar2={obj.Player2Avatar}
+								/>
+								<CurrentlyPlayingCard
+									score1={obj.Player1Score}
+									score2={obj.Player2Score}
+									avatar1={obj.Player1Avatar}
+									avatar2={obj.Player2Avatar}
+								/>
+							</>
+						</List>
+					)}
+				</div>
 			</div>
 		</motion.div>
 	);

@@ -1,21 +1,23 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
+import { userContext, UserState } from "../helpers/context";
 
 interface Props {
-	icon: string,
-	title: string,
-	children?: JSX.Element,
+	children?: JSX.Element;
 }
 
-const List: FC<Props> = ({ icon, title, children }) => {
+const List: FC<Props> = ({ children }) => {
+	const { isMobile } = useContext<UserState>(userContext);
+
+	const height = isMobile ? "7rem" : "20rem";
 	return (
-		<div className="rounded-med min-w-[15rem]">
-			<div className="flex w-full gap-4 p-4 bg-my-violet px-7 rounded-t-med">
+		<div className={`rounded-med min-w-[15rem] h-full`}>
+			{/* <div className="flex w-full gap-4 p-4 bg-my-violet px-7 rounded-t-med">
 				<i className={`${icon} text-my-yellow self-center`}></i>
 				<h2 className="text-2xl font-bold text-white uppercase ">
 					{title}
 				</h2>
-			</div>
-			<div className="w-full min-h-[2rem] bg-my-dark-lavender max-h-[15rem] overflow-auto scrolling flex flex-col items-center">
+			</div> */}
+			<div className="w-full min-h-[2rem] h-full bg-my-dark-lavender overflow-auto scrolling flex flex-col items-center">
 				{children}
 			</div>
 		</div>
