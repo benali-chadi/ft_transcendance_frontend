@@ -20,11 +20,12 @@ const Chat: FC = () => {
 	const [chatUser, setChatUser] = useState<any | null>(null);
 	const [roomId, setRoomId] = useState<number>(0);
 	//const [chatSocket, setChatSocket] = useState<any>();
-	const [channels, setChannels] = useState([]);
+	const [channels, setChannels] = useState<any>([]);
 	const [showCreateChannel, setShowCreateChannel] = useState(false);
 	const [showChannels, setShowChannels] = useState(false);
+	const [channelUpdated, setcChannelUpdated] = useState(0);
 	const navigate = useNavigate();
-	
+
 	const handleClick = (user: any, room_id: number) => {
 		setChatUser(null);
 		setRoomId(room_id);
@@ -33,14 +34,6 @@ const Chat: FC = () => {
 
 	const [toggle, setToggle] = useState(true);
 
-	//useEffect((): any => {
-	//const socket_chat = io(`${process.env.REACT_APP_BACKEND_URL}chat`, {
-	//	withCredentials: true,
-	//}).connect();
-	//setChatSocket(socket_chat);
-	//return () => socket_chat.disconnect();
-	//}, []);
-
 	useEffect((): any => {
 		async function getDms() {
 			try {
@@ -48,7 +41,6 @@ const Chat: FC = () => {
 					`${process.env.REACT_APP_BACKEND_URL}chat/Dm_channels`,
 					{ withCredentials: true }
 				);
-				console.log(data);
 				setDms(data);
 			} catch (e) {
 				if(e.response.status === 401)
@@ -64,7 +56,6 @@ const Chat: FC = () => {
 					`${process.env.REACT_APP_BACKEND_URL}chat/group_channels`,
 					{ withCredentials: true }
 				);
-				console.log(data);
 				setChannels(data);
 			} catch (e) {
 				if(e.response.status === 401)
@@ -76,10 +67,10 @@ const Chat: FC = () => {
 		}
 		getDms();
 		getGroupChannels();
-	}, []);
+	}, [channelUpdated]);
 
 	return (
-		<ChatContext.Provider value={{ channels, setChannels }}>
+		<ChatContext.Provider value={{ channels, setChannels, channelUpdated, setcChannelUpdated }}>
 			<motion.div
 				variants={pageVariants}
 				initial="initial"

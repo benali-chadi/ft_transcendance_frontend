@@ -13,9 +13,10 @@ interface Props {
 		username: string;
 		avatar: string;
 	};
+	path: string;
 }
 
-const UserCard: FC<Props> = ({ user }) => {
+const UserCard: FC<Props> = ({ user, path }) => {
 	// const [currentUser, setUser] = useState<any>(null);
 	const { currentUser, userSocket, updatedRelation } =
 		useContext<UserState>(userContext);
@@ -83,6 +84,8 @@ const UserCard: FC<Props> = ({ user }) => {
 		<div className="flex flex-col items-center gap-2 min-w-[15rem] max-w-lg m-auto">
 			{showUpdateUser && (
 				<UpdateUser
+					path={path}
+					setShowUpdateUser={setShowUpdateUser}
 					handleCancelClick={() => setShowUpdateUser(!showUpdateUser)}
 				/>
 			)}

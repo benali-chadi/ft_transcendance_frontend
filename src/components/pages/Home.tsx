@@ -14,6 +14,7 @@ import { pageVariants } from "../helpers/variants";
 import { useNavigate } from "react-router-dom";
 import CurrentlyPlayingCard from "../common/homecards/CurrentlyPlayingCard";
 import LeaderBoardCard from "../common/homecards/LeaderBoardCard";
+import UpdateUser from "./login/UpdateUser";
 
 // import { pageVariantDesktop, pageVariantMobile } from "./helpers/variants";
 
@@ -29,12 +30,19 @@ const Home: FC = () => {
 	// const [currentUser, setUser] = useState<any>(null);
 	const { currentUser } = useContext<UserState>(userContext);
 	const [toggle, setToggle] = useState(false);
+	const [showUpdateUser, setShowUpdateUser] = useState(false);
 	const backgroundStyle = {
 		backgroundImage: `url('${background}')`,
 	};
 
 	const navigate = useNavigate();
+	useEffect(()=>{
+		const showUpdateProfile = () =>{
+			setShowUpdateUser(currentUser.first_time);
+		};
 
+		showUpdateProfile();
+	}, [])
 	return (
 		<motion.div
 			variants={pageVariants}
@@ -43,6 +51,14 @@ const Home: FC = () => {
 			exit="exit"
 			className="h-screen bg-white md:h-[80vh] md:rounded-large md:rounded-l-none md:grid md:grid-cols-5 md:grid-rows-1 "
 		>
+
+			{showUpdateUser && (
+				<UpdateUser
+					path="/"
+					setShowUpdateUser={setShowUpdateUser}
+					handleCancelClick={() => setShowUpdateUser(!showUpdateUser)}
+				/>
+			)}
 			{/* Game System */}
 			<div
 				className="top-0 p-8 overflow-auto bg-no-repeat bg-cover scrolling h-3/5 rounded-b-large md:col-span-3 md:h-full md:justify-center md:rounded-large md:rounded-l-none "
@@ -79,7 +95,7 @@ const Home: FC = () => {
 			<div className="flex flex-col gap-8 p-8 md:col-span-2">
 				{/* User */}
 				<div className="hidden w-full h-fit md:block">
-					<UserCard user={currentUser} />
+					<UserCard user={currentUser} path="/" />
 				</div>
 				{/* Lists */}
 				<div>

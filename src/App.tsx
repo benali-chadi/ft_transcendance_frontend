@@ -33,7 +33,8 @@ const App: React.FC = () => {
 
 	useEffect(() : any => {
 		const userStorage = localStorage.getItem("CurrentUser");
-		if (userStorage) setCurrentUser(JSON.parse(userStorage));
+		console.log(userStorage);
+		if (userStorage ) setCurrentUser(JSON.parse(userStorage));
 		const socket = io(`${process.env.REACT_APP_BACKEND_URL}user`, {
 			query:{user: userStorage},
 			withCredentials: true

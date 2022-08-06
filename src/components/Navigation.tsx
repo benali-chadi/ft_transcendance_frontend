@@ -75,7 +75,7 @@ const Navigation: FC = () => {
 						>
 							<i className="fa-solid fa-xmark"></i>
 						</div>
-						<UserCard user={currentUser} />
+						<UserCard user={currentUser} path="/" />
 					</div>
 				)}
 				<div

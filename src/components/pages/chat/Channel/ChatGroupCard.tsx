@@ -24,8 +24,9 @@ const ChatGroupCard: FC<Props> = ({
 	const [inChannel, setInChannel] = useState(room.In);
 	const [showSetting, setShowSettings] = useState(false);
 
-	const { channels, setChannels } = useContext<ChatState>(ChatContext);
+	const { channels, setChannels, channelUpdated, setcChannelUpdated } = useContext<ChatState>(ChatContext);
 	const ref: any = useRef();
+
 	const handleJoinClick = async () => {
 		setShowDropdown(false);
 		try {
@@ -34,13 +35,17 @@ const ChatGroupCard: FC<Props> = ({
 				{ room_id: room_id, password: null },
 				{ withCredentials: true }
 			);
-			let tempChatUser = [...channels];
-			console.log("temp =", tempChatUser);
-			tempChatUser[room_id].In = true;
 
-			setChannels(tempChatUser);
-			// console.log(data);
-			setInChannel(channels.In);
+			//let tempChatUser = [...channels];
+			//console.log("temp =", tempChatUser);
+			//tempChatUser[room_id].In = true;
+//
+			//setChannels(tempChatUser);
+			//// console.log(data);
+			//setInChannel(channels.In);
+			//setChannels(channels);
+			setcChannelUpdated(channelUpdated + 1);
+			console.log(data);
 		} catch (e) {
 			console.log(e);
 		}
@@ -53,18 +58,20 @@ const ChatGroupCard: FC<Props> = ({
 				{ room_id: room_id },
 				{ withCredentials: true }
 			);
+			console.log(data);
 
-			let tempChatUser = [...channels];
-			tempChatUser[room_id].In = false;
-
-			setChannels(tempChatUser);
-			setInChannel(channels.In);
+			//let tempChatUser = [...channels];
+			//tempChatUser[room_id].In = false;
+//
+			//setChannels(tempChatUser);
+			//setInChannel(channels.In);
+			//setChannels(channels);
+			setcChannelUpdated(channelUpdated + 1);
 		} catch (e) {
 			console.log(e);
 		}
 	};
 
-	const handleAddMemeberClick = async () => {};
 	useEffect(() => {
 		function handleClickOutside(event) {
 			if (ref.current && !ref.current.contains(event.target)) {
@@ -152,7 +159,7 @@ const ChatGroupCard: FC<Props> = ({
 					) : (
 						<div></div>
 					)}
-					{inChannel ? (
+					{room.In ? (
 						<p
 							className="p-1 font-normal cursor-pointer hover:bg-gray-100"
 							onClick={handleLeaveClick}

@@ -59,7 +59,7 @@ const Profile: FC<Props> = () => {
 			{!noUserData && (
 				<div className="sticky top-0 h-full md:rounded-r-large bg-my-lavender">
 					<div className="p-[5rem]">
-						<UserCard user={profileUser} />
+						<UserCard user={profileUser} path="/profile"/>
 					</div>
 					{!isBlocked && (
 						<ul className="profile-links">
