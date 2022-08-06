@@ -5,9 +5,9 @@ import UserCard from "../common/UserCard";
 // @ts-ignore
 import background from "../../img/game-system/background.jpg";
 // @ts-ignore
-import inviteImage from "../../img/game-system/section2.jpg";
+import inviteImage from "../../img/invite.png";
 // @ts-ignore
-import randomImage from "../../img/game-system/section1.jpg";
+import randomImage from "../../img/random.png";
 import { userContext, UserState } from "../helpers/context";
 import { motion } from "framer-motion";
 import { pageVariants } from "../helpers/variants";
@@ -15,6 +15,8 @@ import { useNavigate } from "react-router-dom";
 import CurrentlyPlayingCard from "../common/homecards/CurrentlyPlayingCard";
 import LeaderBoardCard from "../common/homecards/LeaderBoardCard";
 import UpdateUser from "./login/UpdateUser";
+import { io } from "socket.io-client";
+import Button from "../common/Button";
 
 // import { pageVariantDesktop, pageVariantMobile } from "./helpers/variants";
 
@@ -26,15 +28,13 @@ let obj = {
 	Player2Avatar: "https://cdn.intra.42.fr/users/small_razaha.jpg",
 };
 
-interface  currentMatchDto {
+interface currentMatchDto {
 	id: string;
 	Player1Score: number;
 	Player2Score: number;
 	Player1Avatar: string;
 	Player2Avatar: string;
-
 }
-
 
 const Home: FC = () => {
 	// const [currentUser, setUser] = useState<any>(null);
@@ -43,7 +43,7 @@ const Home: FC = () => {
 	// useRef to store socket
 	const ref = useRef<any>();
 	const [toggle, setToggle] = useState(false);
-	const [currentMatch, setCurrentMatch] = useState<currentMatchDto []>([]);
+	const [currentMatch, setCurrentMatch] = useState<currentMatchDto[]>([]);
 	const [showUpdateUser, setShowUpdateUser] = useState(false);
 	const backgroundStyle = {
 		backgroundImage: `url('${background}')`,
@@ -55,36 +55,36 @@ const Home: FC = () => {
 		// setSocket( io("http://localhost:3000/game", {withCredentials: true}));
 		// set sokcet to ref
 		if (ref.current == undefined) {
-			ref.current = io("http://localhost:3000/game", { withCredentials: true });		
+			ref.current = io("http://localhost:3000/game", {
+				withCredentials: true,
+			});
 			ref.current.emit("getcurrentmatch");
-
 		}
-	
+
 		ref.current.on("connect", () => {
 			console.log("connected");
 		});
-		ref.current.on("getcurrentmatch", (data : currentMatchDto []) => {
-				console.log(data);
-				setCurrentMatch(data);
-				console.log(currentMatch);
+		ref.current.on("getcurrentmatch", (data: currentMatchDto[]) => {
+			console.log(data);
+			setCurrentMatch(data);
+			console.log(currentMatch);
 		});
-	},[]);
+	}, []);
 
 	useEffect(() => {
 		console.log(currentMatch);
-	}, [currentMatch])
+	}, [currentMatch]);
 	// })
-
 
 	const navigate = useNavigate();
 	// const navigate = useNavigate();
-	useEffect(()=>{
-		const showUpdateProfile = () =>{
+	useEffect(() => {
+		const showUpdateProfile = () => {
 			setShowUpdateUser(currentUser.first_time);
 		};
 
 		showUpdateProfile();
-	}, [])
+	}, []);
 	return (
 		<motion.div
 			variants={pageVariants}
@@ -93,7 +93,6 @@ const Home: FC = () => {
 			exit="exit"
 			className="h-screen bg-white md:h-[80vh] md:rounded-large md:rounded-l-none md:grid md:grid-cols-5 md:grid-rows-1 "
 		>
-
 			{showUpdateUser && (
 				<UpdateUser
 					path="/"
@@ -114,8 +113,8 @@ const Home: FC = () => {
 					<h2 className="font-bold text-my-yellow">Create a Game</h2>
 				</div>
 				{/* Sections */}
-				<div className="flex flex-col justify-center h-full gap-4 ">
-					<Section
+				<div className="flex flex-col justify-center items-center h-full gap-[10rem] ">
+					{/* <Section
 						handleClick={() => {
 							navigate("/invitefriend");
 						}}
@@ -130,13 +129,47 @@ const Home: FC = () => {
 						title="Random"
 						image={randomImage}
 						color="bg-my-green"
-					/>
+					/> */}
+					<Button
+						color="bg-my-orange py-16 shadow-lg"
+						handleClick={() => {
+							navigate("/invitefriend");
+						}}
+					>
+						<div className="relative grid grid-cols-[1fr_.5fr] w-[25rem]">
+							<h2 className="text-white justify-self-start">
+								Invite Friend
+							</h2>
+							<img
+								src={inviteImage}
+								alt="invite image"
+								className="h-[15rem] w-[15rem] absolute right-[-10%] bottom-[-15px]"
+							/>
+						</div>
+					</Button>
+					<Button
+						color="bg-my-green py-16"
+						handleClick={() => {
+							navigate("/game");
+						}}
+					>
+						<div className="relative grid w-[25rem] grid-cols-2">
+							<h2 className="text-center text-white justify-self-center">
+								Random
+							</h2>
+							<img
+								src={randomImage}
+								alt="invite image"
+								className="h-[15rem] w-[15rem] absolute right-[-10%] bottom-[-15px]"
+							/>
+						</div>
+					</Button>
 				</div>
 			</div>
 			{/* The Right\bottom Side */}
-			<div className="flex flex-col gap-8 p-8 md:col-span-2">
+			<div className="flex flex-col gap-8 p-8 overflow-auto md:col-span-2 scrolling">
 				{/* User */}
-				<div className="hidden w-full h-fit md:block">
+				<div className="sticky top-0 z-10 hidden w-full bg-white h-fit md:block">
 					<UserCard user={currentUser} path="/" />
 				</div>
 				{/* Lists */}
@@ -154,7 +187,7 @@ const Home: FC = () => {
 							<i
 								className={`fa-solid fa-crown text-my-yellow self-center`}
 							></i>
-							<h2 className="text-xl font-bold text-white uppercase ">
+							<h2 className="text-base font-bold text-white uppercase lg:text-xl ">
 								leaderboard
 							</h2>
 						</div>
@@ -169,7 +202,7 @@ const Home: FC = () => {
 							<i
 								className={`fa-solid fa-table-tennis-paddle-ball text-my-yellow self-center`}
 							></i>
-							<h2 className="text-xl font-bold text-white uppercase ">
+							<h2 className="text-base font-bold text-white uppercase lg:text-xl ">
 								Currently Playing
 							</h2>
 						</div>
@@ -196,6 +229,18 @@ const Home: FC = () => {
 									avatar="https://cdn.intra.42.fr/users/small_alagrini.jpg"
 									level="3"
 								/>
+								<LeaderBoardCard
+									rank="3"
+									username="alagrini"
+									avatar="https://cdn.intra.42.fr/users/small_alagrini.jpg"
+									level="3"
+								/>
+								<LeaderBoardCard
+									rank="3"
+									username="alagrini"
+									avatar="https://cdn.intra.42.fr/users/small_alagrini.jpg"
+									level="3"
+								/>
 							</>
 						</List>
 					)}
@@ -203,18 +248,16 @@ const Home: FC = () => {
 					{toggle && (
 						<List>
 							<>
-
-								{
-									currentMatch.map((match, index) => {
-										return <CurrentlyPlayingCard
-									
-										score1={match.Player1Score}
-										score2={match.Player2Score}
-										avatar1={match.Player1Avatar}
-										avatar2={match.Player2Avatar}
-									/>
-									})
-								}
+								{currentMatch.map((match, index) => {
+									return (
+										<CurrentlyPlayingCard
+											score1={match.Player1Score}
+											score2={match.Player2Score}
+											avatar1={match.Player1Avatar}
+											avatar2={match.Player2Avatar}
+										/>
+									);
+								})}
 							</>
 						</List>
 					)}

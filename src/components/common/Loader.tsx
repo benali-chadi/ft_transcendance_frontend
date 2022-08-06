@@ -1,50 +1,100 @@
 import { motion } from "framer-motion";
-import React, { FC, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 
-const loaderVariants = {
-	bounce: {
-		x: [-30, 30],
-		y: [0, -40],
-		transition: {
-			x: {
-				yoyo: Infinity,
-				duration: 0.5,
-			},
-			y: {
-				yoyo: Infinity,
-				duration: 0.25,
-			},
-		},
-	},
-	rotate: {
-		rotate: [0, 360],
-		transition: {
-			rotate: {
-				yoyo: Infinity,
-				duration: 1,
-			},
-		},
-	},
-};
-
+import waitingRocket from "../../img/waitingrocket.png";
+import waitingCloud from "../../img/waitingcloud.png";
 
 const Loader: FC = () => {
 	const [showHeader, setShowHeader] = useState(true);
+	const MyRef = useRef<HTMLDivElement>(null);
 
+	if (MyRef.current) console.log(-MyRef.current.clientWidth);
+	const RocketVariants = {
+		bounce: {
+			x: [MyRef.current ? MyRef.current.clientWidth + 100 : 1000, -500],
+			y: [80, -80],
+			transition: {
+				x: {
+					repeat: Infinity,
+					duration: 4,
+				},
+				y: {
+					yoyo: Infinity,
+					type: "tween",
+					duration: 0.8,
+				},
+			},
+		},
+	};
+	const CloudVariants = {
+		bounce: {
+			y: [20, -20],
+			transition: {
+				y: {
+					yoyo: Infinity,
+					type: "tween",
+					duration: 0.8,
+				},
+			},
+		},
+	};
+
+	// bg-gradient-to-r from-[#D8E3F7] to-[#E4CFBA]
 	return (
-		<div className="flex flex-col items-center justify-center">
-			{showHeader ? <h1>Catch It!</h1> : <h1>Good Job!</h1>}
-			<motion.div
-				onDrag={() => setShowHeader(false)}
-				variants={loaderVariants}
-				animate="bounce"
-				className="w-10 h-10 rounded-full bg-my-violet"
-				drag
-				dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
-				dragElastic={0.7}
-				whileDrag={{ scale: 1.7 }}
-			></motion.div>
-			<div className="h-5 rounded-md w-28 bg-my-violet"></div>
+		<div className="flex flex-col justify-center w-full h-full overflow-hidden bg-gradient-to-b from-sky-300 to-sky-50">
+			<div ref={MyRef} className="relative">
+				<motion.div
+					variants={CloudVariants}
+					animate="bounce"
+					className="absolute top-[20%] left-[30%]"
+				>
+					<img
+						src={waitingCloud}
+						alt="waiting cloud"
+						className="w-[10rem]"
+					/>
+				</motion.div>
+				<motion.div
+					variants={CloudVariants}
+					animate="bounce"
+					className="absolute top-[10%] left-[70%]"
+				>
+					<img
+						src={waitingCloud}
+						alt="waiting cloud"
+						className="w-[10rem]"
+					/>
+				</motion.div>
+				<motion.div
+					variants={CloudVariants}
+					animate="bounce"
+					className="absolute top-[20%] left-[10%]"
+				>
+					<img
+						src={waitingCloud}
+						alt="waiting cloud"
+						className="w-[7rem]"
+					/>
+				</motion.div>
+				<motion.div
+					variants={RocketVariants}
+					animate="bounce"
+					className="w-full h-full"
+				>
+					<img src={waitingRocket} alt="waiting rocket" />
+				</motion.div>
+				<motion.div
+					variants={CloudVariants}
+					animate="bounce"
+					className="absolute top-[30%] left-[50%]"
+				>
+					<img
+						src={waitingCloud}
+						alt="waiting cloud"
+						className="w-[15rem]"
+					/>
+				</motion.div>
+			</div>
 		</div>
 	);
 };

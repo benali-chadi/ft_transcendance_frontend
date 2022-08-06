@@ -2,6 +2,7 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import React, { FC, useContext, useEffect, useRef, useState } from "react";
 import { NavLink, Outlet, useNavigate, useParams } from "react-router-dom";
+import Loader from "../../common/Loader";
 import NoDataFound from "../../common/NoDataFound";
 import UserCard from "../../common/UserCard";
 // import  {memoizedUserCard} from "../../common/UserCard";
@@ -38,10 +39,9 @@ const Profile: FC<Props> = () => {
 				setProfileUser(data);
 			} catch (e) {
 				setNoUserData(true);
-				if(e.response.status === 401)
-				{
+				if (e.response.status === 401) {
 					localStorage.clear();
-					navigate("/")
+					navigate("/");
 				}
 			}
 		}
@@ -59,7 +59,7 @@ const Profile: FC<Props> = () => {
 			{!noUserData && (
 				<div className="sticky top-0 h-full md:rounded-r-large bg-my-lavender">
 					<div className="p-[5rem]">
-						<UserCard user={profileUser} path="/profile"/>
+						<UserCard user={profileUser} path="/profile" />
 					</div>
 					{!isBlocked && (
 						<ul className="profile-links">
@@ -91,6 +91,7 @@ const Profile: FC<Props> = () => {
 					)}
 				</div>
 			)}
+			{/* <Loader /> */}
 			{noUserData && <NoDataFound />}
 			<div className="w-full max-h-[80vh]">
 				<Outlet context={{ profileUser, setProfileUser, username }} />

@@ -12,11 +12,15 @@ import { userContext } from "../../helpers/context";
 
 interface Props {
 	handleCancelClick: () => void;
-	setShowUpdateUser: (value: React.SetStateAction<boolean>) => void
+	setShowUpdateUser: (value: React.SetStateAction<boolean>) => void;
 	path: string;
 }
 
-const UpdateUser: FC<Props> = ({ handleCancelClick, setShowUpdateUser, path }) => {
+const UpdateUser: FC<Props> = ({
+	handleCancelClick,
+	setShowUpdateUser,
+	path,
+}) => {
 	const { currentUser, setCurrentUser } = useContext<UserState>(userContext);
 	const navigate = useNavigate();
 
@@ -36,21 +40,22 @@ const UpdateUser: FC<Props> = ({ handleCancelClick, setShowUpdateUser, path }) =
 						if (selectedfile) {
 							formData.append("avatar", selectedfile);
 						}
-						const {data} = await axios.post(
+						const { data } = await axios.post(
 							`${process.env.REACT_APP_BACKEND_URL}user/update_profile`,
 							formData,
 							{ withCredentials: true }
 						);
 						localStorage.clear();
-						localStorage.setItem("CurrentUser", JSON.stringify(data));
+						localStorage.setItem(
+							"CurrentUser",
+							JSON.stringify(data)
+						);
 						setCurrentUser(data);
 						setShowUpdateUser(false);
-						if (path === "/")
-							navigate("/");
-						else
-							navigate(`/profile/${username}`);
+						if (path === "/") navigate("/");
+						else navigate(`/profile/${username}`);
 					} catch (e) {
-						if (e.response.status === 409){
+						if (e.response.status === 409) {
 							setShowError(true);
 							setTimeout(() => {
 								setShowError(false);
@@ -83,11 +88,13 @@ const UpdateUser: FC<Props> = ({ handleCancelClick, setShowUpdateUser, path }) =
 					handleCancel={handleCancelClick}
 				>
 					<div className="relative flex flex-col items-center gap-4">
-						<div className="self-stretch">
-						<h3 className="text-xl text-center text-my-blue">
-							Welcome
-						</h3>
-						</div>
+						{currentUser.first_time && (
+							<div className="self-stretch">
+								<h3 className="text-xl text-center text-my-blue">
+									Welcome
+								</h3>
+							</div>
+						)}
 						{/* Avatar */}
 						<div className="avatarUpload">
 							<div

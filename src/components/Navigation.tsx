@@ -26,9 +26,13 @@ const Navigation: FC = () => {
 	const handleLogOutClick = async () => {
 		localStorage.clear();
 		async function logOut() {
-			await axios.post(`${process.env.REACT_APP_BACKEND_URL}auth/logout`,{}, {
-				withCredentials: true,
-			});
+			await axios.post(
+				`${process.env.REACT_APP_BACKEND_URL}auth/logout`,
+				{},
+				{
+					withCredentials: true,
+				}
+			);
 			localStorage.clear();
 			navigate("/login");
 		}
@@ -79,7 +83,7 @@ const Navigation: FC = () => {
 					</div>
 				)}
 				<div
-					className="text-[1.7rem] cursor-pointer hover:text-blue-200 text-white md:pt-24"
+					className="text-[1.7rem] cursor-pointer hover:text-blue-200 text-white md:mt-36"
 					onClick={() => setShowSearch(true)}
 				>
 					<i className="fa-solid fa-magnifying-glass"></i>

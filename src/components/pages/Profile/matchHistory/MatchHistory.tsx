@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router";
 // @ts-ignore
-import pongRacket from "../../../../img/ping-pong.png";
+import matchHistory from "../../../../img/history.png";
 import MatchCard from "./MatchCard";
 import { outletContext } from "../Profile";
 
@@ -25,11 +25,11 @@ const MatchHistory: FC = () => {
 			{/* Title */}
 			<div className="flex items-center justify-center gap-4 py-8">
 				<img
-					src={pongRacket}
+					src={matchHistory}
 					alt="ping-pong racket"
-					className="w-[5rem] h-[5rem]"
+					className="w-[15rem] h-[15rem]"
 				/>
-				<h2 className="text-4xl font-extrabold text-my-red">
+				<h2 className="text-4xl font-extrabold text-my-yellow">
 					Match History
 				</h2>
 			</div>

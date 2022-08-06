@@ -1,7 +1,7 @@
 import React, { FC, useContext } from "react";
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router";
-import AchievementIcon from "../../../../img/trophy.png";
+import AchievementIcon from "../../../../img/achievments.png";
 import { userContext, UserState } from "../../../helpers/context";
 import { outletContext } from "../Profile";
 import AchievementCard from "./AchievementCard";
@@ -20,11 +20,11 @@ const AchievementsBoard: FC = () => {
 				className="absolute text-white cursor-pointer left-5 top-15 fa-solid fa-arrow-left md:hidden"
 				onClick={handleClick}
 			></i>
-			<div className="flex flex-col items-center justify-center gap-4 py-8">
+			<div className="flex items-center justify-center gap-4 pb-4">
 				<img
 					src={AchievementIcon}
 					alt="Achievement trophy"
-					className="w-[10rem] h-[10rem]"
+					className="w-[15rem] h-[15rem]"
 				/>
 				<h2 className="text-4xl font-extrabold text-my-yellow">
 					ACHIEVEMENTS

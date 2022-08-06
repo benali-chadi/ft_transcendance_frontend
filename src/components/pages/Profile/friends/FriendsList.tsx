@@ -10,6 +10,7 @@ import Profile, { outletContext } from "../Profile";
 import FindFriends from "./FindFriends";
 import FriendCard from "./FriendCard";
 import Invitations from "./Invitations";
+import friendsImage from "../../../../img/friends.png";
 
 export interface friend {
 	avatar: string;
@@ -51,9 +52,9 @@ const FriendsList: FC = () => {
 	}, [updatedRelation]);
 
 	//useEffect(() => {
-//
+	//
 	//},[friends])
-	
+
 	return (
 		<div className="absolute inset-0 z-10 w-full h-screen px-6 py-20 bg-my-blue md:relative md:h-full">
 			{currentUser !== null ? (
@@ -73,6 +74,17 @@ const FriendsList: FC = () => {
 						className="absolute text-white cursor-pointer left-5 top-15 fa-solid fa-arrow-left md:hidden"
 						onClick={handleClick}
 					></i>
+					{/* Title */}
+					<div className="flex items-center justify-center gap-4 pb-8">
+						<img
+							src={friendsImage}
+							alt="ping-pong racket"
+							className="w-[15rem] h-[15rem]"
+						/>
+						<h2 className="text-4xl font-extrabold uppercase text-my-yellow">
+							Friends
+						</h2>
+					</div>
 					{/* Search area */}
 					<div className="flex items-center p-4 m-auto bg-white h-fit rounded-large w-[70%] mb-4">
 						<i className="fa-solid fa-magnifying-glass text-[#655E5E] text-xl"></i>

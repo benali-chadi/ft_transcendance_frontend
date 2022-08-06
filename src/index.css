@@ -1,8 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200&family=Poppins&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
 
+@font-face {
+    font-family: 'SweetCherry';
+    src: url("./fonts/KGCorneroftheSky.ttf") format("opentype");
+}
+
 body {
-	font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	font-family: 'SweetCherry', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 .scrolling {

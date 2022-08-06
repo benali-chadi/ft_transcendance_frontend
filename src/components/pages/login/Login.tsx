@@ -29,7 +29,6 @@ const Login: FC = () => {
 			className="h-screen w-full bg-gradient-to-r from-[#D8E3F7] to-[#E4CFBA] overflow-auto
                         md:p-12 md:py-20 flex flex-col justify-center items-center"
 		>
-
 			<div
 				className="h-screen w-full min-h-max overflow-y-auto bg-50%w bg-no-repeat bg-top flex flex-col justify-end my-auto
                             md:rounded-large md:grid md:grid-cols-5 md:min-h-[50rem]
@@ -41,10 +40,10 @@ const Login: FC = () => {
 			>
 				<div className="flex flex-col items-center justify-center gap-8 py-8 h-3/5 scrolling min-h-fit bg-my-dark-lavender rounded-t-large md:col-span-3 md:h-full md:justify-center md:rounded-large ">
 					<img src={logo} alt="logo" className="h-32 2xl:h-48" />
-					<h1 className="text-4xl font-extrabold font-header xl:text-5xl 2xl:text-6xl">
+					<h1 className="text-4xl font-extrabold xl:text-5xl 2xl:text-6xl">
 						Welcome To Pong
 					</h1>
-					<h2 className="text-3xl font-thin font-header xl:text-4xl 2xl:text-5xl">
+					<h2 className="text-3xl font-thin xl:text-4xl 2xl:text-5xl">
 						Login with Intra
 					</h2>
 					<Button

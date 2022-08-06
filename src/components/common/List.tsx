@@ -6,11 +6,10 @@ interface Props {
 }
 
 const List: FC<Props> = ({ children }) => {
-	const { isMobile } = useContext<UserState>(userContext);
-
-	const height = isMobile ? "7rem" : "20rem";
 	return (
-		<div className={`rounded-med min-w-[15rem] h-full`}>
+		<div
+			className={`min-w-[15rem] max-h-[15rem] md:max-h-[25rem] overflow-auto scrolling h-full`}
+		>
 			{/* <div className="flex w-full gap-4 p-4 bg-my-violet px-7 rounded-t-med">
 				<i className={`${icon} text-my-yellow self-center`}></i>
 				<h2 className="text-2xl font-bold text-white uppercase ">

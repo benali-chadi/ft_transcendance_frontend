@@ -166,7 +166,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 					<input
 						value={text}
 						onChange={(e) => setText(e.target.value)}
-						className="h-6 w-[70%] min-w-[10rem] p-6 text-xl rounded-large font-Poppins"
+						className="h-6 w-[70%] min-w-[10rem] p-6 text-xl rounded-large font-Poppins break-words"
 						placeholder="Type Something..."
 					/>
 					<i
