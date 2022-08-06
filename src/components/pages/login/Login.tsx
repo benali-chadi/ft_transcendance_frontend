@@ -4,6 +4,7 @@ import Button from "../../common/Button";
 
 import background from "../../../img/login-background.jpg";
 import logo from "../../../img/logo.png";
+
 import { ReactComponent as Logo42 } from "../../../img/42logo.svg";
 // import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -28,9 +29,6 @@ const Login: FC = () => {
 			className="h-screen w-full bg-gradient-to-r from-[#D8E3F7] to-[#E4CFBA] overflow-auto
                         md:p-12 md:py-20 flex flex-col justify-center items-center"
 		>
-			{/* {showUpdateUser && (
-				<UpdateUser handleCancelClick={handleLoginClick} />
-			)} */}
 
 			<div
 				className="h-screen w-full min-h-max overflow-y-auto bg-50%w bg-no-repeat bg-top flex flex-col justify-end my-auto

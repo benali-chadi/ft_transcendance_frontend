@@ -30,11 +30,15 @@ export const userContext = createContext<UserState>(initialState);
 export interface ChatState {
 	channels: any,
 	setChannels: React.Dispatch<React.SetStateAction<any>> | (() => void),
+	channelUpdated: number,
+	setcChannelUpdated: React.Dispatch<React.SetStateAction<number>> | (() => void),
 }
 
 const initialChatUserState: ChatState = {
 	channels: null,
-	setChannels: () => {}
+	setChannels: () => {},
+	channelUpdated: 0,
+	setcChannelUpdated: ()=>{}
 }
 
 export const ChatContext = createContext<ChatState>(initialChatUserState)

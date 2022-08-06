@@ -1,13 +1,14 @@
 import axios from "axios";
 import { motion } from "framer-motion";
 import env from "react-dotenv";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useEffect } from "react";
 import { FC } from "react";
 import Modal from "../../../common/Modal";
 import ChatUserCard from "../Inbox/ChatUserCard";
 import ChatGroupCard from "./ChatGroupCard";
 import { cardVariants } from "../../../helpers/variants";
+import { ChatContext, ChatState } from "../../../helpers/context";
 interface Props {
 	handleCancel: () => void;
 }
@@ -15,7 +16,7 @@ interface Props {
 const FindChannels: FC<Props> = ({ handleCancel }) => {
 	const [channels, setChannels] = useState([]);
 	const [text, setText] = useState("");
-
+	const { channelUpdated, setcChannelUpdated } = useContext<ChatState>(ChatContext);
 	useEffect(() => {
 		async function showGroups() {
 			try {
@@ -29,7 +30,7 @@ const FindChannels: FC<Props> = ({ handleCancel }) => {
 			} catch (e) {}
 		}
 		showGroups();
-	}, []);
+	}, [channelUpdated]);
 
 	return (
 		<Modal>
@@ -74,7 +75,6 @@ const FindChannels: FC<Props> = ({ handleCancel }) => {
 										room_id={channel.id}
 									/>
 								);
-								return <div></div>;
 							})
 						) : (
 							<h1>No channels</h1>

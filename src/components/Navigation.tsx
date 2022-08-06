@@ -26,13 +26,13 @@ const Navigation: FC = () => {
 	const handleLogOutClick = async () => {
 		localStorage.clear();
 		async function logOut() {
-			await axios.get(`${process.env.REACT_APP_BACKEND_URL}auth/logout`, {
+			await axios.post(`${process.env.REACT_APP_BACKEND_URL}auth/logout`,{}, {
 				withCredentials: true,
 			});
-
+			localStorage.clear();
 			navigate("/login");
 		}
-		await logOut();
+		logOut();
 		setCurrentUser(null);
 	};
 
@@ -75,7 +75,7 @@ const Navigation: FC = () => {
 						>
 							<i className="fa-solid fa-xmark"></i>
 						</div>
-						<UserCard user={currentUser} />
+						<UserCard user={currentUser} path="/" />
 					</div>
 				)}
 				<div
