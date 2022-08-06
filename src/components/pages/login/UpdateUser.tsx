@@ -28,7 +28,9 @@ const UpdateUser: FC<Props> = ({
 	const [avatar, setAvatar] = useState(currentUser.avatar);
 	const [showError, setShowError] = useState(false);
 	const [selectedfile, setFile] = useState<File>();
-	const [hide, setHide] = useState(true);
+	const [token, setToken] = useState("");
+	const [qrCode, setQrcode] = useState("");
+
 	return (
 		<Modal>
 			<form
