@@ -5,6 +5,7 @@ import { threeDotsVariants } from "../../../helpers/variants";
 import { useNavigate } from "react-router-dom";
 import { userContext, UserState } from "../../../helpers/context";
 import axios from "axios";
+import HandleBlock from "../../../common/HandleBlock";
 
 interface Props {
 	user: any;
@@ -17,6 +18,9 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 	const [showDropDown, setShowDropdown] = useState(false);
 	const navigate = useNavigate();
 	const [_user, setUser] = useState(user);
+
+	const [blocked, setBlocked] = useState(_user.blocked);
+	const [showYouSure, setYouSure] = useState(false);
 
 	const ref: any = useRef();
 
@@ -81,7 +85,7 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 				<motion.div
 					variants={threeDotsVariants}
 					animate={showDropDown ? "open" : "close"}
-					className={`p-2 text-sm font-light bg-white rounded-xl absolute z-10 top-[25px] left-[-3rem] w-max`}
+					className={`p-2 text-sm font-light bg-white rounded-xl absolute z-10 top-[25px] left-[-5rem] w-max`}
 				>
 					<p
 						className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
@@ -92,21 +96,83 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 					>
 						Go to Profile
 					</p>
-					<p
-						className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
-						onClick={() => setShowDropdown(false)}
-					>
-						Invite for a game
-					</p>
-					<p
-						className="p-1 font-normal cursor-pointer hover:bg-gray-100"
-						onClick={() => {
-							setShowDropdown(false);
-							window.alert("YOU WANT TO BLOCK ME?!");
-						}}
-					>
-						Block User
-					</p>
+					{!blocked ? (
+						<>
+							<p
+								className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
+								onClick={() => setShowDropdown(false)}
+							>
+								Invite for a game
+							</p>
+							<p
+								className="p-1 font-normal cursor-pointer hover:bg-gray-100"
+								onClick={async () => {
+									setYouSure(true);
+								}}
+							>
+								Block User
+							</p>
+							{showYouSure && (
+								<HandleBlock
+									handleYesClick={() => {
+										setYouSure(false);
+										setShowDropdown(false);
+										userSocket?.emit(
+											"relation status",
+											{
+												id: _user.id,
+												to_do: "block_user",
+											},
+											(res) => {
+												setBlocked((prev) => {
+													return res.blocked;
+												});
+											}
+										);
+									}}
+									handleNoClick={() => {
+										setYouSure(false);
+										// setShowDropdown(false);
+									}}
+								/>
+							)}
+						</>
+					) : (
+						<>
+							<p
+								className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
+								onClick={async () => {
+									setYouSure(true);
+								}}
+							>
+								Unblock
+							</p>
+							{showYouSure && (
+								<HandleBlock
+									handleYesClick={() => {
+										setYouSure(false);
+										setShowDropdown(false);
+										userSocket?.emit(
+											"relation status",
+											{
+												id: _user.id,
+												to_do: "unblock_user",
+											},
+											(res) => {
+												setBlocked((prev) => {
+													return res.blocked;
+												});
+											}
+										);
+									}}
+									handleNoClick={() => {
+										setYouSure(false);
+										// setShowDropdown(false);
+									}}
+								/>
+							)}
+						</>
+					)}
 				</motion.div>
 			</div>
 		</div>

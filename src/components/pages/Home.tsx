@@ -98,8 +98,8 @@ const Home: FC = () => {
 			)}
 			{/* Game System */}
 			<div
-				className="top-0 p-8 overflow-auto bg-no-repeat bg-cover scrolling h-3/5 rounded-b-large md:col-span-3 md:h-full md:justify-center md:rounded-large md:rounded-l-none "
-				style={backgroundStyle}
+				className="top-0 p-8 overflow-auto bg-gradient-to-br from-my-blue to-my-lavender scrolling h-3/5 rounded-b-large md:col-span-3 md:h-full md:justify-center md:rounded-large md:rounded-l-none "
+				// style={backgroundStyle}
 			>
 				{/* Headers */}
 				<div className="sticky flex flex-col mb-3 text-center top-5 left-3 ">
@@ -110,30 +110,14 @@ const Home: FC = () => {
 				</div>
 				{/* Sections */}
 				<div className="flex flex-col justify-center items-center h-full gap-[10rem] ">
-					{/* <Section
-						handleClick={() => {
-							navigate("/invitefriend");
-						}}
-						title="Invite Friends"
-						image={inviteImage}
-						color="bg-my-orange"
-					/>
-					<Section
-						handleClick={() => {
-							navigate("/game");
-						}}
-						title="Random"
-						image={randomImage}
-						color="bg-my-green"
-					/> */}
 					<Button
-						color="bg-my-orange py-16 shadow-lg"
+						color="bg-my-yellow py-16 shadow-lg border-b-4 border-black"
 						handleClick={() => {
 							navigate("/invitefriend");
 						}}
 					>
 						<div className="relative grid grid-cols-[1fr_.5fr] w-[25rem]">
-							<h2 className="text-white justify-self-start">
+							<h2 className="text-black justify-self-start">
 								Invite Friend
 							</h2>
 							<img
@@ -144,7 +128,7 @@ const Home: FC = () => {
 						</div>
 					</Button>
 					<Button
-						color="bg-my-green py-16"
+						color="bg-red-600 py-16 shadow-lg border-b-4 border-black"
 						handleClick={() => {
 							navigate("/game");
 						}}

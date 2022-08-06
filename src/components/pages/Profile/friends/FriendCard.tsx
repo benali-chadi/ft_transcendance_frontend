@@ -7,6 +7,8 @@ import { outletContext } from "../Profile";
 import axios from "axios";
 import env from "react-dotenv";
 import { userContext, UserState } from "../../../helpers/context";
+import Button from "../../../common/Button";
+import HandleBlock from "../../../common/HandleBlock";
 
 interface Props {
 	user: any;
@@ -20,6 +22,7 @@ const FriendCard: FC<Props> = ({ user }) => {
 	const [_user, setUser] = useState(user);
 
 	const [blocked, setBlocked] = useState(_user.blocked);
+	const [showYouSure, setYouSure] = useState(false);
 
 	async function getUser() {
 		try {
@@ -101,8 +104,16 @@ const FriendCard: FC<Props> = ({ user }) => {
 						<p
 							className="p-1 font-normal cursor-pointer hover:bg-gray-100"
 							onClick={async () => {
-								setShowDropdown(false);
-								if (window.confirm("YOU WANT TO BLOCK ME?!")) {
+								setYouSure(true);
+							}}
+						>
+							Block User
+						</p>
+						{showYouSure && (
+							<HandleBlock
+								handleYesClick={() => {
+									setYouSure(false);
+									setShowDropdown(false);
 									userSocket?.emit(
 										"relation status",
 										{
@@ -115,11 +126,12 @@ const FriendCard: FC<Props> = ({ user }) => {
 											});
 										}
 									);
-								}
-							}}
-						>
-							Block User
-						</p>
+								}}
+								handleNoClick={() => {
+									setYouSure(false);
+								}}
+							/>
+						)}
 					</motion.div>
 				) : (
 					<motion.div
@@ -130,10 +142,16 @@ const FriendCard: FC<Props> = ({ user }) => {
 						<p
 							className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
 							onClick={async () => {
-								setShowDropdown(false);
-								if (
-									window.confirm("YOU WANT TO UNBLOCK ME?!")
-								) {
+								setYouSure(true);
+							}}
+						>
+							Unblock
+						</p>
+						{showYouSure && (
+							<HandleBlock
+								handleYesClick={() => {
+									setYouSure(false);
+									setShowDropdown(false);
 									userSocket?.emit(
 										"relation status",
 										{
@@ -146,11 +164,12 @@ const FriendCard: FC<Props> = ({ user }) => {
 											});
 										}
 									);
-								}
-							}}
-						>
-							Unblock
-						</p>
+								}}
+								handleNoClick={() => {
+									setYouSure(false);
+								}}
+							/>
+						)}
 					</motion.div>
 				)}
 			</div>

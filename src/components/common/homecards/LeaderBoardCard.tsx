@@ -25,7 +25,7 @@ const LeaderBoardCard: FC<Props> = ({
 	level,
 }) => {
 	return (
-		<div className="p-1.5 m-1 gap-3 grid grid-cols-[.5fr_1fr_1fr_1fr] items-center bg-my-green rounded-xl shadow-lg w-[90%] overflow-x-auto scrolling overflow-y-hidden min-h-[5rem]">
+		<div className="p-1.5 m-1 gap-3 grid grid-cols-[.5fr_1fr_1fr_1fr] items-center bg-my-yellow rounded-xl shadow-lg w-[90%] overflow-x-auto scrolling overflow-y-hidden min-h-[5rem]">
 			{/* User CARD*/}
 			<h2 className="text-lg font-bold ">{rank}</h2>
 			<div className="min-h-[4rem] min-w-[4rem] rounded-full gap-4">

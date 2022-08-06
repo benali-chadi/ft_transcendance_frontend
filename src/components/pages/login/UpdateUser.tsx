@@ -153,6 +153,15 @@ const UpdateUser: FC<Props> = ({
 							value={username}
 							onChange={(e) => setUsername(e.target.value)}
 						/>
+						{/* Two Factor Auth */}
+						<div
+							className="p-4 border-b-2 border-black rounded-med bg-my-yellow"
+							onClick={() => {}}
+						>
+							<h2 className="text-sm">
+								Activate 2FA Authentication
+							</h2>
+						</div>
 					</div>
 				</Card>
 			</form>
