@@ -83,6 +83,11 @@ const UpdateUser: FC<Props> = ({ handleCancelClick, setShowUpdateUser, path }) =
 					handleCancel={handleCancelClick}
 				>
 					<div className="relative flex flex-col items-center gap-4">
+						<div className="self-stretch">
+						<h3 className="text-xl text-center text-my-blue">
+							Welcome
+						</h3>
+						</div>
 						{/* Avatar */}
 						<div className="avatarUpload">
 							<div

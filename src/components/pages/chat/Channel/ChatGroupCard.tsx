@@ -21,10 +21,9 @@ const ChatGroupCard: FC<Props> = ({
 }) => {
 	const [showDropDown, setShowDropdown] = useState(false);
 	const [showMembers, setShowMembers] = useState(false);
-	const [inChannel, setInChannel] = useState(room.In);
 	const [showSetting, setShowSettings] = useState(false);
 
-	const { channels, setChannels, channelUpdated, setcChannelUpdated } = useContext<ChatState>(ChatContext);
+	const {channelUpdated, setcChannelUpdated } = useContext<ChatState>(ChatContext);
 	const ref: any = useRef();
 
 	const handleJoinClick = async () => {
@@ -35,17 +34,7 @@ const ChatGroupCard: FC<Props> = ({
 				{ room_id: room_id, password: null },
 				{ withCredentials: true }
 			);
-
-			//let tempChatUser = [...channels];
-			//console.log("temp =", tempChatUser);
-			//tempChatUser[room_id].In = true;
-//
-			//setChannels(tempChatUser);
-			//// console.log(data);
-			//setInChannel(channels.In);
-			//setChannels(channels);
 			setcChannelUpdated(channelUpdated + 1);
-			console.log(data);
 		} catch (e) {
 			console.log(e);
 		}
@@ -58,14 +47,6 @@ const ChatGroupCard: FC<Props> = ({
 				{ room_id: room_id },
 				{ withCredentials: true }
 			);
-			console.log(data);
-
-			//let tempChatUser = [...channels];
-			//tempChatUser[room_id].In = false;
-//
-			//setChannels(tempChatUser);
-			//setInChannel(channels.In);
-			//setChannels(channels);
 			setcChannelUpdated(channelUpdated + 1);
 		} catch (e) {
 			console.log(e);
