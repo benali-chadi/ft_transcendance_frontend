@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useRef, useState } from "react";
 import Section from "../common/Section";
 import List from "../common/List";
 import UserCard from "../common/UserCard";
@@ -14,6 +14,7 @@ import { pageVariants } from "../helpers/variants";
 import { useNavigate } from "react-router-dom";
 import CurrentlyPlayingCard from "../common/homecards/CurrentlyPlayingCard";
 import LeaderBoardCard from "../common/homecards/LeaderBoardCard";
+import { io } from "socket.io-client";
 
 // import { pageVariantDesktop, pageVariantMobile } from "./helpers/variants";
 
@@ -25,16 +26,56 @@ let obj = {
 	Player2Avatar: "https://cdn.intra.42.fr/users/small_razaha.jpg",
 };
 
+interface  currentMatchDto {
+	id: string;
+	Player1Score: number;
+	Player2Score: number;
+	Player1Avatar: string;
+	Player2Avatar: string;
+
+}
+
+
 const Home: FC = () => {
 	// const [currentUser, setUser] = useState<any>(null);
 	const { currentUser } = useContext<UserState>(userContext);
+	const [socket, setSocket] = useState<any>();
+	// useRef to store socket
+	const ref = useRef<any>();
 	const [toggle, setToggle] = useState(false);
+	const [currentMatch, setCurrentMatch] = useState<currentMatchDto []>([]);
 	const backgroundStyle = {
 		backgroundImage: `url('${background}')`,
 	};
 
-	const navigate = useNavigate();
+	// connect to socket
 
+	useEffect(() => {
+		// setSocket( io("http://localhost:3000/game", {withCredentials: true}));
+		// set sokcet to ref
+		if (ref.current == undefined) {
+			ref.current = io("http://localhost:3000/game", { withCredentials: true });		
+			ref.current.emit("getcurrentmatch");
+
+		}
+	
+		ref.current.on("connect", () => {
+			console.log("connected");
+		});
+		ref.current.on("getcurrentmatch", (data : currentMatchDto []) => {
+				console.log(data);
+				setCurrentMatch(data);
+				console.log(currentMatch);
+		});
+	},[]);
+
+	useEffect(() => {
+		console.log(currentMatch);
+	}, [currentMatch])
+	// })
+
+
+	const navigate = useNavigate();
 	return (
 		<motion.div
 			variants={pageVariants}
@@ -145,30 +186,18 @@ const Home: FC = () => {
 					{toggle && (
 						<List>
 							<>
-								<CurrentlyPlayingCard
-									score1={obj.Player1Score}
-									score2={obj.Player2Score}
-									avatar1={obj.Player1Avatar}
-									avatar2={obj.Player2Avatar}
-								/>
-								<CurrentlyPlayingCard
-									score1={obj.Player1Score}
-									score2={obj.Player2Score}
-									avatar1={obj.Player1Avatar}
-									avatar2={obj.Player2Avatar}
-								/>
-								<CurrentlyPlayingCard
-									score1={obj.Player1Score}
-									score2={obj.Player2Score}
-									avatar1={obj.Player1Avatar}
-									avatar2={obj.Player2Avatar}
-								/>
-								<CurrentlyPlayingCard
-									score1={obj.Player1Score}
-									score2={obj.Player2Score}
-									avatar1={obj.Player1Avatar}
-									avatar2={obj.Player2Avatar}
-								/>
+
+								{
+									currentMatch.map((match, index) => {
+										return <CurrentlyPlayingCard
+									
+										score1={match.Player1Score}
+										score2={match.Player2Score}
+										avatar1={match.Player1Avatar}
+										avatar2={match.Player2Avatar}
+									/>
+									})
+								}
 							</>
 						</List>
 					)}

@@ -19,6 +19,7 @@ import AchievementsBoard from "./components/pages/Profile/achievements/Achieveme
 import Game from "./components/game/Game";
 import React from "react";
 import { io } from "socket.io-client";
+import GameWatch from "./components/game/GameWatch";
 
 const App: React.FC = () => {
 	const [currentUser, setCurrentUser] = useState("");
@@ -94,6 +95,7 @@ const App: React.FC = () => {
 								/>
 							</Route>
 							<Route path="game" element={<Game />} />
+							<Route path="gamewatch/:gameid" element={<GameWatch />} />
 							<Route path="chat" element={<Chat />} />
 						</Route>
 						<Route
