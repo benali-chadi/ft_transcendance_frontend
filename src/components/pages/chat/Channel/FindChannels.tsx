@@ -67,7 +67,10 @@ const FindChannels: FC<Props> = ({ handleCancel }) => {
 					{/* channels */}
 					<div className="flex flex-wrap justify-center gap-2">
 						{channels.length != 0 ? (
-							channels.map((channel: any) => {
+							channels
+							.filter((channel:any) =>
+								channel.name.includes(text)
+							).map((channel: any) => {
 								return (
 									<ChatGroupCard
 										key={channel.id}

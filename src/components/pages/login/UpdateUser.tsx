@@ -24,7 +24,9 @@ const UpdateUser: FC<Props> = ({ handleCancelClick, setShowUpdateUser, path }) =
 	const [avatar, setAvatar] = useState(currentUser.avatar);
 	const [showError, setShowError] = useState(false);
 	const [selectedfile, setFile] = useState<File>();
-	const [hide, setHide] = useState(true);
+	const [token, setToken] =  useState("");
+	const [qrCode, setQrcode] = useState("");
+
 	return (
 		<Modal>
 			<form
@@ -83,11 +85,11 @@ const UpdateUser: FC<Props> = ({ handleCancelClick, setShowUpdateUser, path }) =
 					handleCancel={handleCancelClick}
 				>
 					<div className="relative flex flex-col items-center gap-4">
-						<div className="self-stretch">
+						{currentUser.first_time &&  <div className="self-stretch">
 						<h3 className="text-xl text-center text-my-blue">
 							Welcome
 						</h3>
-						</div>
+						</div>}
 						{/* Avatar */}
 						<div className="avatarUpload">
 							<div
@@ -148,6 +150,7 @@ const UpdateUser: FC<Props> = ({ handleCancelClick, setShowUpdateUser, path }) =
 				</Card>
 			</form>
 		</Modal>
+		
 	);
 };
 

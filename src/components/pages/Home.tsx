@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import CurrentlyPlayingCard from "../common/homecards/CurrentlyPlayingCard";
 import LeaderBoardCard from "../common/homecards/LeaderBoardCard";
 import UpdateUser from "./login/UpdateUser";
+import { io } from "socket.io-client";
 
 // import { pageVariantDesktop, pageVariantMobile } from "./helpers/variants";
 
@@ -52,8 +53,6 @@ const Home: FC = () => {
 	// connect to socket
 
 	useEffect(() => {
-		// setSocket( io("http://localhost:3000/game", {withCredentials: true}));
-		// set sokcet to ref
 		if (ref.current == undefined) {
 			ref.current = io("http://localhost:3000/game", { withCredentials: true });		
 			ref.current.emit("getcurrentmatch");
@@ -61,17 +60,17 @@ const Home: FC = () => {
 		}
 	
 		ref.current.on("connect", () => {
-			console.log("connected");
+			//console.log("connected");
 		});
 		ref.current.on("getcurrentmatch", (data : currentMatchDto []) => {
-				console.log(data);
+				//console.log(data);
 				setCurrentMatch(data);
-				console.log(currentMatch);
+				//console.log(currentMatch);
 		});
 	},[]);
 
 	useEffect(() => {
-		console.log(currentMatch);
+		
 	}, [currentMatch])
 	// })
 
