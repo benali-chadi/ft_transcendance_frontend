@@ -22,13 +22,33 @@ const GameOverCard: FC<Props> = ({ win }) => {
 					initial={{ scale: 0 }}
 					animate={{ scale: 1.5 }}
 					transition={{ type: "tween", duration: 0.8 }}
-					className="flex flex-col justify-center gap-3 bg-white rounded-xl p-7"
+					className="relative flex flex-col justify-center gap-3 bg-white rounded-med p-7"
 				>
-					<h2 className="text-5xl font-bold text-center">
-						{win ? "You Win" : "You Lose"}
-					</h2>
+					{win ? (
+						<>
+							<img
+								src={require("../../img/youwin.png")}
+								alt="skin1"
+								className="w-[15rem] absolute top-[-160px] right-0"
+							/>
+							<h2 className="text-2xl font-bold text-center">
+								You Win
+							</h2>
+						</>
+					) : (
+						<>
+							<img
+								src={require("../../img/youlose.png")}
+								alt="skin1"
+								className="w-[15rem] absolute top-[-160px] right-0"
+							/>
+							<h2 className="text-2xl font-bold text-center">
+								You Lose
+							</h2>
+						</>
+					)}
 					<Button
-						color="bg-my-yellow"
+						color="bg-my-yellow self-center"
 						handleClick={handleReturnClick}
 					>
 						<h2 className="text-base font-bold">Return Home</h2>
