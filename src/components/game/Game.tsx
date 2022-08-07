@@ -1,11 +1,12 @@
-import React, { FC, useRef } from "react";
+import React, { FC, useContext, useRef } from "react";
 import Sketch from "react-p5";
 import p5Types from "p5"; //Import this for typechecking and intellisense
 //import socketIOClient from "socket.io-client";
 import { io } from "socket.io-client";
 import OnevsoneCard from "./OnevsoneCard";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import GameOverCard from "./GameOverCard";
+import { userContext, UserState } from "../helpers/context";
 
 const ENDPOINT = "http://localhost:3000/game";
 
@@ -21,9 +22,13 @@ let directionX = 1;
 let directionY = 1;
 let rn = Math.floor(Math.random() * 100) + 1;
 
-//To remove
+function withParams(Component) {
+	return props => <Component {...props} conext={useContext<UserState>(userContext)} />;
+  }
 
-export default class Game extends React.Component {
+// const { gameSocket } = useContext<UserState>(userContext);
+  class Game extends React.Component {
+	
 	state = {
 		number_image: 1,
 		isMaster: false,
@@ -31,7 +36,7 @@ export default class Game extends React.Component {
 		gameOver: false,
 		username: "",
 		avatar: "",
-		socket: io(ENDPOINT, { withCredentials: true }),
+		socket: this.props.conext.gameSocket,
 		width: 0,
 		height: 0,
 		master: {
@@ -145,8 +150,21 @@ export default class Game extends React.Component {
 		this.setState({ slave: { x: width - 25, y: 0.45 } });
 		this.setState({ piddaleSize: height / 8 });
 		document.onkeydown = this.keyInput;
-		this.state.socket.emit("participate", { startGame: true, random: rn });
+
+		// const search = useLocation().search;
+		let search = window.location.search;
+		let params = new URLSearchParams(search);
+		let username = params.get('username');
+	
+		if (username) {
+			// alert("ddd")
+			this.state.socket.emit("inviteFrined", { username: username });
+		}else {
+			// this.state.socket.emit("participate", { startGame: true, random: rn });
+		}
+		// console.log(this.state.socket)
 		this.state.socket.on("startTheGame", (data: any) => {
+		
 			this.setState({ gameStart: true });
 			this.setState({ isMaster: data.isMaster });
 			this.setState({ obj: data });
@@ -165,6 +183,7 @@ export default class Game extends React.Component {
 				this.state.ball.y = data.y;
 			}
 		});
+		// this.state.
 		this.state.socket.on("score", (data: any) => {
 			// if (!this.state.isMaster) {
 			this.state.obj.Player1Score = data.score1;
@@ -396,3 +415,5 @@ export default class Game extends React.Component {
 		);
 	}
 }
+
+export default withParams(Game);

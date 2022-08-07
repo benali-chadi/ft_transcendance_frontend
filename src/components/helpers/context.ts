@@ -9,6 +9,7 @@ export interface UserState {
 	isMobile: boolean,
 	userSocket?: Socket | null,
 	chatSocket?: Socket | null,
+	gameSocket?: Socket | null,
 	updated: number,
 	updatedRelation :number
 }
@@ -20,7 +21,8 @@ const initialState: UserState = {
 	userSocket: null,
 	updated :0,
 	updatedRelation:0,
-	chatSocket : null
+	chatSocket : null,
+	gameSocket : null
 }
 
 export const userContext = createContext<UserState>(initialState);

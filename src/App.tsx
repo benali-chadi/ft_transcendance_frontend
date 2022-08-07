@@ -1,7 +1,9 @@
 import Navigation from "./components/Navigation";
 import {
+	Navigate,
 	Route,
 	Routes,
+	useNavigate,
 } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ProtectedRoute from "./components/common/ProtectedRoute";
@@ -25,9 +27,12 @@ const App: React.FC = () => {
 	const [currentUser, setCurrentUser] = useState("");
 	const [userSocket, setSocket] = useState<any>();
 	const [chatSocket, setChatSocket] = useState<any>();
+	const [gameSocket, setGameSocket] = useState<any>();
 	const [updated, setupdated] = useState(0);
 	const [updatedRelation, setUpdated] = useState(0);
-
+	const [isInvated, setIsInvated] = useState(false);
+	const [invatedUser, setInvatedUser] = useState({});
+	const navigate = useNavigate();
 	const isMobile = useMediaQuery({
 		query: "(max-width: 767px)",
 	});
@@ -42,6 +47,11 @@ const App: React.FC = () => {
 		const socket_chat = io(`${process.env.REACT_APP_BACKEND_URL}chat`, {
 			withCredentials: true,
 		}).connect();
+		const socket_game = io(`${process.env.REACT_APP_BACKEND_URL}game`, {
+			query:{user: userStorage},
+			withCredentials: true,
+		}).connect();
+
 		socket.on("client status", () =>{
 			setupdated((prev) => {
 				return prev + 1
@@ -55,16 +65,41 @@ const App: React.FC = () => {
 		})
 		setSocket(socket);
 		setChatSocket(socket_chat);
+		setGameSocket(socket_game);
+		socket_game.emit("online");
+		socket_game.on("inviteFrined", (data) => {
+			setIsInvated(true);
+			// alert(data);
+		})
+		
+	
+
 		return () => {
 			userSocket.off("client status");
 			userSocket.off("relation status");
+			socket_game.off("inviteFrined");
+			socket_game.off("startTheGame");
 			userSocket.disconnect();
 			socket_chat.disconnect();
+			socket_game.disconnect();
 		}
 	}, []);
+	useEffect(() => {
+		if (gameSocket)
+		{
+			// alert("game socket connected");
+			gameSocket.emit("online" );
+		}
+	},[gameSocket])
 
 	return (
-		<userContext.Provider value={{ currentUser, setCurrentUser, isMobile , userSocket, updated, updatedRelation, chatSocket}}>
+		<userContext.Provider value={{ currentUser, setCurrentUser, isMobile , userSocket, updated, updatedRelation, chatSocket, gameSocket}}>
+			{
+				isInvated && <div onClick={() => {
+					gameSocket.emit("acceptinvite", {})
+					navigate("/game");
+				}}>   move to paly  </div>
+			}
 			<div className="h-screen text-4xl font-bold text-center App">
 				<AnimatePresence exitBeforeEnter>
 					<Routes>

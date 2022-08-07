@@ -34,6 +34,11 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 		} catch (e) {}
 	}
 
+
+	function redirectToGame() {
+		navigate(`/game?username=${_user.username}`);
+	}
+
 	useEffect(() => {
 		getUser();
 	}, [updated]);
@@ -100,7 +105,7 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 						<>
 							<p
 								className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
-								onClick={() => setShowDropdown(false)}
+								onClick={() => redirectToGame()}
 							>
 								Invite for a game
 							</p>
