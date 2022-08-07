@@ -34,11 +34,10 @@ const TFAActivation:FC<Props> = ({handleCancel, QRCode, toDo}) => {
                         },{
                             withCredentials:true
                         })
-                        if (data.message === "success")
-                        {
-                            setCurrentUser({...currentUser, TFA_enabled: true});
-                            handleCancel();
-                        }
+                        setCurrentUser(data);
+                        localStorage.clear();
+                        localStorage.setItem("CurrentUser", JSON.stringify(data));
+                        handleCancel();
                     }
                     else if (toDo === "verify")
                     {
