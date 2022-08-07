@@ -52,10 +52,11 @@ const Login: FC = () => {
 						hoverColor="bg-yellow-300"
 					>
 						<Logo42
-							width="50%"
+							width="100%"
 							height="100%"
 							style={{
 								minHeight: "4rem",
+								width: "10rem"
 							}}
 						/>
 					</Button>

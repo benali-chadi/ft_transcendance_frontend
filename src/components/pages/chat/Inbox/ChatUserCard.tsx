@@ -90,7 +90,7 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 				<motion.div
 					variants={threeDotsVariants}
 					animate={showDropDown ? "open" : "close"}
-					className={`p-2 text-sm font-light bg-white rounded-xl absolute z-10 top-[25px] left-[-5rem] w-max`}
+					className={`p-2 text-sm font-light bg-white rounded-xl absolute z-30 top-[25px] left-[-10rem] w-max`}
 				>
 					<p
 						className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
