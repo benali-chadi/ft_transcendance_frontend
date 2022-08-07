@@ -9,6 +9,7 @@ import Card from "../../common/Card";
 import Modal from "../../common/Modal";
 import { UserState } from "../../helpers/context";
 import { userContext } from "../../helpers/context";
+import TFAActivation from "./TFA_activation";
 
 interface Props {
 	handleCancelClick: () => void;
@@ -30,9 +31,14 @@ const UpdateUser: FC<Props> = ({
 	const [selectedfile, setFile] = useState<File>();
 	const [token, setToken] = useState("");
 	const [qrCode, setQrcode] = useState("");
-
+	const [toDo, setToDo] = useState<"" | "enable" | "disable" | "verify">("");
+	const [disableTfa, setDisableTfa] = useState(false);
 	return (
 		<Modal>
+			<>
+			{toDo !== "" && 
+							<TFAActivation toDo={toDo} QRCode={qrCode} handleCancel={() => {setToDo("")}} />
+						}
 			<form
 				onSubmit={async (e) => {
 					e.preventDefault();
@@ -154,17 +160,59 @@ const UpdateUser: FC<Props> = ({
 							onChange={(e) => setUsername(e.target.value)}
 						/>
 						{/* Two Factor Auth */}
+
+						{!currentUser.TFA_enabled ?  
+						// (<>{toDo && 
+						// 	<div className="elative flex flex-col items-center">
+						// 		<img src={qrCode} />
+						// 		<input
+						// 			type="text"
+						// 			placeholder="Insert code"
+						// 			className="rounded-large h-10 border-black border-[1px] px-3 font-Poppins w-[70%]"
+						// 			required
+						// 			value={token}
+						// 			onChange={(e) => setToken(e.target.value)}
+						// 		/>
+						// 	</div>
+						// }
 						<div
-							className="p-4 border-b-2 border-black rounded-med bg-my-yellow"
-							onClick={() => {}}
+							className="p-4 border-b-2 cursor-pointer border-black rounded-med bg-my-yellow"
+							onClick={ async () => {
+								try{
+
+									setToDo("enable");
+									let {data} = await axios.post(`${process.env.REACT_APP_BACKEND_URL}auth/enable-2FA`,{},
+									{
+										withCredentials:true
+									})
+									setQrcode(data);		
+									// setToDo(true);
+									setDisableTfa(false);							
+								}catch(e){}
+							}}
 						>
 							<h2 className="text-sm">
-								Activate 2FA Authentication
+								Enable 2FA
 							</h2>
 						</div>
+						 : (
+								<div
+									className="p-4 border-b-2 cursor-pointer border-black rounded-med bg-my-yellow"
+									onClick={() => {
+										setToDo("disable");
+										setDisableTfa(true);
+									}}
+									>
+									<h2 className="text-sm">
+										Disable 2FA
+									</h2>
+								</div>
+						)}
+						
 					</div>
 				</Card>
 			</form>
+			</>
 		</Modal>
 	);
 };

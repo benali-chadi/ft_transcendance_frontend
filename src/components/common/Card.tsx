@@ -34,11 +34,11 @@ const Card: FC<Props> = ({
 			>
 				{/* Head Part */}
 				<div className="flex justify-between">
-					<h1 className="text-xl font-bold">{title}</h1>
+					<h1 className="text-xl font-bold capitalize">{title}</h1>
 					<i className={icon}></i>
 				</div>
 				{/* Main Part */}
-				<div className="">{children}</div>
+				<div className="relative">{children}</div>
 				{/* Buttons */}
 				<div className="flex justify-center gap-4">
 					{SecondaryButton}
