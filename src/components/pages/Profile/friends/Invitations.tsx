@@ -95,9 +95,8 @@ const Invitations: FC<Props> = ({ handleCancel }) => {
 								)
 								.map((user: any) => {
 									return (
-										<div className="flex items-center gap-2">
+										<div className="flex items-center gap-2" key={user.id}>
 											<FriendCard
-												key={user.id}
 												user={user}
 											/>
 											<div>

@@ -29,7 +29,6 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 
 	const parsedDate = (dateString: string) => {
 		let date = new Date(dateString);
-		console.log(date.getHours());
 		return (
 			date.getHours() +
 			":" +

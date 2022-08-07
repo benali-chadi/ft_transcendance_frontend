@@ -78,31 +78,29 @@ const App: React.FC = () => {
 		setSocket(socket);
 		setChatSocket(socket_chat);
 		setGameSocket(socket_game);
-		socket_game.emit("online");
+		// socket_game.emit("online");
 		socket_game.on("inviteFrined", (data) => {
 			setIsInvated(true);
 			// alert(data);
 		})
 		
-	
 
 		return () => {
 			userSocket.off("client status");
 			userSocket.off("relation status");
-			socket_game.off("inviteFrined");
-			socket_game.off("startTheGame");
+			gameSocket.off("inviteFrined");
 			userSocket.disconnect();
 			socket_chat.disconnect();
-			socket_game.disconnect();
+			gameSocket.disconnect();
 		}
 	}, []);
-	useEffect(() => {
-		if (gameSocket)
-		{
-			// alert("game socket connected");
-			gameSocket.emit("online" );
-		}
-	},[gameSocket])
+	// useEffect(() => {
+	// 	if (gameSocket)
+	// 	{
+	// 		// alert("game socket connected");
+	// 		gameSocket.emit("online" );
+	// 	}
+	// },[gameSocket])
 
 	return (
 		<userContext.Provider value={{ currentUser, setCurrentUser, isMobile , userSocket, updated, updatedRelation, chatSocket, gameSocket}}>

@@ -25,15 +25,12 @@ const Log: FC = () => {
 			);
 			// const browserHistory = createHashHistory();
 			if (data.user) {
-				
-				console.log("user =", data.user.TFA_enabled)
 				if (data.user.TFA_enabled)
 				{
-					console.log("okokok")
 					setShow2FA(true)
 				}
 				else {
-					setCurrentUser(data.user);
+					setCurrentUser(data);
 					localStorage.setItem("CurrentUser", JSON.stringify(data.user));
 					navigate("/");
 				}

@@ -160,7 +160,7 @@ function withParams(Component) {
 			// alert("ddd")
 			this.state.socket.emit("inviteFrined", { username: username });
 		}else {
-			// this.state.socket.emit("participate", { startGame: true, random: rn });
+			this.state.socket.emit("participate", { startGame: true, random: rn });
 		}
 		// console.log(this.state.socket)
 		this.state.socket.on("startTheGame", (data: any) => {
