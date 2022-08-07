@@ -20,6 +20,7 @@ import Game from "./components/game/Game";
 import React from "react";
 import { io } from "socket.io-client";
 import GameWatch from "./components/game/GameWatch";
+import InviteCard from "./components/game/InviteCard";
 
 const App: React.FC = () => {
 	const [currentUser, setCurrentUser] = useState("");
@@ -27,6 +28,8 @@ const App: React.FC = () => {
 	const [chatSocket, setChatSocket] = useState<any>();
 	const [updated, setupdated] = useState(0);
 	const [updatedRelation, setUpdated] = useState(0);
+	const [user, setUser] = useState<any>(null);
+	const [showInvite, setShowInvite] = useState(false);
 
 	const isMobile = useMediaQuery({
 		query: "(max-width: 767px)",
@@ -47,11 +50,19 @@ const App: React.FC = () => {
 				return prev + 1
 			});
 		})
-		socket.on("relation status", () =>{
+		socket.on("relation status", (res) =>{
+			console.log("heeere");
+			if (res.message === "friend req"){
+				setUser(prev => {
+					return res.user;
+				})
+				setShowInvite(prev => {
+					return true
+				})
+			}
 			setUpdated((prev) => {
 				return prev + 1
 			});
-			window.alert("relation status updated");
 		})
 		setSocket(socket);
 		setChatSocket(socket_chat);
@@ -67,6 +78,7 @@ const App: React.FC = () => {
 		<userContext.Provider value={{ currentUser, setCurrentUser, isMobile , userSocket, updated, updatedRelation, chatSocket}}>
 			<div className="h-screen text-4xl font-bold text-center App">
 				<AnimatePresence exitBeforeEnter>
+					{showInvite && (<InviteCard handleDecline={() => setShowInvite(false)} opUser={currentUser} handleAccept={() => {alert("OK")}}/>) }
 					<Routes>
 						<Route
 							path="/"

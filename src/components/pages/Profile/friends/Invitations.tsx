@@ -52,6 +52,8 @@ const Invitations: FC<Props> = ({ handleCancel }) => {
 			setUsers(users.filter((usr) => usr.username !== user.username));
 	};
 
+	const declineInvitation = async (user) => {}
+
 	return (
 		<Modal>
 			<div className="absolute top-0 z-40 flex items-center justify-center w-screen h-screen bg-black/80">
@@ -98,16 +100,28 @@ const Invitations: FC<Props> = ({ handleCancel }) => {
 												key={user.id}
 												user={user}
 											/>
-											<Button
-												color="bg-my-yellow"
-												handleClick={() =>
-													addFriend(user)
-												}
-											>
-												<h1 className="text-lg">
-													Accept Invitation
-												</h1>
-											</Button>
+											<div>
+												<Button
+													color="bg-my-yellow"
+													handleClick={() =>
+														addFriend(user)
+													}
+												>
+													<h1 className="text-sm">
+														Accept Invitation
+													</h1>
+												</Button>
+												<Button
+													color="bg-gray-200"
+													handleClick={() =>
+														declineInvitation(user)
+													}
+												>
+													<h1 className="text-sm">
+														Accept Invitation
+													</h1>
+												</Button>
+											</div>
 										</div>
 									);
 								})

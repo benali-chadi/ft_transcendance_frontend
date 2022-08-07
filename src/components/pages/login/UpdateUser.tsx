@@ -176,7 +176,7 @@ const UpdateUser: FC<Props> = ({
 						// 	</div>
 						// }
 						<div
-							className="p-4 border-b-2 cursor-pointer border-black rounded-med bg-my-yellow"
+							className="p-4 border-b-2 cursor-pointer border-black rounded-med bg-my-yellow mb-4"
 							onClick={ async () => {
 								try{
 
@@ -197,7 +197,7 @@ const UpdateUser: FC<Props> = ({
 						</div>
 						 : (
 								<div
-									className="p-4 border-b-2 cursor-pointer border-black rounded-med bg-my-yellow"
+									className="p-4 border-b-2 cursor-pointer border-black rounded-med bg-my-yellow mb-4"
 									onClick={() => {
 										setToDo("disable");
 										setDisableTfa(true);

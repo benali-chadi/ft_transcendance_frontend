@@ -112,7 +112,7 @@ const TFAActivation:FC<Props> = ({handleCancel, QRCode, toDo}) => {
 				)}
                 {
                     toDo === "disable" ?
-                    <div className="flex flex-col justify-center items-center gap-4">
+                    <div className="flex flex-col justify-center items-center gap-4 mb-4">
                         <h2>Insert your validation token</h2>
                         <input value={token} 
                         type="text"
@@ -124,7 +124,7 @@ const TFAActivation:FC<Props> = ({handleCancel, QRCode, toDo}) => {
                         
                     </div>
                     :
-                    <div className="flex flex-col justify-center items-center gap-4">
+                    <div className="flex flex-col justify-center items-center gap-4 mb-4">
                         <img src={QRCode} alt="QRcode" />
                         <input value={token} 
                             type="text"

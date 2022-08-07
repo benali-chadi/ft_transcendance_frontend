@@ -38,7 +38,7 @@ interface currentMatchDto {
 
 const Home: FC = () => {
 	// const [currentUser, setUser] = useState<any>(null);
-	const { currentUser } = useContext<UserState>(userContext);
+	const { currentUser, setCurrentUser } = useContext<UserState>(userContext);
 	const [socket, setSocket] = useState<any>();
 	// useRef to store socket
 	const ref = useRef<any>();
@@ -93,7 +93,10 @@ const Home: FC = () => {
 				<UpdateUser
 					path="/"
 					setShowUpdateUser={setShowUpdateUser}
-					handleCancelClick={() => setShowUpdateUser(!showUpdateUser)}
+					handleCancelClick={() => {setShowUpdateUser(!showUpdateUser); setCurrentUser({...currentUser, first_time: false});
+					localStorage.clear();
+					localStorage.setItem("CurrentUser", JSON.stringify({...currentUser, first_time: false}));}
+					}
 				/>
 			)}
 			{/* Game System */}
