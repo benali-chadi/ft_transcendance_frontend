@@ -14,7 +14,7 @@ const AchievementsBoard: FC = () => {
 		navigate(`/profile/${username}`);
 	};
 	return (
-		<div className="absolute inset-0 z-10 w-full h-screen px-6 py-20 bg-my-blue md:relative md:h-full">
+		<div className="absolute inset-0 z-10 w-full h-screen px-6 py-20 bg-my-blue md:relative md:z-0 md:h-full">
 			{/* Back Button */}
 			<i
 				className="absolute text-white cursor-pointer left-5 top-15 fa-solid fa-arrow-left md:hidden"

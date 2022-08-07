@@ -118,7 +118,7 @@ const Invitations: FC<Props> = ({ handleCancel }) => {
 													}
 												>
 													<h1 className="text-sm">
-														Accept Invitation
+														Decline Invitation
 													</h1>
 												</Button>
 											</div>
