@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 // import { withRouter } from "react-router";
 
 const ENDPOINT = "http://localhost:3000/game";
-
+// import { userContext, UserState } from "../helpers/context";
 
 function withParams(Component) {
   return props => <Component {...props} params={useParams()} />;
@@ -32,15 +32,15 @@ let rn = Math.floor(Math.random() * 100) + 1;
 //To remove
 
 
-
  class GameWatch extends React.Component {
+  // static contextType: React.Context<UserState> | undefined = userContext;
   state = {
     bg_color:"'#3065c8'",
     isMaster: false,
     gameStart: false,
     username: "",
 	  avatar: "",
-    socket: io(ENDPOINT, { withCredentials: true }),
+    socket : this.props.socket_game,
     width: 0,
     height: 0,
     master: {
@@ -76,6 +76,7 @@ let rn = Math.floor(Math.random() * 100) + 1;
   
   
   constructor(props: any) {
+    
     super(props);
     this.startGame = this.startGame.bind(this);
     this.updateDimensions = this.updateDimensions.bind(this);
@@ -126,7 +127,7 @@ let rn = Math.floor(Math.random() * 100) + 1;
   };
 
   componentDidMount() {
-    
+    console.log(this.state.socket)
     let width = this.myRef.current ? this.myRef.current.clientWidth : (window.innerWidth) * 0.8;
     let height = width / aspectRatio;
     if( this.myRef.current && this.myRef.current.clientHeight < height)

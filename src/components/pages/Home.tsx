@@ -51,23 +51,23 @@ const Home: FC = () => {
 
 	// connect to socket
 
-	useEffect(() => {
-		if (ref.current == undefined) {
-			ref.current = io("http://localhost:3000/game", {
-				withCredentials: true,
-			});
-			ref.current.emit("getcurrentmatch");
-		}
+	// useEffect(() => {
+	// 	if (ref.current == undefined) {
+	// 		ref.current = io("http://localhost:3000/game", {
+	// 			withCredentials: true,
+	// 		});
+	// 		ref.current.emit("getcurrentmatch");
+	// 	}
 
-		ref.current.on("connect", () => {
-			//console.log("connected");
-		});
-		ref.current.on("getcurrentmatch", (data: currentMatchDto[]) => {
-			//console.log(data);
-			setCurrentMatch(data);
-			//console.log(currentMatch);
-		});
-	}, []);
+	// 	ref.current.on("connect", () => {
+	// 		//console.log("connected");
+	// 	});
+	// 	ref.current.on("getcurrentmatch", (data: currentMatchDto[]) => {
+	// 		//console.log(data);
+	// 		setCurrentMatch(data);
+	// 		//console.log(currentMatch);
+	// 	});
+	// }, []);
 
 	useEffect(() => {}, [currentMatch]);
 	// })
