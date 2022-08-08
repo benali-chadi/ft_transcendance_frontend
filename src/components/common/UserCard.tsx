@@ -40,13 +40,13 @@ const UserCard: FC<Props> = ({ user, path }) => {
 	};
 	async function updateRelation() {
 		try {
-			let to_do: string;
+			let to_do: string = "";
 			if (buttonMessage === "unblock") to_do = "unblock_user";
 			else if (buttonMessage === "Add friend") to_do = "add_friend";
 			else if (buttonMessage === "Accept invitation")
 				to_do = "accept_friend";
-			else to_do = "unfriend";
-
+			else if (buttonMessage === "unfriend") to_do = "unfriend";
+			else return;
 			userSocket?.emit(
 				"relation status",
 				{

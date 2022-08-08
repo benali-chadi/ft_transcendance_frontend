@@ -8,7 +8,7 @@ const Loader: FC = () => {
 	const [showHeader, setShowHeader] = useState(true);
 	const MyRef = useRef<HTMLDivElement>(null);
 
-	if (MyRef.current) console.log(-MyRef.current.clientWidth);
+	//if (MyRef.current) console.log(-MyRef.current.clientWidth);
 	const RocketVariants = {
 		bounce: {
 			x: [MyRef.current ? MyRef.current.clientWidth + 100 : 1000, -500],

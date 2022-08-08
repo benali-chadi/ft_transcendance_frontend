@@ -14,12 +14,13 @@ interface Props {
 }
 
 const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
-	const { userSocket, updated } = useContext<UserState>(userContext);
+	const { userSocket, updated, updatedRelation } = useContext<UserState>(userContext);
 	const [showDropDown, setShowDropdown] = useState(false);
 	const navigate = useNavigate();
 	const [_user, setUser] = useState(user);
 
 	const [blocked, setBlocked] = useState(_user.blocked);
+	const [blocker, setBlocker] = useState(_user.blocker);
 	const [showYouSure, setYouSure] = useState(false);
 
 	const ref: any = useRef();
@@ -30,6 +31,8 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 				`${process.env.REACT_APP_BACKEND_URL}user/${_user.username}`,
 				{ withCredentials: true }
 			);
+			setBlocked(data.blocked);
+			setBlocker(data.blocker);
 			setUser(data);
 		} catch (e) {}
 	}
@@ -41,7 +44,7 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 
 	useEffect(() => {
 		getUser();
-	}, [updated]);
+	}, [updated, updatedRelation]);
 
 	useEffect(() => {
 		function handleClickOutside(event) {
@@ -51,7 +54,6 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 		}
 		document.addEventListener("mousedown", handleClickOutside);
 		return () => {
-			// Unbind the event listener on clean up
 			document.removeEventListener("mousedown", handleClickOutside);
 		};
 	}, [ref]);
@@ -78,7 +80,7 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 				{/* Text Part */}
 				<div className="text-left">
 					<h3 className="text-xl">{_user.username}</h3>
-					<div className="text-sm font-semibold">{_user.status}</div>
+					{!(blocked || blocker) && <div className="text-sm font-semibold">{_user.status}</div>}
 				</div>
 			</div>
 			{/* Three Dots Part */}
@@ -101,7 +103,7 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 					>
 						Go to Profile
 					</p>
-					{!blocked ? (
+					{!blocker && <> {!blocked ? (
 						<>
 							<p
 								className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
@@ -177,7 +179,7 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 								/>
 							)}
 						</>
-					)}
+					)}</>}
 				</motion.div>
 			</div>
 		</div>

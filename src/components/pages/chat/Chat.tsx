@@ -14,7 +14,7 @@ import CreateChannel from "./Channel/CreateChannel";
 import { useNavigate } from "react-router-dom";
 
 const Chat: FC = () => {
-	const { isMobile, chatSocket } = useContext<UserState>(userContext);
+	const { isMobile, chatSocket, updatedRelation } = useContext<UserState>(userContext);
 	const [dms, setDms] = useState([]);
 
 	const [chatUser, setChatUser] = useState<any | null>(null);
@@ -41,6 +41,7 @@ const Chat: FC = () => {
 					`${process.env.REACT_APP_BACKEND_URL}chat/Dm_channels`,
 					{ withCredentials: true }
 				);
+				console.log(data);
 				setDms(data);
 			} catch (e) {
 				if(e.response.status === 401)
@@ -67,7 +68,7 @@ const Chat: FC = () => {
 		}
 		getDms();
 		getGroupChannels();
-	}, [channelUpdated]);
+	}, [channelUpdated, updatedRelation]);
 
 	return (
 		<ChatContext.Provider value={{ channels, setChannels, channelUpdated, setcChannelUpdated }}>

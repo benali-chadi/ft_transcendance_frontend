@@ -20,8 +20,6 @@ const TFAActivation:FC<Props> = ({handleCancel, QRCode, toDo}) => {
     const [showError, setShowError] = useState(false);
 
     const navigate = useNavigate()
-    console.log("heeeererer")
-
     return (
         <Modal>
             <form onSubmit={async (e) => {
@@ -125,7 +123,7 @@ const TFAActivation:FC<Props> = ({handleCancel, QRCode, toDo}) => {
                     </div>
                     :
                     <div className="flex flex-col justify-center items-center gap-4 mb-4">
-                        <img src={QRCode} alt="QRcode" />
+                        {QRCode && <img src={QRCode} alt="QRcode" />}
                         <input value={token} 
                             type="text"
                             className="rounded-large h-10 border-black border-[1px] px-3 font-Poppins w-[70%]"

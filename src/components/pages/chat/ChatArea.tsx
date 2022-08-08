@@ -1,5 +1,5 @@
 import React, { FC, useContext, useEffect, useRef, useState } from "react";
-import { userContext, UserState } from "../../helpers/context";
+import { ChatContext, ChatState, userContext, UserState } from "../../helpers/context";
 import ChannelSettings from "./Channel/channelSettings/ChannelSettings";
 import { ChatBubble, MsgProps } from "./ChatBubble";
 import ChatUserCard from "./Inbox/ChatUserCard";
@@ -19,7 +19,8 @@ interface Props {
 }
 
 const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
-	const { currentUser } = useContext<UserState>(userContext);
+	const { currentUser, updatedRelation } = useContext<UserState>(userContext);
+	const { setcChannelUpdated } = useContext<ChatState>(ChatContext);
 	const [msgs, setMsgs] = useState<MsgProps[]>([]);
 	const [text, setText] = useState("");
 	const [showSetting, setShowSettings] = useState(false);
@@ -41,7 +42,6 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 			date.getDate()
 		);
 	};
-
 	useEffect(() => {
 		if (socket) {
 			socket.emit("joinRoom", room_id, function (body) {
@@ -155,7 +155,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 			</div>
 
 			{/* Typing Area */}
-			{!user.IsBlocked && (
+			{!(user.blocked || user.blocker)  && (
 				<form
 					className="flex items-center justify-center w-full gap-4 py-4 border-t-4 border-white h-max rounded-b-med bg-my-lavender"
 					onSubmit={(e) => {
