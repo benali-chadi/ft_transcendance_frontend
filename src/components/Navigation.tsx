@@ -49,7 +49,7 @@ const Navigation: FC = () => {
 			{showSearch && <Search handleCancel={handleSearchCancel} />}
 			{/* Top Part */}
 			{isMobile && !showNav && (
-				<div className="absolute z-30 flex justify-between w-full p-2 px-4 bg-white/50">
+				<div className="absolute z-40 flex justify-between w-full p-2 px-4 bg-white/50">
 					<div
 						className="cursor-pointer"
 						onClick={() => setShoweNav(!showNav)}

@@ -20,7 +20,7 @@ const Card: FC<Props> = ({
 	handleCancel,
 }) => {
 	return (
-		<div className="absolute top-0 z-40 flex items-center justify-center w-screen h-screen bg-black/80">
+		<div className="absolute top-0 z-50 flex items-center justify-center w-screen h-screen bg-black/80">
 			<div
 				className="absolute top-0 w-screen h-screen cursor-pointer"
 				onClick={handleCancel}

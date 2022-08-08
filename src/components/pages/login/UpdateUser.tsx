@@ -36,182 +36,185 @@ const UpdateUser: FC<Props> = ({
 	return (
 		<Modal>
 			<>
-			{toDo !== "" && 
-							<TFAActivation toDo={toDo} QRCode={qrCode} handleCancel={() => {setToDo("")}} />
+				{toDo !== "" && (
+					<TFAActivation
+						toDo={toDo}
+						QRCode={qrCode}
+						handleCancel={() => {
+							setToDo("");
+						}}
+					/>
+				)}
+				<form
+					onSubmit={async (e) => {
+						e.preventDefault();
+						try {
+							const formData = new FormData();
+							formData.append("username", username);
+							if (selectedfile) {
+								formData.append("avatar", selectedfile);
+							}
+							const { data } = await axios.post(
+								`${process.env.REACT_APP_BACKEND_URL}user/update_profile`,
+								formData,
+								{ withCredentials: true }
+							);
+							localStorage.clear();
+							localStorage.setItem(
+								"CurrentUser",
+								JSON.stringify(data)
+							);
+							setCurrentUser(data);
+							setShowUpdateUser(false);
+							if (path === "/") navigate("/");
+							else navigate(`/profile/${username}`);
+						} catch (e) {
+							if (e.response.status === 409) {
+								setShowError(true);
+								setTimeout(() => {
+									setShowError(false);
+								}, 2000);
+							}
 						}
-			<form
-				onSubmit={async (e) => {
-					e.preventDefault();
-					try {
-						const formData = new FormData();
-						formData.append("username", username);
-						if (selectedfile) {
-							formData.append("avatar", selectedfile);
-						}
-						const { data } = await axios.post(
-							`${process.env.REACT_APP_BACKEND_URL}user/update_profile`,
-							formData,
-							{ withCredentials: true }
-						);
-						localStorage.clear();
-						localStorage.setItem(
-							"CurrentUser",
-							JSON.stringify(data)
-						);
-						setCurrentUser(data);
-						setShowUpdateUser(false);
-						if (path === "/") navigate("/");
-						else navigate(`/profile/${username}`);
-					} catch (e) {
-						if (e.response.status === 409) {
-							setShowError(true);
-							setTimeout(() => {
-								setShowError(false);
-							}, 2000);
-						}
-					}
-				}}
-			>
-				<Card
-					title="Update Profile"
-					icon="fa-solid fa-pen-to-square text-[1.5rem]"
-					MainButton={
-						<Button
-							color="bg-my-yellow"
-							hoverColor="bg-yellow-300"
-							type="submit"
-						>
-							<p>Save</p>
-						</Button>
-					}
-					SecondaryButton={
-						<Button
-							color="bg-gray-300"
-							hoverColor="bg-white"
-							handleClick={handleCancelClick}
-						>
-							<p>Cancel</p>
-						</Button>
-					}
-					handleCancel={handleCancelClick}
+					}}
 				>
-					<div className="relative flex flex-col items-center gap-4">
-						{currentUser.first_time && (
-							<div className="self-stretch">
-								<h3 className="text-xl text-center text-my-blue">
-									Welcome
-								</h3>
-							</div>
-						)}
-						{/* Avatar */}
-						<div className="avatarUpload">
-							<div
-								className="upload-button"
-								onClick={() => {
-									let element: HTMLElement =
-										document.getElementsByClassName(
-											"file-upload"
-										)[0] as HTMLElement;
-
-									element.click();
-								}}
+					<Card
+						title="Update Profile"
+						icon="fa-solid fa-pen-to-square text-[1.5rem]"
+						MainButton={
+							<Button
+								color="bg-my-yellow"
+								hoverColor="bg-yellow-300"
+								type="submit"
 							>
-								{avatar && (
-									<img
-										// src={URL.createObjectURL(avatar)}
-										src={avatar}
-										alt="avatar"
-									/>
-								)}
+								<p>Save</p>
+							</Button>
+						}
+						SecondaryButton={
+							<Button
+								color="bg-gray-300"
+								hoverColor="bg-white"
+								handleClick={handleCancelClick}
+							>
+								<p>Cancel</p>
+							</Button>
+						}
+						handleCancel={handleCancelClick}
+					>
+						<div className="relative flex flex-col items-center gap-4">
+							{currentUser.first_time && (
+								<div className="self-stretch">
+									<h3 className="text-xl text-center text-my-blue">
+										Welcome
+									</h3>
+								</div>
+							)}
+							{/* Avatar */}
+							<div className="avatarUpload">
+								<div
+									className="upload-button"
+									onClick={() => {
+										let element: HTMLElement =
+											document.getElementsByClassName(
+												"file-upload"
+											)[0] as HTMLElement;
+
+										element.click();
+									}}
+								>
+									{avatar && (
+										<img
+											// src={URL.createObjectURL(avatar)}
+											src={avatar}
+											alt="avatar"
+										/>
+									)}
+								</div>
+								<input
+									type="file"
+									className="hidden file-upload"
+									onChange={(e) => {
+										let file: any =
+											e.target as HTMLInputElement;
+										if (file.files) setFile(file.files[0]);
+										if (typeof file.files[0] !== "string") {
+											file = URL.createObjectURL(
+												file.files[0]
+											);
+										}
+										setAvatar(file);
+									}}
+								/>
 							</div>
+							{showError && (
+								<motion.div
+									animate={{ opacity: 1, y: 0 }}
+									initial={{ opacity: 0, y: -100 }}
+									transition={{ type: "tween", delay: 0.5 }}
+									className="absolute p-2 text-white rounded-lg bg-red-400/70 opacity-40"
+								>
+									<p>Username already exists</p>
+								</motion.div>
+							)}
+							{/* UserName input */}
 							<input
-								type="file"
-								className="hidden file-upload"
-								onChange={(e) => {
-									let file: any =
-										e.target as HTMLInputElement;
-									if (file.files) setFile(file.files[0]);
-									if (typeof file.files[0] !== "string") {
-										file = URL.createObjectURL(
-											file.files[0]
-										);
-									}
-									setAvatar(file);
-								}}
+								type="text"
+								placeholder="Choose Your Username"
+								className="rounded-large h-10 border-black border-[1px] px-3 font-Poppins w-[70%]"
+								required
+								value={username}
+								onChange={(e) => setUsername(e.target.value)}
 							/>
-						</div>
-						{showError && (
-							<motion.div
-								animate={{ opacity: 1, y: 0 }}
-								initial={{ opacity: 0, y: -100 }}
-								transition={{ type: "tween", delay: 0.5 }}
-								className="absolute p-2 text-white rounded-lg bg-red-400/70 opacity-40"
-							>
-								<p>Username already exists</p>
-							</motion.div>
-						)}
-						{/* UserName input */}
-						<input
-							type="text"
-							placeholder="Choose Your Username"
-							className="rounded-large h-10 border-black border-[1px] px-3 font-Poppins w-[70%]"
-							required
-							value={username}
-							onChange={(e) => setUsername(e.target.value)}
-						/>
-						{/* Two Factor Auth */}
+							{/* Two Factor Auth */}
 
-						{!currentUser.TFA_enabled ?  
-						// (<>{toDo && 
-						// 	<div className="elative flex flex-col items-center">
-						// 		<img src={qrCode} />
-						// 		<input
-						// 			type="text"
-						// 			placeholder="Insert code"
-						// 			className="rounded-large h-10 border-black border-[1px] px-3 font-Poppins w-[70%]"
-						// 			required
-						// 			value={token}
-						// 			onChange={(e) => setToken(e.target.value)}
-						// 		/>
-						// 	</div>
-						// }
-						<div
-							className="p-4 border-b-2 cursor-pointer border-black rounded-med bg-my-yellow mb-4"
-							onClick={ async () => {
-								try{
-
-									setToDo("enable");
-									let {data} = await axios.post(`${process.env.REACT_APP_BACKEND_URL}auth/enable-2FA`,{},
-									{
-										withCredentials:true
-									})
-									setQrcode(data);		
-									// setToDo(true);
-									setDisableTfa(false);							
-								}catch(e){}
-							}}
-						>
-							<h2 className="text-sm">
-								Enable 2FA
-							</h2>
-						</div>
-						 : (
+							{!currentUser.TFA_enabled ? (
+								// (<>{toDo &&
+								// 	<div className="elative flex flex-col items-center">
+								// 		<img src={qrCode} />
+								// 		<input
+								// 			type="text"
+								// 			placeholder="Insert code"
+								// 			className="rounded-large h-10 border-black border-[1px] px-3 font-Poppins w-[70%]"
+								// 			required
+								// 			value={token}
+								// 			onChange={(e) => setToken(e.target.value)}
+								// 		/>
+								// 	</div>
+								// }
+								<div
+									className="p-4 border-b-2 cursor-pointer border-black rounded-med bg-my-yellow mb-4"
+									onClick={async () => {
+										try {
+											setToDo("enable");
+											let { data } = await axios.post(
+												`${process.env.REACT_APP_BACKEND_URL}auth/enable-2FA`,
+												{},
+												{
+													withCredentials: true,
+												}
+											);
+											setQrcode(data);
+											// setToDo(true);
+											setDisableTfa(false);
+										} catch (e) {}
+									}}
+								>
+									<h2 className="text-sm">Enable 2FA</h2>
+								</div>
+							) : (
 								<div
 									className="p-4 border-b-2 cursor-pointer border-black rounded-med bg-my-yellow mb-4"
 									onClick={() => {
 										setToDo("disable");
 										setDisableTfa(true);
 									}}
-									>
-									<h2 className="text-sm">
-										Disable 2FA
-									</h2>
+								>
+									<h2 className="text-sm">Disable 2FA</h2>
 								</div>
-						)}
-						
-					</div>
-				</Card>
-			</form>
+							)}
+						</div>
+					</Card>
+				</form>
 			</>
 		</Modal>
 	);

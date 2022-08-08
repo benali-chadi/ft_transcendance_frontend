@@ -14,19 +14,19 @@ const AchievementsBoard: FC = () => {
 		navigate(`/profile/${username}`);
 	};
 	return (
-		<div className="absolute inset-0 z-10 w-full h-screen px-6 py-20 bg-my-blue md:relative md:z-0 md:h-full">
+		<div className="absolute inset-0 z-30 w-full h-screen px-6 py-20 overflow-auto bg-my-blue md:relative md:z-0 md:h-full scrolling">
 			{/* Back Button */}
 			<i
 				className="absolute text-white cursor-pointer left-5 top-15 fa-solid fa-arrow-left md:hidden"
 				onClick={handleClick}
 			></i>
-			<div className="flex items-center justify-center gap-4 pb-4">
+			<div className="flex items-center justify-center pb-4 md:gap-4">
 				<img
 					src={AchievementIcon}
 					alt="Achievement trophy"
-					className="w-[15rem] h-[15rem]"
+					className=" md:w-[15rem] md:h-[15rem] h-[10rem] w-[10rem]"
 				/>
-				<h2 className="text-4xl font-extrabold text-my-yellow">
+				<h2 className="text-2xl font-extrabold md:text-4xl text-my-yellow">
 					ACHIEVEMENTS
 				</h2>
 			</div>
