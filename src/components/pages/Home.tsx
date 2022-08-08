@@ -93,10 +93,18 @@ const Home: FC = () => {
 				<UpdateUser
 					path="/"
 					setShowUpdateUser={setShowUpdateUser}
-					handleCancelClick={() => {setShowUpdateUser(!showUpdateUser); setCurrentUser({...currentUser, first_time: false});
-					localStorage.clear();
-					localStorage.setItem("CurrentUser", JSON.stringify({...currentUser, first_time: false}));}
-					}
+					handleCancelClick={() => {
+						setShowUpdateUser(!showUpdateUser);
+						setCurrentUser({ ...currentUser, first_time: false });
+						localStorage.clear();
+						localStorage.setItem(
+							"CurrentUser",
+							JSON.stringify({
+								...currentUser,
+								first_time: false,
+							})
+						);
+					}}
 				/>
 			)}
 			{/* Game System */}
@@ -112,21 +120,21 @@ const Home: FC = () => {
 					<h2 className="font-bold text-my-yellow">Create a Game</h2>
 				</div>
 				{/* Sections */}
-				<div className="flex flex-col justify-center items-center h-full gap-[10rem] ">
+				<div className="flex flex-col justify-center items-center h-full gap-[5.5rem] md:gap-[10rem] ">
 					<Button
 						color="bg-my-yellow py-16 shadow-lg border-b-4 border-black"
 						handleClick={() => {
 							navigate("/invitefriend");
 						}}
 					>
-						<div className="relative grid grid-cols-[1fr_.5fr] w-[25rem]">
+						<div className="relative grid grid-cols-[1fr_.5fr] w-[20rem] md:w-[25rem]">
 							<h2 className="text-black justify-self-start">
 								Invite Friend
 							</h2>
 							<img
 								src={inviteImage}
 								alt="invite image"
-								className="h-[15rem] w-[15rem] absolute right-[-10%] bottom-[-15px]"
+								className="md:h-[15rem] h-[12ewm] w-[12rem] md:w-[15rem] absolute right-[-10%] bottom-[-15px]"
 							/>
 						</div>
 					</Button>
@@ -136,14 +144,14 @@ const Home: FC = () => {
 							navigate("/game");
 						}}
 					>
-						<div className="relative grid w-[25rem] grid-cols-2">
+						<div className="relative grid w-[20rem] md:w-[25rem] grid-cols-[1fr_.5fr]">
 							<h2 className="text-center text-white justify-self-center">
 								Random
 							</h2>
 							<img
 								src={randomImage}
 								alt="invite image"
-								className="h-[15rem] w-[15rem] absolute right-[-10%] bottom-[-15px]"
+								className="md:h-[15rem] h-[12ewm] w-[12rem] md:w-[15rem] absolute right-[-10%] bottom-[-15px]"
 							/>
 						</div>
 					</Button>
