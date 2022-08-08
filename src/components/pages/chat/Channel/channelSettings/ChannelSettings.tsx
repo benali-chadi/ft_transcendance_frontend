@@ -2,12 +2,10 @@ import { motion } from "framer-motion";
 import React, { FC, useContext, useState } from "react";
 import Modal from "../../../../common/Modal";
 import { cardVariants } from "../../../../helpers/variants";
-import AddMembers from "./EditMembers";
 import EditChannelInfo from "./EditChannelInfo";
 import EditMembers from "./EditMembers";
 import { userContext, UserState } from "../../../../helpers/context";
 import axios from "axios";
-import { Navigate, useNavigate } from "react-router-dom";
 
 interface Props {
 	room_id: number;
@@ -16,19 +14,22 @@ interface Props {
 }
 
 const ChannelSettings: FC<Props> = ({ handleCancel, channelName, room_id }) => {
-	const [toShow, setToShow] = useState<"" | "edit" | "add" | "member" | "unban" >("");
+	const [toShow, setToShow] = useState<
+		"" | "edit" | "add" | "member" | "unban"
+	>("");
 	const { isMobile } = useContext<UserState>(userContext);
-	const navigate = useNavigate();
 
 	const handleDeleteChannelClick = async () => {
-		try{
-			let { data } = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}chat/${room_id}`, {
-				withCredentials:true
-			});
-		}catch(e){
+		try {
+			let { data } = await axios.delete(
+				`${process.env.REACT_APP_BACKEND_URL}chat/${room_id}`,
+				{
+					withCredentials: true,
+				}
+			);
+		} catch (e) {
 			console.log(e);
 		}
-		
 	};
 
 	const handleCancelClick = () => {
@@ -112,9 +113,8 @@ const ChannelSettings: FC<Props> = ({ handleCancel, channelName, room_id }) => {
 
 							<div
 								className={`p-4 text-white rounded-lg cursor-pointer bg-my-red hover:bg-red-500 text-center`}
-								onClick ={handleDeleteChannelClick}
+								onClick={handleDeleteChannelClick}
 							>
-								
 								<h2>delete channel</h2>
 							</div>
 						</div>

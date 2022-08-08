@@ -1,13 +1,8 @@
 import Navigation from "./components/Navigation";
-import {
-	Navigate,
-	Route,
-	Routes,
-	useNavigate,
-} from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ProtectedRoute from "./components/common/ProtectedRoute";
-import { userContext, UserState } from "./components/helpers/context";
+import { userContext } from "./components/helpers/context";
 import { AnimatePresence } from "framer-motion";
 import { useMediaQuery } from "react-responsive";
 import Log from "./components/pages/login/Log";
@@ -31,37 +26,35 @@ const App: React.FC = () => {
 	const [gameSocket, setGameSocket] = useState<any>();
 	const [updated, setupdated] = useState(0);
 	const [updatedRelation, setUpdated] = useState(0);
-	const [user, setUser] = useState<any>(null);
 	const [showInvite, setShowInvite] = useState(false);
 
 	const [isInvated, setIsInvated] = useState(false);
-	const [invatedUser, setInvatedUser] = useState({});
 	const navigate = useNavigate();
 	const isMobile = useMediaQuery({
 		query: "(max-width: 767px)",
 	});
 
-	useEffect(() : any => {
+	useEffect((): any => {
 		const userStorage = localStorage.getItem("CurrentUser");
-		if (userStorage ) setCurrentUser(JSON.parse(userStorage));
+		if (userStorage) setCurrentUser(JSON.parse(userStorage));
 		const socket = io(`${process.env.REACT_APP_BACKEND_URL}user`, {
-			query:{user: userStorage},
-			withCredentials: true
-		}).connect()
+			query: { user: userStorage },
+			withCredentials: true,
+		}).connect();
 		const socket_chat = io(`${process.env.REACT_APP_BACKEND_URL}chat`, {
 			withCredentials: true,
 		}).connect();
 		const socket_game = io(`${process.env.REACT_APP_BACKEND_URL}game`, {
-			query:{user: userStorage},
+			query: { user: userStorage },
 			withCredentials: true,
 		}).connect();
 
-		socket.on("client status", () =>{
+		socket.on("client status", () => {
 			setupdated((prev) => {
-				return prev + 1
+				return prev + 1;
 			});
-		})
-		socket.on("relation status", (res) =>{
+		});
+		socket.on("relation status", (res) => {
 			console.log("heere");
 			//if (res.message === "friend req"){
 			//	setUser(prev => {
@@ -72,9 +65,9 @@ const App: React.FC = () => {
 			//	})
 			//}
 			setUpdated((prev) => {
-				return prev + 1
+				return prev + 1;
 			});
-		})
+		});
 		setSocket(socket);
 		setChatSocket(socket_chat);
 		setGameSocket(socket_game);
@@ -82,8 +75,7 @@ const App: React.FC = () => {
 		socket_game.on("inviteFrined", (data) => {
 			setIsInvated(true);
 			// alert(data);
-		})
-		
+		});
 
 		return () => {
 			userSocket.off("client status");
@@ -92,7 +84,7 @@ const App: React.FC = () => {
 			userSocket.disconnect();
 			socket_chat.disconnect();
 			gameSocket.disconnect();
-		}
+		};
 	}, []);
 	// useEffect(() => {
 	// 	if (gameSocket)
@@ -103,16 +95,40 @@ const App: React.FC = () => {
 	// },[gameSocket])
 
 	return (
-		<userContext.Provider value={{ currentUser, setCurrentUser, isMobile , userSocket, updated, updatedRelation, chatSocket, gameSocket}}>
-			{
-				isInvated && <div onClick={() => {
-					gameSocket.emit("acceptinvite", {})
-					navigate("/game");
-				}}>   move to paly  </div>
-			}
+		<userContext.Provider
+			value={{
+				currentUser,
+				setCurrentUser,
+				isMobile,
+				userSocket,
+				updated,
+				updatedRelation,
+				chatSocket,
+				gameSocket,
+			}}
+		>
+			{isInvated && (
+				<div
+					onClick={() => {
+						gameSocket.emit("acceptinvite", {});
+						navigate("/game");
+					}}
+				>
+					{" "}
+					move to paly{" "}
+				</div>
+			)}
 			<div className="h-screen text-4xl font-bold text-center App">
 				<AnimatePresence exitBeforeEnter>
-					{showInvite && (<InviteCard handleDecline={() => setShowInvite(false)} opUser={currentUser} handleAccept={() => {alert("OK")}}/>) }
+					{showInvite && (
+						<InviteCard
+							handleDecline={() => setShowInvite(false)}
+							opUser={currentUser}
+							handleAccept={() => {
+								alert("OK");
+							}}
+						/>
+					)}
 					<Routes>
 						<Route
 							path="/"
@@ -141,7 +157,10 @@ const App: React.FC = () => {
 								/>
 							</Route>
 							<Route path="game" element={<Game />} />
-							<Route path="gamewatch/:gameid" element={<GameWatch />} />
+							<Route
+								path="gamewatch/:gameid"
+								element={<GameWatch />}
+							/>
 							<Route path="chat" element={<Chat />} />
 						</Route>
 						<Route

@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router";
-// @ts-ignore
 import matchHistory from "../../../../img/history.png";
 import MatchCard from "./MatchCard";
 import { outletContext } from "../Profile";
@@ -16,7 +15,6 @@ const MatchHistory: FC = () => {
 	};
 
 	return (
-		// <div className="absolute inset-0 z-30 w-full h-screen px-6 py-20 bg-my-blue md:relative md:h-full">
 		<div className="absolute inset-0 z-30 w-full h-screen px-6 py-20 overflow-auto bg-my-blue md:relative md:z-0 md:h-full scrolling">
 			{/* Back Button */}
 			<i

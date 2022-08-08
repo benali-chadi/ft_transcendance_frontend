@@ -1,5 +1,4 @@
-import React, { FC, useContext } from "react";
-import { userContext, UserState } from "../helpers/context";
+import React, { FC } from "react";
 
 interface Props {
 	children?: JSX.Element;

@@ -23,12 +23,13 @@ let directionY = 1;
 let rn = Math.floor(Math.random() * 100) + 1;
 
 function withParams(Component) {
-	return props => <Component {...props} conext={useContext<UserState>(userContext)} />;
-  }
+	return (props) => (
+		<Component {...props} conext={useContext<UserState>(userContext)} />
+	);
+}
 
 // const { gameSocket } = useContext<UserState>(userContext);
-  class Game extends React.Component {
-	
+class Game extends React.Component {
 	state = {
 		number_image: 1,
 		isMaster: false,
@@ -154,17 +155,19 @@ function withParams(Component) {
 		// const search = useLocation().search;
 		let search = window.location.search;
 		let params = new URLSearchParams(search);
-		let username = params.get('username');
-	
+		let username = params.get("username");
+
 		if (username) {
 			// alert("ddd")
 			this.state.socket.emit("inviteFrined", { username: username });
-		}else {
-			this.state.socket.emit("participate", { startGame: true, random: rn });
+		} else {
+			this.state.socket.emit("participate", {
+				startGame: true,
+				random: rn,
+			});
 		}
 		// console.log(this.state.socket)
 		this.state.socket.on("startTheGame", (data: any) => {
-		
 			this.setState({ gameStart: true });
 			this.setState({ isMaster: data.isMaster });
 			this.setState({ obj: data });

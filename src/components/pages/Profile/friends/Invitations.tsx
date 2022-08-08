@@ -1,15 +1,11 @@
 import axios from "axios";
 import { motion } from "framer-motion";
-import env from "react-dotenv";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { FC } from "react";
-import { useOutletContext } from "react-router";
 import Button from "../../../common/Button";
 import Modal from "../../../common/Modal";
-import { outletContext } from "../Profile";
 import FriendCard from "./FriendCard";
-import { friend } from "./FriendsList";
 import { cardVariants } from "../../../helpers/variants";
 
 interface Props {
@@ -17,7 +13,6 @@ interface Props {
 }
 
 const Invitations: FC<Props> = ({ handleCancel }) => {
-	// const { username } = useOutletContext<outletContext>();
 	const [users, setUsers] = useState<any>([]);
 	const [text, setText] = useState("");
 
@@ -52,7 +47,7 @@ const Invitations: FC<Props> = ({ handleCancel }) => {
 			setUsers(users.filter((usr) => usr.username !== user.username));
 	};
 
-	const declineInvitation = async (user) => {}
+	const declineInvitation = async (user) => {};
 
 	return (
 		<Modal>
@@ -95,10 +90,11 @@ const Invitations: FC<Props> = ({ handleCancel }) => {
 								)
 								.map((user: any) => {
 									return (
-										<div className="flex items-center gap-2" key={user.id}>
-											<FriendCard
-												user={user}
-											/>
+										<div
+											className="flex items-center gap-2"
+											key={user.id}
+										>
+											<FriendCard user={user} />
 											<div>
 												<Button
 													color="bg-my-yellow"

@@ -1,11 +1,9 @@
 import axios from "axios";
-import React, { FC, useContext, useEffect } from "react";
+import React, { FC, useContext } from "react";
 import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import UserCard from "./common/UserCard";
-// import { useMediaQuery } from "react-responsive";
 import { userContext, UserState } from "./helpers/context";
-// @ts-ignore
 import logo from "../img/logo.png";
 import { motion } from "framer-motion";
 import { navVariants } from "./helpers/variants";

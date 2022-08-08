@@ -1,5 +1,5 @@
 import React, { FC, useContext, useEffect, useRef, useState } from "react";
-import { motion, useForceUpdate } from "framer-motion";
+import { motion } from "framer-motion";
 // @ts-ignore
 import { threeDotsVariants } from "../../../helpers/variants";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,8 @@ interface Props {
 }
 
 const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
-	const { userSocket, updated, updatedRelation } = useContext<UserState>(userContext);
+	const { userSocket, updated, updatedRelation } =
+		useContext<UserState>(userContext);
 	const [showDropDown, setShowDropdown] = useState(false);
 	const navigate = useNavigate();
 	const [_user, setUser] = useState(user);
@@ -36,7 +37,6 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 			setUser(data);
 		} catch (e) {}
 	}
-
 
 	function redirectToGame() {
 		navigate(`/game?username=${_user.username}`);
@@ -80,7 +80,11 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 				{/* Text Part */}
 				<div className="text-left">
 					<h3 className="text-xl">{_user.username}</h3>
-					{!(blocked || blocker) && <div className="text-sm font-semibold">{_user.status}</div>}
+					{!(blocked || blocker) && (
+						<div className="text-sm font-semibold">
+							{_user.status}
+						</div>
+					)}
 				</div>
 			</div>
 			{/* Three Dots Part */}
@@ -103,83 +107,88 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 					>
 						Go to Profile
 					</p>
-					{!blocker && <> {!blocked ? (
+					{!blocker && (
 						<>
-							<p
-								className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
-								onClick={() => redirectToGame()}
-							>
-								Invite for a game
-							</p>
-							<p
-								className="p-1 font-normal cursor-pointer hover:bg-gray-100"
-								onClick={async () => {
-									setYouSure(true);
-								}}
-							>
-								Block User
-							</p>
-							{showYouSure && (
-								<HandleBlock
-									handleYesClick={() => {
-										setYouSure(false);
-										setShowDropdown(false);
-										userSocket?.emit(
-											"relation status",
-											{
-												id: _user.id,
-												to_do: "block_user",
-											},
-											(res) => {
-												setBlocked((prev) => {
-													return res.blocked;
-												});
-											}
-										);
-									}}
-									handleNoClick={() => {
-										setYouSure(false);
-										// setShowDropdown(false);
-									}}
-								/>
+							{" "}
+							{!blocked ? (
+								<>
+									<p
+										className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
+										onClick={() => redirectToGame()}
+									>
+										Invite for a game
+									</p>
+									<p
+										className="p-1 font-normal cursor-pointer hover:bg-gray-100"
+										onClick={async () => {
+											setYouSure(true);
+										}}
+									>
+										Block User
+									</p>
+									{showYouSure && (
+										<HandleBlock
+											handleYesClick={() => {
+												setYouSure(false);
+												setShowDropdown(false);
+												userSocket?.emit(
+													"relation status",
+													{
+														id: _user.id,
+														to_do: "block_user",
+													},
+													(res) => {
+														setBlocked((prev) => {
+															return res.blocked;
+														});
+													}
+												);
+											}}
+											handleNoClick={() => {
+												setYouSure(false);
+												// setShowDropdown(false);
+											}}
+										/>
+									)}
+								</>
+							) : (
+								<>
+									<p
+										className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
+										onClick={async () => {
+											setYouSure(true);
+										}}
+									>
+										Unblock
+									</p>
+									{showYouSure && (
+										<HandleBlock
+											handleYesClick={() => {
+												setYouSure(false);
+												setShowDropdown(false);
+												userSocket?.emit(
+													"relation status",
+													{
+														id: _user.id,
+														to_do: "unblock_user",
+													},
+													(res) => {
+														setBlocked((prev) => {
+															return res.blocked;
+														});
+													}
+												);
+											}}
+											handleNoClick={() => {
+												setYouSure(false);
+												// setShowDropdown(false);
+											}}
+										/>
+									)}
+								</>
 							)}
 						</>
-					) : (
-						<>
-							<p
-								className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
-								onClick={async () => {
-									setYouSure(true);
-								}}
-							>
-								Unblock
-							</p>
-							{showYouSure && (
-								<HandleBlock
-									handleYesClick={() => {
-										setYouSure(false);
-										setShowDropdown(false);
-										userSocket?.emit(
-											"relation status",
-											{
-												id: _user.id,
-												to_do: "unblock_user",
-											},
-											(res) => {
-												setBlocked((prev) => {
-													return res.blocked;
-												});
-											}
-										);
-									}}
-									handleNoClick={() => {
-										setYouSure(false);
-										// setShowDropdown(false);
-									}}
-								/>
-							)}
-						</>
-					)}</>}
+					)}
 				</motion.div>
 			</div>
 		</div>

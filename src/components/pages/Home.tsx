@@ -1,12 +1,8 @@
 import React, { FC, useContext, useEffect, useRef, useState } from "react";
-import Section from "../common/Section";
 import List from "../common/List";
 import UserCard from "../common/UserCard";
-// @ts-ignore
 import background from "../../img/game-system/background.jpg";
-// @ts-ignore
 import inviteImage from "../../img/invite.png";
-// @ts-ignore
 import randomImage from "../../img/random.png";
 import { userContext, UserState } from "../helpers/context";
 import { motion } from "framer-motion";
@@ -15,10 +11,7 @@ import { useNavigate } from "react-router-dom";
 import CurrentlyPlayingCard from "../common/homecards/CurrentlyPlayingCard";
 import LeaderBoardCard from "../common/homecards/LeaderBoardCard";
 import UpdateUser from "./login/UpdateUser";
-import { io } from "socket.io-client";
 import Button from "../common/Button";
-
-// import { pageVariantDesktop, pageVariantMobile } from "./helpers/variants";
 
 let obj = {
 	GameId: "1",

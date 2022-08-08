@@ -1,8 +1,6 @@
 import React, { FC, useContext } from "react";
-import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router";
 import AchievementIcon from "../../../../img/achievments.png";
-import { userContext, UserState } from "../../../helpers/context";
 import { outletContext } from "../Profile";
 import AchievementCard from "./AchievementCard";
 

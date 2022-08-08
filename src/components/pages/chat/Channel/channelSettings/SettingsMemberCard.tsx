@@ -1,7 +1,7 @@
 import axios from "axios";
 import { motion } from "framer-motion";
 import React, { FC, useContext, useEffect, useRef, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { userContext, UserState } from "../../../../helpers/context";
 import { threeDotsVariants } from "../../../../helpers/variants";
 
@@ -16,7 +16,7 @@ const SettingsMemberCard: FC<Props> = ({
 	setMembersUpdated,
 	room_id,
 }) => {
-	const { userSocket, updated } = useContext<UserState>(userContext);
+	const { updated } = useContext<UserState>(userContext);
 	const navigate = useNavigate();
 	const [showDropDown, setShowDropdown] = useState(false);
 
@@ -64,17 +64,19 @@ const SettingsMemberCard: FC<Props> = ({
 	};
 	const handleBanClick = async () => {
 		setShowDropdown(false);
-		try{
-			let { data } = await axios.post(`${process.env.REACT_APP_BACKEND_URL}chat/mute_user`,
-			{
-				user_id: user.id,
-				room_id: room_id,
-				date_unmute: null
-			},
-			{withCredentials: true});
+		try {
+			let { data } = await axios.post(
+				`${process.env.REACT_APP_BACKEND_URL}chat/mute_user`,
+				{
+					user_id: user.id,
+					room_id: room_id,
+					date_unmute: null,
+				},
+				{ withCredentials: true }
+			);
 			console.log(data);
 			setMembersUpdated({});
-		}catch(e){}
+		} catch (e) {}
 	};
 	const handleMuteClick = () => {
 		setOnMute(!onMute);
@@ -98,17 +100,19 @@ const SettingsMemberCard: FC<Props> = ({
 	};
 	const handleUnbanMemberClick = async () => {
 		setShowDropdown(false);
-		try{
-			let { data } = await axios.post(`${process.env.REACT_APP_BACKEND_URL}chat/unban`,
-			{
-				user_id: user.id,
-				room_id: room_id,
-			},
-			{withCredentials: true});
+		try {
+			let { data } = await axios.post(
+				`${process.env.REACT_APP_BACKEND_URL}chat/unban`,
+				{
+					user_id: user.id,
+					room_id: room_id,
+				},
+				{ withCredentials: true }
+			);
 			console.log(data);
 			setMembersUpdated({});
-		}catch(e){}
-	}
+		} catch (e) {}
+	};
 
 	async function getUser() {
 		try {
@@ -122,8 +126,7 @@ const SettingsMemberCard: FC<Props> = ({
 	const ref: any = useRef();
 
 	useEffect(() => {
-		if (!user.IsMuted || (user.muteDate instanceof Date))
-			setmuted(true);
+		if (!user.IsMuted || user.muteDate instanceof Date) setmuted(true);
 		getUser();
 	}, [updated]);
 	// const { setProfileUser } = useOutletContext<outletContext>();
@@ -176,7 +179,7 @@ const SettingsMemberCard: FC<Props> = ({
 				>
 					<i className="text-xl fa-solid fa-ellipsis-vertical "></i>
 				</div>
-				
+
 				{user.role === undefined ? (
 					<motion.div
 						variants={threeDotsVariants}
@@ -191,7 +194,6 @@ const SettingsMemberCard: FC<Props> = ({
 						</p>
 					</motion.div>
 				) : (
-					
 					<motion.div
 						variants={threeDotsVariants}
 						animate={showDropDown ? "open" : "close"}
@@ -199,122 +201,135 @@ const SettingsMemberCard: FC<Props> = ({
 					>
 						{user.muteDate ? (
 							<>
-							<p
-							className="p-1 pb-1 font-normal rounded-md rounded-b-none cursor-pointer hover:bg-gray-100"
-							onClick={handleChangeMemberRolesClick}
-						>
-							{user.role === "Member"
-								? "set as admin"
-								: "remove privlige"}
-						</p>
-						{/* {(!user.IsMuted || user.muteDate) &&  */}
-						<p
-							className="p-1 pb-1 font-normal rounded-md rounded-b-none cursor-pointer hover:bg-gray-100"
-							onClick={handleBanClick}
-						>
-							Ban
-						</p>
-						{/* } */}
-						
-						{muted && (<p
-							className="p-1 pb-1 font-normal rounded-md rounded-b-none cursor-pointer hover:bg-gray-100"
-							onClick={handleMuteClick}
-						>
-							Mute
-						</p>)}
-						{onMute && (
-							<form
-								className="flex flex-col"
-								onSubmit={async (e) => {
-									e.preventDefault();
-
-									setShowDropdown(false);
-									setOnMute(false);
-									try{
-										let date = new Date();
-
-										console.log("date =", date);
-										console.log("days =", days);
-										date.setUTCDate(date.getDate() + days);
-										date.setUTCHours(date.getHours() + hours - 1);
-										date.setUTCMinutes(
-											date.getMinutes() + minutes
-										);
-										let { data } = await axios.post(`${process.env.REACT_APP_BACKEND_URL}chat/mute_user`,
-										{
-											user_id: user.id,
-											room_id: room_id,
-											date_unmute: date
-										},
-										{withCredentials: true})
-										setDays(0);
-										setHours(0);
-										setMinutes(0);
-										console.log("data =", data);
-									}catch(e){
-										
-									}
-								}}
-							>
-								<div className="flex justify-between">
-									<input
-										type="number"
-										value={days}
-										onChange={(e) => {
-											const value = parseInt(
-												e.target.value
-											);
-											if (!isNaN(value) && value >= 0)
-												setDays(value);
-										}}
-										className="w-[3rem]"
-									/>
-									<p className="self-center text-xs text-gray-500">
-										Days
-									</p>
-								</div>
-								<div className="flex justify-between">
-									<input
-										type="number"
-										value={hours}
-										onChange={(e) => {
-											const value = parseInt(
-												e.target.value
-											);
-											if (!isNaN(value) && value >= 0)
-												setHours(value);
-										}}
-										className="w-[3rem]"
-									/>
-									<p className="self-center text-xs text-gray-500">
-										Hours
-									</p>
-								</div>
-								<div className="flex justify-between">
-									<input
-										type="number"
-										value={minutes}
-										onChange={(e) => {
-											const value = parseInt(
-												e.target.value
-											);
-											if (!isNaN(value) && value >= 0)
-												setMinutes(value);
-										}}
-										className="w-[3rem]"
-									/>
-									<p className="self-center text-xs text-gray-500">
-										Minutes
-									</p>
-								</div>
-								<button
-									type="submit"
-									className="self-center p-1 mt-1 rounded-lg bg-my-yellow hover:opacity-80"
+								<p
+									className="p-1 pb-1 font-normal rounded-md rounded-b-none cursor-pointer hover:bg-gray-100"
+									onClick={handleChangeMemberRolesClick}
 								>
-									<p className="text-xs">Mute</p>
-								</button>
-							</form>
-							)}
+									{user.role === "Member"
+										? "set as admin"
+										: "remove privlige"}
+								</p>
+								<p
+									className="p-1 pb-1 font-normal rounded-md rounded-b-none cursor-pointer hover:bg-gray-100"
+									onClick={handleBanClick}
+								>
+									Ban
+								</p>
+
+								{muted && (
+									<p
+										className="p-1 pb-1 font-normal rounded-md rounded-b-none cursor-pointer hover:bg-gray-100"
+										onClick={handleMuteClick}
+									>
+										Mute
+									</p>
+								)}
+								{onMute && (
+									<form
+										className="flex flex-col"
+										onSubmit={async (e) => {
+											e.preventDefault();
+
+											setShowDropdown(false);
+											setOnMute(false);
+											try {
+												let date = new Date();
+
+												console.log("date =", date);
+												console.log("days =", days);
+												date.setUTCDate(
+													date.getDate() + days
+												);
+												date.setUTCHours(
+													date.getHours() + hours - 1
+												);
+												date.setUTCMinutes(
+													date.getMinutes() + minutes
+												);
+												let { data } = await axios.post(
+													`${process.env.REACT_APP_BACKEND_URL}chat/mute_user`,
+													{
+														user_id: user.id,
+														room_id: room_id,
+														date_unmute: date,
+													},
+													{ withCredentials: true }
+												);
+												setDays(0);
+												setHours(0);
+												setMinutes(0);
+												console.log("data =", data);
+											} catch (e) {}
+										}}
+									>
+										<div className="flex justify-between">
+											<input
+												type="number"
+												value={days}
+												onChange={(e) => {
+													const value = parseInt(
+														e.target.value
+													);
+													if (
+														!isNaN(value) &&
+														value >= 0
+													)
+														setDays(value);
+												}}
+												className="w-[3rem]"
+											/>
+											<p className="self-center text-xs text-gray-500">
+												Days
+											</p>
+										</div>
+										<div className="flex justify-between">
+											<input
+												type="number"
+												value={hours}
+												onChange={(e) => {
+													const value = parseInt(
+														e.target.value
+													);
+													if (
+														!isNaN(value) &&
+														value >= 0
+													)
+														setHours(value);
+												}}
+												className="w-[3rem]"
+											/>
+											<p className="self-center text-xs text-gray-500">
+												Hours
+											</p>
+										</div>
+										<div className="flex justify-between">
+											<input
+												type="number"
+												value={minutes}
+												onChange={(e) => {
+													const value = parseInt(
+														e.target.value
+													);
+													if (
+														!isNaN(value) &&
+														value >= 0
+													)
+														setMinutes(value);
+												}}
+												className="w-[3rem]"
+											/>
+											<p className="self-center text-xs text-gray-500">
+												Minutes
+											</p>
+										</div>
+										<button
+											type="submit"
+											className="self-center p-1 mt-1 rounded-lg bg-my-yellow hover:opacity-80"
+										>
+											<p className="text-xs">Mute</p>
+										</button>
+									</form>
+								)}
 							</>
 						) : (
 							<p
@@ -324,11 +339,10 @@ const SettingsMemberCard: FC<Props> = ({
 								Unban
 							</p>
 						)}
-							
-						
+
 						{/* {
 							user.IsMuted && user.muteDate === null && */}
-							
+
 						{/* } */}
 						<p
 							className="p-1 pb-1 font-normal rounded-md rounded-b-none cursor-pointer hover:bg-gray-100"

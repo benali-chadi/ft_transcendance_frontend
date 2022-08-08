@@ -1,19 +1,16 @@
 import React, { FC, useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-// import { createHashHistory } from "history";
 import axios from "axios";
 import { userContext } from "../../helpers/context";
-// import { motion } from "framer-motion";
 import Loader from "../../common/Loader";
 import { UserState } from "../../helpers/context";
-import env from "react-dotenv";
 import TFAActivation from "./TFA_activation";
 
 const Log: FC = () => {
 	const { setCurrentUser } = useContext<UserState>(userContext);
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
-	const [show2FA, setShow2FA] = useState(false)
+	const [show2FA, setShow2FA] = useState(false);
 
 	let query = searchParams.getAll("code");
 
@@ -23,15 +20,15 @@ const Log: FC = () => {
 				`${process.env.REACT_APP_BACKEND_URL}auth/redirect?code=${query[0]}`,
 				{ withCredentials: true }
 			);
-			// const browserHistory = createHashHistory();
 			if (data.user) {
-				if (data.user.TFA_enabled)
-				{
-					setShow2FA(true)
-				}
-				else {
+				if (data.user.TFA_enabled) {
+					setShow2FA(true);
+				} else {
 					setCurrentUser(data);
-					localStorage.setItem("CurrentUser", JSON.stringify(data.user));
+					localStorage.setItem(
+						"CurrentUser",
+						JSON.stringify(data.user)
+					);
 					navigate("/");
 				}
 			}
@@ -40,7 +37,15 @@ const Log: FC = () => {
 	}, []);
 	return (
 		<div className="flex flex-col items-center justify-center w-screen h-screen">
-			{show2FA && <TFAActivation toDo="verify" handleCancel={() => {setShow2FA(false); navigate("/login")}}/>}
+			{show2FA && (
+				<TFAActivation
+					toDo="verify"
+					handleCancel={() => {
+						setShow2FA(false);
+						navigate("/login");
+					}}
+				/>
+			)}
 			<Loader />
 		</div>
 	);

@@ -1,6 +1,5 @@
 import axios from "axios";
 import { motion } from "framer-motion";
-import env from "react-dotenv";
 import React, { FC, useContext, useState } from "react";
 import Modal from "../../../common/Modal";
 import Card from "../../../common/Card";
@@ -17,7 +16,8 @@ const CreateChannel: FC<Props> = ({ handleCancelClick }) => {
 		"Public"
 	);
 	const [password, setPassword] = useState("");
-	const { channelUpdated, setcChannelUpdated } = useContext<ChatState>(ChatContext);
+	const { channelUpdated, setcChannelUpdated } =
+		useContext<ChatState>(ChatContext);
 	const [channelAvatar, setChannelAvatar] = useState<any>();
 	const [selectedfile, setFile] = useState<File>();
 
@@ -42,7 +42,7 @@ const CreateChannel: FC<Props> = ({ handleCancelClick }) => {
 						handleCancelClick();
 						setcChannelUpdated(channelUpdated + 1);
 					} catch (e) {
-						if (e.response.status === 409){
+						if (e.response.status === 409) {
 							setShowError(true);
 							setTimeout(() => {
 								setShowError(false);

@@ -1,8 +1,7 @@
 import React, { FC, useContext, useEffect, useRef, useState } from "react";
-import { ChatContext, ChatState, userContext, UserState } from "../../helpers/context";
+import { userContext, UserState } from "../../helpers/context";
 import ChannelSettings from "./Channel/channelSettings/ChannelSettings";
 import { ChatBubble, MsgProps } from "./ChatBubble";
-import ChatUserCard from "./Inbox/ChatUserCard";
 
 const scrollToEnd = (ref) => {
 	ref.current.scroll({
@@ -19,8 +18,7 @@ interface Props {
 }
 
 const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
-	const { currentUser, updatedRelation } = useContext<UserState>(userContext);
-	const { setcChannelUpdated } = useContext<ChatState>(ChatContext);
+	const { currentUser } = useContext<UserState>(userContext);
 	const [msgs, setMsgs] = useState<MsgProps[]>([]);
 	const [text, setText] = useState("");
 	const [showSetting, setShowSettings] = useState(false);
@@ -78,7 +76,6 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 
 		setText("");
 	};
-	const backgroundStyle = "-webkit-overflow-scrolling: touch;";
 
 	return (
 		<div className="flex flex-col h-screen md:grid md:grid-rows-[70px_5fr_70px] md:h-[70vh] md:shadow-lg md:shadow-gray-400 rounded-med">
@@ -155,7 +152,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 			</div>
 
 			{/* Typing Area */}
-			{!(user.blocked || user.blocker)  && (
+			{!(user.blocked || user.blocker) && (
 				<form
 					className="flex items-center justify-center w-full gap-4 py-4 border-t-4 border-white h-max rounded-b-med bg-my-lavender"
 					onSubmit={(e) => {

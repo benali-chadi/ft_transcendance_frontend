@@ -5,7 +5,7 @@ import { ChatContext, userContext } from "../../helpers/context";
 import { chatAreaVariants, pageVariants } from "../../helpers/variants";
 import ChatArea from "./ChatArea";
 import ChatUserCard from "./Inbox/ChatUserCard";
-import { motion, useForceUpdate } from "framer-motion";
+import { motion } from "framer-motion";
 import { UserState } from "../../helpers/context";
 import axios from "axios";
 import ChatGroupCard from "./Channel/ChatGroupCard";
@@ -14,12 +14,12 @@ import CreateChannel from "./Channel/CreateChannel";
 import { useNavigate } from "react-router-dom";
 
 const Chat: FC = () => {
-	const { isMobile, chatSocket, updatedRelation } = useContext<UserState>(userContext);
+	const { isMobile, chatSocket, updatedRelation } =
+		useContext<UserState>(userContext);
 	const [dms, setDms] = useState([]);
 
 	const [chatUser, setChatUser] = useState<any | null>(null);
 	const [roomId, setRoomId] = useState<number>(0);
-	//const [chatSocket, setChatSocket] = useState<any>();
 	const [channels, setChannels] = useState<any>([]);
 	const [showCreateChannel, setShowCreateChannel] = useState(false);
 	const [showChannels, setShowChannels] = useState(false);
@@ -44,10 +44,9 @@ const Chat: FC = () => {
 				console.log(data);
 				setDms(data);
 			} catch (e) {
-				if(e.response.status === 401)
-				{
+				if (e.response.status === 401) {
 					localStorage.clear();
-					navigate("/")
+					navigate("/");
 				}
 			}
 		}
@@ -59,10 +58,9 @@ const Chat: FC = () => {
 				);
 				setChannels(data);
 			} catch (e) {
-				if(e.response.status === 401)
-				{
+				if (e.response.status === 401) {
 					localStorage.clear();
-					navigate("/")
+					navigate("/");
 				}
 			}
 		}
@@ -71,7 +69,14 @@ const Chat: FC = () => {
 	}, [channelUpdated, updatedRelation]);
 
 	return (
-		<ChatContext.Provider value={{ channels, setChannels, channelUpdated, setcChannelUpdated }}>
+		<ChatContext.Provider
+			value={{
+				channels,
+				setChannels,
+				channelUpdated,
+				setcChannelUpdated,
+			}}
+		>
 			<motion.div
 				variants={pageVariants}
 				initial="initial"

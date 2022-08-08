@@ -1,7 +1,4 @@
 import React, { FC } from "react";
-import { useOutletContext } from "react-router-dom";
-
-// bg-gradient-to-r from-[#D8E3F7] to-[#E4CFBA]
 
 // interface Props {
 // 	// result: string;

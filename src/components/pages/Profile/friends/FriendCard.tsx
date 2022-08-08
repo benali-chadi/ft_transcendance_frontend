@@ -1,13 +1,9 @@
 import React, { FC, useContext, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-// @ts-ignore
 import { threeDotsVariants } from "../../../helpers/variants";
-import { useNavigate, useOutletContext } from "react-router-dom";
-import { outletContext } from "../Profile";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import env from "react-dotenv";
 import { userContext, UserState } from "../../../helpers/context";
-import Button from "../../../common/Button";
 import HandleBlock from "../../../common/HandleBlock";
 
 interface Props {
@@ -18,7 +14,6 @@ const FriendCard: FC<Props> = ({ user }) => {
 	const { userSocket, updated } = useContext<UserState>(userContext);
 	const navigate = useNavigate();
 	const [showDropDown, setShowDropdown] = useState(false);
-	// const { setProfileUser } = useOutletContext<outletContext>();
 	const [_user, setUser] = useState(user);
 
 	const [blocked, setBlocked] = useState(_user.blocked);
@@ -38,7 +33,6 @@ const FriendCard: FC<Props> = ({ user }) => {
 	useEffect(() => {
 		getUser();
 	}, [updated]);
-	// const { setProfileUser } = useOutletContext<outletContext>();
 
 	useEffect(() => {
 		function handleClickOutside(event) {
@@ -62,9 +56,7 @@ const FriendCard: FC<Props> = ({ user }) => {
 				className="min-h-[3rem] min-w-[3rem] rounded-full flex justify-center items-center gap-4 cursor-pointer"
 				onClick={() => {
 					setShowDropdown(false);
-					// setProfileUser(user);
 					navigate(`/profile/${_user.username}`);
-					// handleClick(user);
 				}}
 			>
 				{_user.avatar && (

@@ -1,5 +1,4 @@
 import axios from "axios";
-import env from "react-dotenv";
 import React, { FC, useContext, useEffect } from "react";
 import { useState } from "react";
 import { UserState } from "../helpers/context";
@@ -17,7 +16,6 @@ interface Props {
 }
 
 const UserCard: FC<Props> = ({ user, path }) => {
-	// const [currentUser, setUser] = useState<any>(null);
 	const { currentUser, userSocket, updatedRelation } =
 		useContext<UserState>(userContext);
 	const [showUpdateUser, setShowUpdateUser] = useState(false);
@@ -35,8 +33,6 @@ const UserCard: FC<Props> = ({ user, path }) => {
 			else if (data.relation === "Invitation Sent")
 				setButton("Invitation Sent");
 		}
-
-		// console.log("button =", buttonMessage);
 	};
 	async function updateRelation() {
 		try {

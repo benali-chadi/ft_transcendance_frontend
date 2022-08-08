@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 // @ts-ignore
 import { threeDotsVariants } from "../../../helpers/variants";
 import axios from "axios";
-import env from "react-dotenv";
 import ChannelMembers from "./ChannelMembers";
 import { ChatContext, ChatState } from "../../../helpers/context";
 import ChannelSettings from "./channelSettings/ChannelSettings";
@@ -23,7 +22,8 @@ const ChatGroupCard: FC<Props> = ({
 	const [showMembers, setShowMembers] = useState(false);
 	const [showSetting, setShowSettings] = useState(false);
 
-	const {channelUpdated, setcChannelUpdated } = useContext<ChatState>(ChatContext);
+	const { channelUpdated, setcChannelUpdated } =
+		useContext<ChatState>(ChatContext);
 	const ref: any = useRef();
 
 	const handleJoinClick = async () => {

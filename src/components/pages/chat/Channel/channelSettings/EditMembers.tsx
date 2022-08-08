@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { FC, useEffect, useState } from "react";
-import FriendCard from "../../../Profile/friends/FriendCard";
 import SettingsMemberCard from "./SettingsMemberCard";
 
 interface Props {
@@ -26,7 +25,7 @@ const EditMembers: FC<Props> = ({ handleCancel, room_id, members, unban }) => {
 							withCredentials: true,
 						}
 					);
-				} else if (unban){
+				} else if (unban) {
 					data = await axios.get(
 						`${process.env.REACT_APP_BACKEND_URL}chat/${room_id}/banned_members`,
 						{

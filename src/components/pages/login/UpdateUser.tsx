@@ -1,6 +1,5 @@
 import axios from "axios";
 import { motion } from "framer-motion";
-import env from "react-dotenv";
 import React, { FC, useContext } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -29,10 +28,10 @@ const UpdateUser: FC<Props> = ({
 	const [avatar, setAvatar] = useState(currentUser.avatar);
 	const [showError, setShowError] = useState(false);
 	const [selectedfile, setFile] = useState<File>();
-	const [token, setToken] = useState("");
+	// const [token, setToken] = useState("");
 	const [qrCode, setQrcode] = useState("");
 	const [toDo, setToDo] = useState<"" | "enable" | "disable" | "verify">("");
-	const [disableTfa, setDisableTfa] = useState(false);
+	// const [disableTfa, setDisableTfa] = useState(false);
 	return (
 		<Modal>
 			<>
@@ -123,11 +122,7 @@ const UpdateUser: FC<Props> = ({
 									}}
 								>
 									{avatar && (
-										<img
-											// src={URL.createObjectURL(avatar)}
-											src={avatar}
-											alt="avatar"
-										/>
+										<img src={avatar} alt="avatar" />
 									)}
 								</div>
 								<input
@@ -168,21 +163,8 @@ const UpdateUser: FC<Props> = ({
 							{/* Two Factor Auth */}
 
 							{!currentUser.TFA_enabled ? (
-								// (<>{toDo &&
-								// 	<div className="elative flex flex-col items-center">
-								// 		<img src={qrCode} />
-								// 		<input
-								// 			type="text"
-								// 			placeholder="Insert code"
-								// 			className="rounded-large h-10 border-black border-[1px] px-3 font-Poppins w-[70%]"
-								// 			required
-								// 			value={token}
-								// 			onChange={(e) => setToken(e.target.value)}
-								// 		/>
-								// 	</div>
-								// }
 								<div
-									className="p-4 border-b-2 cursor-pointer border-black rounded-med bg-my-yellow mb-4"
+									className="p-4 mb-4 border-b-2 border-black cursor-pointer rounded-med bg-my-yellow"
 									onClick={async () => {
 										try {
 											setToDo("enable");
@@ -194,8 +176,7 @@ const UpdateUser: FC<Props> = ({
 												}
 											);
 											setQrcode(data);
-											// setToDo(true);
-											setDisableTfa(false);
+											// setDisableTfa(false);
 										} catch (e) {}
 									}}
 								>
@@ -203,10 +184,10 @@ const UpdateUser: FC<Props> = ({
 								</div>
 							) : (
 								<div
-									className="p-4 border-b-2 cursor-pointer border-black rounded-med bg-my-yellow mb-4"
+									className="p-4 mb-4 border-b-2 border-black cursor-pointer rounded-med bg-my-yellow"
 									onClick={() => {
 										setToDo("disable");
-										setDisableTfa(true);
+										// setDisableTfa(true);
 									}}
 								>
 									<h2 className="text-sm">Disable 2FA</h2>

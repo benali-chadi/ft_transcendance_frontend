@@ -15,13 +15,7 @@ export const ChatBubble: FC<MsgProps> = ({ text, date, me, user }) => {
 		>
 			{/* Avatar Part */}
 			{!me && user && (
-				<div
-					className="min-h-[3rem] min-w-[3rem] md:w-[2.5rem] md:h-[2.5rem] rounded-full cursor-pointer self-end hover:opacity-70"
-					// onClick={() => {
-					// 	setShowDropdown(false);
-					// 	handleClick(user);
-					// }}
-				>
+				<div className="min-h-[3rem] min-w-[3rem] md:w-[2.5rem] md:h-[2.5rem] rounded-full cursor-pointer self-end hover:opacity-70">
 					{user.avatar && (
 						<img
 							src={user.avatar}

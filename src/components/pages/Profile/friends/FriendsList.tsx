@@ -1,12 +1,11 @@
 import axios from "axios";
-import env from "react-dotenv";
 import React, { FC, useEffect, useState } from "react";
 import { useContext } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import Button from "../../../common/Button";
 import { UserState } from "../../../helpers/context";
 import { userContext } from "../../../helpers/context";
-import Profile, { outletContext } from "../Profile";
+import { outletContext } from "../Profile";
 import FindFriends from "./FindFriends";
 import FriendCard from "./FriendCard";
 import Invitations from "./Invitations";
@@ -20,7 +19,6 @@ export interface friend {
 }
 
 const FriendsList: FC = () => {
-	// const [currentUser, setUser] = useState<any>(null);
 	const { currentUser, updatedRelation } = useContext<UserState>(userContext);
 	const { profileUser, username } = useOutletContext<outletContext>();
 	const navigate = useNavigate();
@@ -48,17 +46,9 @@ const FriendsList: FC = () => {
 
 	useEffect(() => {
 		getFriends();
-		// let test = localStorage.getItem("CurrentUser");
-		// if (test)
-		// 	setUser(JSON.parse(test));
 	}, [updatedRelation]);
 
-	//useEffect(() => {
-	//
-	//},[friends])
-
 	return (
-		// <div className="absolute inset-0 z-30 w-full h-screen px-6 py-20 bg-my-blue md:relative md:h-full">
 		<div className="absolute inset-0 z-30 w-full h-screen px-6 py-20 overflow-auto bg-my-blue md:relative md:z-0 md:h-full scrolling">
 			{currentUser !== null ? (
 				<>

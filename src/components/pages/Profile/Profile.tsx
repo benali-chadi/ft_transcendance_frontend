@@ -2,10 +2,8 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import React, { FC, useContext, useEffect, useRef, useState } from "react";
 import { NavLink, Outlet, useNavigate, useParams } from "react-router-dom";
-import Loader from "../../common/Loader";
 import NoDataFound from "../../common/NoDataFound";
 import UserCard from "../../common/UserCard";
-// import  {memoizedUserCard} from "../../common/UserCard";
 import { userContext, UserState } from "../../helpers/context";
 
 interface Props {}
@@ -27,7 +25,6 @@ const Profile: FC<Props> = () => {
 	useEffect(() => {
 		async function getUserData() {
 			try {
-				//console.log(test)
 				setIsBlocked(false);
 				let { data } = await axios.get(
 					`${process.env.REACT_APP_BACKEND_URL}user/${username}`,

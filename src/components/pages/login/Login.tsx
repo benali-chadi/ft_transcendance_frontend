@@ -1,27 +1,18 @@
 import React, { FC } from "react";
 import Button from "../../common/Button";
-// import UpdateUser from "./UpdateUser";
 
 import background from "../../../img/login-background.jpg";
 import logo from "../../../img/logo.png";
 
 import { ReactComponent as Logo42 } from "../../../img/42logo.svg";
-// import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import env from "react-dotenv";
-// import { useState } from "react";
 
 const Login: FC = () => {
-	// const [showUpdateUser, setShowUpdateUser] = useState(false);
-	const navigate = useNavigate();
 	const backgroundStyle = {
 		backgroundImage: `url('${background}')`,
 	};
 
 	const handleLoginClick = async () => {
-		// setShowUpdateUser(!showUpdateUser);
 		document.location.href = `${process.env.REACT_APP_BACKEND_URL}auth`;
-		//let ret = await axios.get("${process.env.REACT_APP_BACKEND_URL}auth")
 	};
 
 	return (
@@ -56,7 +47,7 @@ const Login: FC = () => {
 							height="100%"
 							style={{
 								minHeight: "4rem",
-								width: "10rem"
+								width: "10rem",
 							}}
 						/>
 					</Button>

@@ -1,11 +1,9 @@
 import axios from "axios";
 import { motion } from "framer-motion";
-import env from "react-dotenv";
 import React, { useContext, useState } from "react";
 import { useEffect } from "react";
 import { FC } from "react";
 import Modal from "../../../common/Modal";
-import ChatUserCard from "../Inbox/ChatUserCard";
 import ChatGroupCard from "./ChatGroupCard";
 import { cardVariants } from "../../../helpers/variants";
 import { ChatContext, ChatState } from "../../../helpers/context";
@@ -16,7 +14,7 @@ interface Props {
 const FindChannels: FC<Props> = ({ handleCancel }) => {
 	const [channels, setChannels] = useState([]);
 	const [text, setText] = useState("");
-	const { channelUpdated, setcChannelUpdated } = useContext<ChatState>(ChatContext);
+	const { channelUpdated } = useContext<ChatState>(ChatContext);
 	useEffect(() => {
 		async function showGroups() {
 			try {
@@ -68,17 +66,18 @@ const FindChannels: FC<Props> = ({ handleCancel }) => {
 					<div className="flex flex-wrap justify-center gap-2">
 						{channels.length != 0 ? (
 							channels
-							.filter((channel:any) =>
-								channel.name.includes(text)
-							).map((channel: any) => {
-								return (
-									<ChatGroupCard
-										key={channel.id}
-										room={channel}
-										room_id={channel.id}
-									/>
-								);
-							})
+								.filter((channel: any) =>
+									channel.name.includes(text)
+								)
+								.map((channel: any) => {
+									return (
+										<ChatGroupCard
+											key={channel.id}
+											room={channel}
+											room_id={channel.id}
+										/>
+									);
+								})
 						) : (
 							<h1>No channels</h1>
 						)}

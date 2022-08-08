@@ -5,10 +5,8 @@ import waitingRocket from "../../img/waitingrocket.png";
 import waitingCloud from "../../img/waitingcloud.png";
 
 const Loader: FC = () => {
-	const [showHeader, setShowHeader] = useState(true);
 	const MyRef = useRef<HTMLDivElement>(null);
 
-	//if (MyRef.current) console.log(-MyRef.current.clientWidth);
 	const RocketVariants = {
 		bounce: {
 			x: [MyRef.current ? MyRef.current.clientWidth + 100 : 1000, -500],
@@ -39,7 +37,6 @@ const Loader: FC = () => {
 		},
 	};
 
-	// bg-gradient-to-r from-[#D8E3F7] to-[#E4CFBA]
 	return (
 		<div className="flex flex-col justify-center w-full h-full overflow-hidden bg-gradient-to-b from-sky-300 to-sky-50">
 			<div ref={MyRef} className="relative">
