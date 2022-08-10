@@ -30,6 +30,8 @@ const App: React.FC = () => {
 	const [inviteMgs, setInvitemsg] = useState("");
 	const [r_user, setRuser] = useState<any>(null)
 	const [isInvated, setIsInvated] = useState(false);
+	const [room_notif, setNotif] = useState(0);
+
 	const navigate = useNavigate();
 	const isMobile = useMediaQuery({
 		query: "(max-width: 767px)",
@@ -56,7 +58,7 @@ const App: React.FC = () => {
 				to_do: "decline_req",
 			},
 			(res: any) => {
-				
+
 			}
 		);
 	};
@@ -97,6 +99,11 @@ const App: React.FC = () => {
 				return prev + 1;
 			});
 		});
+		socket_chat.on("chat_notif", (res) =>{
+			setNotif(prev => {
+				return res.room_id
+			})
+		})
 		setSocket(socket);
 		setChatSocket(socket_chat);
 		setGameSocket(socket_game);
@@ -127,6 +134,8 @@ const App: React.FC = () => {
 				updatedRelation,
 				chatSocket,
 				gameSocket,
+				room_notif,
+				setNotif
 			}}
 		>
 			{isInvated && (

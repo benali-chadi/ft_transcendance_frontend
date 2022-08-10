@@ -14,7 +14,7 @@ import CreateChannel from "./Channel/CreateChannel";
 import { useNavigate } from "react-router-dom";
 
 const Chat: FC = () => {
-	const { isMobile, chatSocket, updatedRelation } =
+	const { isMobile, chatSocket, updatedRelation, room_notif, setNotif } =
 		useContext<UserState>(userContext);
 	const [dms, setDms] = useState([]);
 
@@ -175,6 +175,7 @@ const Chat: FC = () => {
 							dms.map((dm: any) => {
 								return (
 									<ChatUserCard
+										notif={room_notif == dm.room_id}
 										key={dm.room_id}
 										user={dm.member}
 										room_id={dm.room_id}

@@ -10,11 +10,12 @@ import HandleBlock from "../../../common/HandleBlock";
 interface Props {
 	user: any;
 	room_id: number;
+	notif: boolean;
 	handleClick: (user: any, room_id: number) => void;
 }
 
-const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
-	const { userSocket, updated, updatedRelation } =
+const ChatUserCard: FC<Props> = ({ user, notif,  handleClick = () => {}, room_id }) => {
+	const { userSocket, updated, updatedRelation, setNotif } =
 		useContext<UserState>(userContext);
 	const [showDropDown, setShowDropdown] = useState(false);
 	const navigate = useNavigate();
@@ -63,13 +64,18 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 	return (
 		<div
 			ref={ref}
-			className="flex justify-around p-4 rounded-xl hover:bg-my-light-violet/30 hover:shadow-md"
+			className="relative flex justify-around p-4 rounded-xl hover:bg-my-light-violet/30 hover:shadow-md"
 		>
+			{notif && <div
+				className={`absolute h-[1rem] w-[1rem] rounded-full bg-red-500 top-0 left-2 flex items-center justify-center cursor-pointer hover:bg-red-300`}
+				>
+			</div>}
 			{/* Avatar Part */}
 			<div
 				className="min-h-[3rem] min-w-[3rem] rounded-full flex justify-center items-center gap-1 cursor-pointer"
 				onClick={() => {
 					setShowDropdown(false);
+					setNotif(0); 
 					handleClick(_user, room_id);
 				}}
 			>

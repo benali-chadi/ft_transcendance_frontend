@@ -12,7 +12,7 @@ import Search from "./common/Search";
 
 const Navigation: FC = () => {
 	const [showNav, setShoweNav] = useState(false);
-	const { currentUser, setCurrentUser } = useContext<UserState>(userContext);
+	const { currentUser, setCurrentUser, room_notif, setNotif } = useContext<UserState>(userContext);
 	const navigate = useNavigate();
 
 	const [showSearch, setShowSearch] = useState(false);
@@ -134,14 +134,21 @@ const Navigation: FC = () => {
 						</NavLink>
 					</li>
 					<li>
-						<NavLink className="inactive" to="chat">
+						<NavLink className="inactive relative" to="chat">
+						
+							{!isMobile && room_notif != 0 && <div
+							className={`absolute h-[1rem] w-[1rem] rounded-full bg-red-500 bottom-1 right-0 flex items-center justify-center cursor-pointer hover:bg-red-300`}
+								>
+							</div>}
 							<i
 								className="fa-solid fa-comment-dots"
 								onClick={() =>
-									isMobile && setShoweNav(!showNav)
+									{isMobile && setShoweNav(!showNav);
+									}
 								}
 							></i>
 							{isMobile && (
+								
 								<h2
 									onClick={() =>
 										isMobile && setShoweNav(!showNav)
@@ -149,6 +156,8 @@ const Navigation: FC = () => {
 								>
 									Chat
 								</h2>
+								
+							
 							)}
 						</NavLink>
 					</li>
