@@ -55,7 +55,6 @@ const App: React.FC = () => {
 			});
 		});
 		socket.on("relation status", (res) => {
-			console.log("heere");
 			//if (res.message === "friend req"){
 			//	setUser(prev => {
 			//		return res.user;

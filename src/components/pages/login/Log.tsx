@@ -24,7 +24,7 @@ const Log: FC = () => {
 				if (data.user.TFA_enabled) {
 					setShow2FA(true);
 				} else {
-					setCurrentUser(data);
+					setCurrentUser(data.user);
 					localStorage.setItem(
 						"CurrentUser",
 						JSON.stringify(data.user)

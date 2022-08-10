@@ -22,6 +22,7 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 
 	const [blocked, setBlocked] = useState(_user.blocked);
 	const [blocker, setBlocker] = useState(_user.blocker);
+	const [friends, setFriends] = useState(true);
 	const [showYouSure, setYouSure] = useState(false);
 
 	const ref: any = useRef();
@@ -34,6 +35,8 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 			);
 			setBlocked(data.blocked);
 			setBlocker(data.blocker);
+			if (data.relation !== "friends")
+				setFriends(false);
 			setUser(data);
 		} catch (e) {}
 	}
@@ -80,7 +83,7 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 				{/* Text Part */}
 				<div className="text-left">
 					<h3 className="text-xl">{_user.username}</h3>
-					{!(blocked || blocker) && (
+					{!(blocked || blocker || !friends) && (
 						<div className="text-sm font-semibold">
 							{_user.status}
 						</div>
@@ -112,12 +115,12 @@ const ChatUserCard: FC<Props> = ({ user, handleClick = () => {}, room_id }) => {
 							{" "}
 							{!blocked ? (
 								<>
-									<p
+									{friends && <p
 										className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
 										onClick={() => redirectToGame()}
 									>
 										Invite for a game
-									</p>
+									</p>}
 									<p
 										className="p-1 font-normal cursor-pointer hover:bg-gray-100"
 										onClick={async () => {

@@ -41,7 +41,6 @@ const Chat: FC = () => {
 					`${process.env.REACT_APP_BACKEND_URL}chat/Dm_channels`,
 					{ withCredentials: true }
 				);
-				console.log(data);
 				setDms(data);
 			} catch (e) {
 				if (e.response.status === 401) {
@@ -67,6 +66,21 @@ const Chat: FC = () => {
 		getDms();
 		getGroupChannels();
 	}, [channelUpdated, updatedRelation]);
+	
+	useEffect(() =>{
+		if (chatSocket)
+		{
+			chatSocket.on("updateRooms", () =>{
+				setcChannelUpdated(prev => {
+					return prev + 1;
+				})
+			})
+			return () => {
+				chatSocket.off("updateRooms", res => {
+				});
+			};
+		}
+	},[chatSocket])
 
 	return (
 		<ChatContext.Provider

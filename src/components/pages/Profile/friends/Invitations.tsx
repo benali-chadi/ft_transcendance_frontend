@@ -1,12 +1,13 @@
 import axios from "axios";
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useEffect } from "react";
 import { FC } from "react";
 import Button from "../../../common/Button";
 import Modal from "../../../common/Modal";
 import FriendCard from "./FriendCard";
 import { cardVariants } from "../../../helpers/variants";
+import { userContext, UserState } from "../../../helpers/context";
 
 interface Props {
 	handleCancel: () => void;
@@ -15,7 +16,8 @@ interface Props {
 const Invitations: FC<Props> = ({ handleCancel }) => {
 	const [users, setUsers] = useState<any>([]);
 	const [text, setText] = useState("");
-
+	const { userSocket, updatedRelation } =
+		useContext<UserState>(userContext);
 	useEffect(() => {
 		async function showUsers() {
 			try {
@@ -33,21 +35,34 @@ const Invitations: FC<Props> = ({ handleCancel }) => {
 			} catch (e) {}
 		}
 		showUsers();
-	}, []);
+	}, [updatedRelation]);
 
-	const addFriend = async (user) => {
-		const obj = await axios.post(
-			`${process.env.REACT_APP_BACKEND_URL}user/accept_friend`,
+	const addFriend = async (user: any) => {
+
+		userSocket?.emit(
+			"relation status",
 			{
-				user: user.id,
+				id: user.id,
+				to_do: "accept_friend",
 			},
-			{ withCredentials: true }
+			(res: any) => {
+				setUsers(users.filter((usr) => usr.username !== user.username))
+			}
 		);
-		if (obj.data)
-			setUsers(users.filter((usr) => usr.username !== user.username));
 	};
 
-	const declineInvitation = async (user) => {};
+	const declineInvitation = async (user: any) => {
+		userSocket?.emit(
+			"relation status",
+			{
+				id: user.id,
+				to_do: "decline_req",
+			},
+			(res: any) => {
+				setUsers(users.filter((usr) => usr.username !== user.username))
+			}
+		);
+	};
 
 	return (
 		<Modal>

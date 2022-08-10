@@ -34,8 +34,6 @@ const FriendsList: FC = () => {
 				`${process.env.REACT_APP_BACKEND_URL}user/${username}/friends`,
 				{ withCredentials: true }
 			);
-			console.log(username);
-			console.log(data);
 			setFriends(data);
 		} catch (e) {}
 	}
