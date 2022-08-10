@@ -27,12 +27,39 @@ const App: React.FC = () => {
 	const [updated, setupdated] = useState(0);
 	const [updatedRelation, setUpdated] = useState(0);
 	const [showInvite, setShowInvite] = useState(false);
-
+	const [inviteMgs, setInvitemsg] = useState("");
+	const [r_user, setRuser] = useState<any>(null)
 	const [isInvated, setIsInvated] = useState(false);
 	const navigate = useNavigate();
 	const isMobile = useMediaQuery({
 		query: "(max-width: 767px)",
 	});
+
+	const addFriend = async (user: any) => {
+
+		userSocket?.emit(
+			"relation status",
+			{
+				id: user.id,
+				to_do: "accept_friend",
+			},
+			(res: any) => {
+			}
+		);
+	};
+
+	const declineInvitation = async (user: any) => {
+		userSocket?.emit(
+			"relation status",
+			{
+				id: user.id,
+				to_do: "decline_req",
+			},
+			(res: any) => {
+				
+			}
+		);
+	};
 
 	useEffect((): any => {
 		const userStorage = localStorage.getItem("CurrentUser");
@@ -55,14 +82,17 @@ const App: React.FC = () => {
 			});
 		});
 		socket.on("relation status", (res) => {
-			//if (res.message === "friend req"){
-			//	setUser(prev => {
-			//		return res.user;
-			//	})
-			//	setShowInvite(prev => {
-			//		return true
-			//	})
-			//}
+			if (res.msg === "friend req"){
+				setRuser(prev => {
+					return res.user;
+				})
+				setShowInvite(prev => {
+					return true
+				})
+				setInvitemsg(prev => {
+					return "Want to be your friend"
+				})
+			}
 			setUpdated((prev) => {
 				return prev + 1;
 			});
@@ -85,13 +115,6 @@ const App: React.FC = () => {
 			gameSocket.disconnect();
 		};
 	}, []);
-	// useEffect(() => {
-	// 	if (gameSocket)
-	// 	{
-	// 		// alert("game socket connected");
-	// 		gameSocket.emit("online" );
-	// 	}
-	// },[gameSocket])
 
 	return (
 		<userContext.Provider
@@ -118,16 +141,18 @@ const App: React.FC = () => {
 				</div>
 			)}
 			<div className="h-screen text-4xl font-bold text-center App">
+				{showInvite && (
+					<InviteCard
+						handleDecline={() => {setShowInvite(false);declineInvitation(r_user)}}
+						opUser={r_user}
+						msg={inviteMgs}
+						handleAccept={() => {
+							addFriend(r_user);
+							setShowInvite(false);
+						}}
+					/>
+				)}
 				<AnimatePresence exitBeforeEnter>
-					{showInvite && (
-						<InviteCard
-							handleDecline={() => setShowInvite(false)}
-							opUser={currentUser}
-							handleAccept={() => {
-								alert("OK");
-							}}
-						/>
-					)}
 					<Routes>
 						<Route
 							path="/"
