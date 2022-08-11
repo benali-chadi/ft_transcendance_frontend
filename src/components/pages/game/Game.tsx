@@ -64,6 +64,7 @@ const GamePage: FC = () => {
 				DrawGame(ctx, game);
 				setRoomName(game.room);
 				room_ref.current = game.room;
+				setIsPlayer(true);
 			});
 
 			gameSocket.on("updateframe", (game : Game) => {
@@ -82,7 +83,6 @@ const GamePage: FC = () => {
 
 			return () => {
 				gameSocket.emit("leftGame", {room: room_ref.current}, (res)=>{
-					console.log("sent", room_name);
 				});
 				gameSocket.off("startGame", (res)=>{});
 				gameSocket.off("updateframe", (res)=>{});
