@@ -11,7 +11,7 @@ interface Props {
 }
 
 const FriendCard: FC<Props> = ({ user }) => {
-	const { userSocket, updated } = useContext<UserState>(userContext);
+	const { userSocket, updated , gameSocket} = useContext<UserState>(userContext);
 	const navigate = useNavigate();
 	const [showDropDown, setShowDropdown] = useState(false);
 	const [_user, setUser] = useState(user);
@@ -33,6 +33,10 @@ const FriendCard: FC<Props> = ({ user }) => {
 	useEffect(() => {
 		getUser();
 	}, [updated]);
+
+	const InviteFriend = (username: string) =>{
+		gameSocket?.emit("inviteFriend", {username: username})
+	}
 
 	useEffect(() => {
 		function handleClickOutside(event) {
@@ -89,7 +93,12 @@ const FriendCard: FC<Props> = ({ user }) => {
 					>
 						<p
 							className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
-							onClick={() => setShowDropdown(false)}
+							onClick={() =>
+								{
+									InviteFriend(_user.username);
+									setShowDropdown(false)
+								}
+							}
 						>
 							Invite for a game
 						</p>

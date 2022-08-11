@@ -12,6 +12,7 @@ import CurrentlyPlayingCard from "../common/homecards/CurrentlyPlayingCard";
 import LeaderBoardCard from "../common/homecards/LeaderBoardCard";
 import UpdateUser from "./login/UpdateUser";
 import Button from "../common/Button";
+import InviteGame from "../common/inviteGame";
 
 let obj = {
 	GameId: "1",
@@ -31,39 +32,20 @@ interface currentMatchDto {
 
 const Home: FC = () => {
 	// const [currentUser, setUser] = useState<any>(null);
-	const { currentUser, setCurrentUser } = useContext<UserState>(userContext);
+	const { currentUser, setCurrentUser, gameSocket } = useContext<UserState>(userContext);
 	const [socket, setSocket] = useState<any>();
 	// useRef to store socket
 	const ref = useRef<any>();
 	const [toggle, setToggle] = useState(false);
 	const [currentMatch, setCurrentMatch] = useState<currentMatchDto[]>([]);
 	const [showUpdateUser, setShowUpdateUser] = useState(false);
+	const [showInvite, setShowInvite] = useState(false);
 	const backgroundStyle = {
 		backgroundImage: `url('${background}')`,
 	};
 
-	// connect to socket
-
-	// useEffect(() => {
-	// 	if (ref.current == undefined) {
-	// 		ref.current = io("http://localhost:3000/game", {
-	// 			withCredentials: true,
-	// 		});
-	// 		ref.current.emit("getcurrentmatch");
-	// 	}
-
-	// 	ref.current.on("connect", () => {
-	// 		//console.log("connected");
-	// 	});
-	// 	ref.current.on("getcurrentmatch", (data: currentMatchDto[]) => {
-	// 		//console.log(data);
-	// 		setCurrentMatch(data);
-	// 		//console.log(currentMatch);
-	// 	});
-	// }, []);
-
-	useEffect(() => {}, [currentMatch]);
-	// })
+	// useEffect(() => {}, [currentMatch]);
+	// // })
 
 	const navigate = useNavigate();
 	// const navigate = useNavigate();
@@ -71,9 +53,20 @@ const Home: FC = () => {
 		const showUpdateProfile = () => {
 			setShowUpdateUser(currentUser.first_time);
 		};
-
+		if(gameSocket){
+			gameSocket.emit("currentMatch", (data: any)=>{
+				setCurrentMatch(prev => {
+					return data;
+				})
+			})
+			gameSocket.on("currentMatch", (data: any) =>{
+				setCurrentMatch(prev => {
+					return data;
+				})
+			})
+		}
 		showUpdateProfile();
-	}, []);
+	}, [gameSocket]);
 	return (
 		<motion.div
 			variants={pageVariants}
@@ -100,6 +93,7 @@ const Home: FC = () => {
 					}}
 				/>
 			)}
+			{	showInvite && <InviteGame handleCancel={()=>{setShowInvite(false)}}/>}
 			{/* Game System */}
 			<div
 				className="top-0 p-8 overflow-auto bg-gradient-to-br from-my-blue to-my-lavender scrolling h-3/5 rounded-b-large md:col-span-3 md:h-full md:justify-center md:rounded-large md:rounded-l-none "
@@ -117,7 +111,7 @@ const Home: FC = () => {
 					<Button
 						color="bg-my-yellow py-16 shadow-lg border-b-4 border-black"
 						handleClick={() => {
-							navigate("/invitefriend");
+							setShowInvite(true)
 						}}
 					>
 						<div className="relative grid grid-cols-[1fr_.5fr] w-[20rem] md:w-[25rem]">
@@ -134,6 +128,10 @@ const Home: FC = () => {
 					<Button
 						color="bg-red-600 py-16 shadow-lg border-b-4 border-black"
 						handleClick={() => {
+					
+							gameSocket?.emit("subscribeToQueue", (res)=>{
+
+							})
 							navigate("/game");
 						}}
 					>
@@ -235,10 +233,17 @@ const Home: FC = () => {
 								{currentMatch.map((match, index) => {
 									return (
 										<CurrentlyPlayingCard
+											key={match.id}
 											score1={match.Player1Score}
 											score2={match.Player2Score}
 											avatar1={match.Player1Avatar}
 											avatar2={match.Player2Avatar}
+											handleclick={()=>{
+												gameSocket?.emit("watchGame", {room: match.id}, (res)=>{
+													if (res)
+														navigate(`/game?room=${match.id}`)
+												})
+											}}
 										/>
 									);
 								})}

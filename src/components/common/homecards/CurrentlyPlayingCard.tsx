@@ -13,6 +13,7 @@ interface Props {
 	score2: number;
 	avatar1: string;
 	avatar2: string;
+	handleclick: () => void;
 }
 
 const CurrentlyPlayingCard: FC<Props> = ({
@@ -20,11 +21,12 @@ const CurrentlyPlayingCard: FC<Props> = ({
 	score2,
 	avatar1,
 	avatar2,
+	handleclick,
 }) => {
 	return (
 		<div
-			className={`p-1.5 m-1 min-h-max flex justify-center gap-[10%] bg-my-yellow rounded-xl shadow-lg w-[90%] hover:bg-my-yellow/80`}
-		>
+			className={`cursor-pointer p-1.5 m-1 min-h-max flex justify-center gap-[10%] bg-my-yellow rounded-xl shadow-lg w-[90%] hover:bg-my-yellow/80`}
+		onClick={handleclick}>
 			{/* User 1 */}
 			<div>
 				<div className="min-h-[4rem] min-w-[4rem] rounded-full flex justify-center items-center gap-4">

@@ -6,9 +6,11 @@ import Modal from "../common/Modal";
 
 interface Props {
 	win: boolean;
+	IsPlayer: boolean;
+	winner: string | undefined;
 }
 
-const GameOverCard: FC<Props> = ({ win }) => {
+const GameOverCard: FC<Props> = ({ win, IsPlayer, winner }) => {
 	const navigate = useNavigate();
 
 	const handleReturnClick = () => {
@@ -24,7 +26,8 @@ const GameOverCard: FC<Props> = ({ win }) => {
 					transition={{ type: "tween", duration: 0.8 }}
 					className="relative flex flex-col justify-center gap-3 bg-white rounded-med p-7"
 				>
-					{win ? (
+					{ IsPlayer ?  (	<>
+						{win ? (
 						<>
 							<img
 								src={require("../../img/youwin.png")}
@@ -46,6 +49,11 @@ const GameOverCard: FC<Props> = ({ win }) => {
 								You Lose
 							</h2>
 						</>
+					)}</>
+					):(
+						<h2 className="text-2xl font-bold text-center">
+							Winner is {winner}
+						</h2>
 					)}
 					<Button
 						color="bg-my-yellow self-center"

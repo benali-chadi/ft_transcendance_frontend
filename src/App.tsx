@@ -13,11 +13,12 @@ import Profile from "./components/pages/Profile/Profile";
 import FriendsList from "./components/pages/Profile/friends/FriendsList";
 import MatchHistory from "./components/pages/Profile/matchHistory/MatchHistory";
 import AchievementsBoard from "./components/pages/Profile/achievements/AchievementsBoard";
-import Game from "./components/game/Game";
+import Game from "./components/pages/game/Game";
 import React from "react";
 import { io } from "socket.io-client";
-import GameWatch from "./components/game/GameWatch";
-import InviteCard from "./components/game/InviteCard";
+import InviteCard from "./components/common/InviteCard";
+import GamePage from "./components/pages/game/Game";
+import { Socket } from "socket.io-client";
 
 const App: React.FC = () => {
 	const [currentUser, setCurrentUser] = useState("");
@@ -36,36 +37,10 @@ const App: React.FC = () => {
 	const isMobile = useMediaQuery({
 		query: "(max-width: 767px)",
 	});
-
-	const addFriend = async (user: any) => {
-
-		userSocket?.emit(
-			"relation status",
-			{
-				id: user.id,
-				to_do: "accept_friend",
-			},
-			(res: any) => {
-			}
-		);
-	};
-
-	const declineInvitation = async (user: any) => {
-		userSocket?.emit(
-			"relation status",
-			{
-				id: user.id,
-				to_do: "decline_req",
-			},
-			(res: any) => {
-
-			}
-		);
-	};
-
 	useEffect((): any => {
 		const userStorage = localStorage.getItem("CurrentUser");
 		if (userStorage) setCurrentUser(JSON.parse(userStorage));
+		
 		const socket = io(`${process.env.REACT_APP_BACKEND_URL}user`, {
 			query: { user: userStorage },
 			withCredentials: true,
@@ -77,7 +52,11 @@ const App: React.FC = () => {
 			query: { user: userStorage },
 			withCredentials: true,
 		}).connect();
-
+		socket_chat.on("chat_notif", (res) =>{
+			setNotif(prev => {
+				return res.room_id
+			})
+		})
 		socket.on("client status", () => {
 			setupdated((prev) => {
 				return prev + 1;
@@ -99,27 +78,34 @@ const App: React.FC = () => {
 				return prev + 1;
 			});
 		});
-		socket_chat.on("chat_notif", (res) =>{
-			setNotif(prev => {
-				return res.room_id
+		socket_game.on("invitedGame", (data) =>{
+			setRuser(prev => {
+				return data.user;
+			})
+			setShowInvite(prev => {
+				return true
+			})
+			setInvitemsg(prev => {
+				return "Want to be play with you"
 			})
 		})
-		setSocket(socket);
-		setChatSocket(socket_chat);
+		socket_game.on("acceptedChallenge" ,(data)=>{
+			navigate("/game");
+		})
 		setGameSocket(socket_game);
-		// socket_game.emit("online");
-		socket_game.on("inviteFrined", (data) => {
-			setIsInvated(true);
-			// alert(data);
-		});
-
+		setChatSocket(socket_chat);
+		setSocket(socket);
+	
 		return () => {
 			userSocket.off("client status");
 			userSocket.off("relation status");
-			gameSocket.off("inviteFrined");
-			userSocket.disconnect();
+			socket_game.off("acceptedChallenge")
+			socket_game.removeAllListeners();
+			socket_game.disconnect();
+			socket_chat.removeAllListeners();
 			socket_chat.disconnect();
-			gameSocket.disconnect();
+			userSocket.removeAllListeners();
+			userSocket.disconnect();		
 		};
 	}, []);
 
@@ -141,7 +127,7 @@ const App: React.FC = () => {
 			{isInvated && (
 				<div
 					onClick={() => {
-						gameSocket.emit("acceptinvite", {});
+						// gameSocket.emit("acceptinvite", {});
 						navigate("/game");
 					}}
 				>
@@ -152,13 +138,9 @@ const App: React.FC = () => {
 			<div className="h-screen text-4xl font-bold text-center App">
 				{showInvite && (
 					<InviteCard
-						handleDecline={() => {setShowInvite(false);declineInvitation(r_user)}}
+						handleCancel={() => {setShowInvite(false)}}
 						opUser={r_user}
 						msg={inviteMgs}
-						handleAccept={() => {
-							addFriend(r_user);
-							setShowInvite(false);
-						}}
 					/>
 				)}
 				<AnimatePresence exitBeforeEnter>
@@ -189,11 +171,11 @@ const App: React.FC = () => {
 									element={<MatchHistory />}
 								/>
 							</Route>
-							<Route path="game" element={<Game />} />
-							<Route
+							<Route path="game" element={<GamePage />} />
+							{/* <Route
 								path="gamewatch/:gameid"
 								element={<GameWatch />}
-							/>
+							/> */}
 							<Route path="chat" element={<Chat />} />
 						</Route>
 						<Route
