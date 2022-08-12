@@ -91,8 +91,15 @@ const App: React.FC = () => {
 			})
 		})
 		socket_game.on("acceptedChallenge" ,(data)=>{
-			navigate("/game");
+			navigate(`/game?room=${data.room}`);
 		})
+
+		socket_game.on("updatedStatus" ,(data)=>{
+			setupdated(prev => {
+				return prev + 1;
+			})
+		})
+
 		setGameSocket(socket_game);
 		setChatSocket(socket_chat);
 		setSocket(socket);

@@ -4,11 +4,13 @@ import { useOutletContext } from "react-router-dom";
 import { outletContext } from "../Profile";
 
 interface Props {
+	user1: any,
+	user2: any,
 	result: string;
 	handleClick?: (user: any) => void;
 }
 
-const MatchCard: FC<Props> = ({ /*user1, user2, */ result, handleClick }) => {
+const MatchCard: FC<Props> = ({ user1, user2, result, handleClick }) => {
 	// const { currentUser } = useContext<UserState>(userContext);
 	const { profileUser } = useOutletContext<outletContext>();
 
@@ -28,9 +30,9 @@ const MatchCard: FC<Props> = ({ /*user1, user2, */ result, handleClick }) => {
 					if (handleClick) handleClick(profileUser);
 				}}
 			>
-				{profileUser.avatar && (
+				{user1.avatar && (
 					<img
-						src={profileUser.avatar}
+						src={user1.avatar}
 						alt="avatar"
 						className="w-[4rem] h-[4rem] rounded-full"
 					/>
@@ -55,9 +57,9 @@ const MatchCard: FC<Props> = ({ /*user1, user2, */ result, handleClick }) => {
 					if (handleClick) handleClick(profileUser);
 				}}
 			>
-				{profileUser.avatar && (
+				{user2.avatar && (
 					<img
-						src={profileUser.avatar}
+						src={user2.avatar}
 						alt="avatar"
 						className="w-[4rem] h-[4rem] rounded-full"
 					/>

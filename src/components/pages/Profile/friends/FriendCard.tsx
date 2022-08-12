@@ -91,7 +91,7 @@ const FriendCard: FC<Props> = ({ user }) => {
 						animate={showDropDown ? "open" : "close"}
 						className={`p-2 text-sm font-light bg-white rounded-xl absolute z-10 top-[25px] left-[-3rem] w-max`}
 					>
-						<p
+						{_user.status === "online" && <p
 							className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
 							onClick={() =>
 								{
@@ -101,7 +101,7 @@ const FriendCard: FC<Props> = ({ user }) => {
 							}
 						>
 							Invite for a game
-						</p>
+						</p>}
 						<p
 							className="p-1 font-normal cursor-pointer hover:bg-gray-100"
 							onClick={async () => {

@@ -14,6 +14,7 @@ import UpdateUser from "./login/UpdateUser";
 import Button from "../common/Button";
 import InviteGame from "../common/inviteGame";
 import WaitGame from "../common/WaitGame";
+import axios from "axios";
 
 let obj = {
 	GameId: "1",
@@ -33,7 +34,7 @@ interface currentMatchDto {
 
 const Home: FC = () => {
 	// const [currentUser, setUser] = useState<any>(null);
-	const { currentUser, setCurrentUser, gameSocket } = useContext<UserState>(userContext);
+	const { currentUser, setCurrentUser, gameSocket, updated } = useContext<UserState>(userContext);
 	const [socket, setSocket] = useState<any>();
 	// useRef to store socket
 	const ref = useRef<any>();
@@ -45,12 +46,22 @@ const Home: FC = () => {
 		backgroundImage: `url('${background}')`,
 	};
 	const [subscribed, setsubscribed] = useState(false);
-
+	const [ranks, setRanks] = useState<any[]>([])
 
 
 	const navigate = useNavigate();
+
+	const getRanks = async () =>{
+		try{
+			let {data} = await axios.get(`${process.env.REACT_APP_BACKEND_URL}game/ranking`,
+			{withCredentials: true});
+
+			setRanks(data);
+		}catch(e){}
+	}
 	// const navigate = useNavigate();
 	useEffect(() => {
+		getRanks();
 		const showUpdateProfile = () => {
 			setShowUpdateUser(currentUser.first_time);
 		};
@@ -63,7 +74,7 @@ const Home: FC = () => {
 			gameSocket.on("currentMatch", (data: any) =>{
 				setCurrentMatch(prev => {
 					return data;
-				})
+				});
 			})
 		}
 		showUpdateProfile();
@@ -206,36 +217,17 @@ const Home: FC = () => {
 					{!toggle && (
 						<List>
 							<>
-								<LeaderBoardCard
-									rank="1"
-									username="ybarhdad"
-									avatar="https://cdn.intra.42.fr/users/small_ybarhdad.jpg"
-									level="7"
-								/>
-								<LeaderBoardCard
-									rank="2"
-									username="razaha"
-									avatar="https://cdn.intra.42.fr/users/small_razaha.jpg"
-									level="5"
-								/>
-								<LeaderBoardCard
-									rank="3"
-									username="alagrini"
-									avatar="https://cdn.intra.42.fr/users/small_alagrini.jpg"
-									level="3"
-								/>
-								<LeaderBoardCard
-									rank="3"
-									username="alagrini"
-									avatar="https://cdn.intra.42.fr/users/small_alagrini.jpg"
-									level="3"
-								/>
-								<LeaderBoardCard
-									rank="3"
-									username="alagrini"
-									avatar="https://cdn.intra.42.fr/users/small_alagrini.jpg"
-									level="3"
-								/>
+								{
+									ranks.length && 
+									ranks.map((ranky, index) =>{
+										return <LeaderBoardCard
+										key={ranky.id}
+										rank={(index+1).toString()}
+										username={ranky.username}
+										avatar={ranky.avatar}
+										level={ranky._level.toPrecision(5)}
+										/>
+									}) }
 							</>
 						</List>
 					)}

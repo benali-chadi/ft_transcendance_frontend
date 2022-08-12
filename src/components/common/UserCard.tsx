@@ -11,6 +11,7 @@ interface Props {
 		id: number;
 		username: string;
 		avatar: string;
+		_level: number;
 	};
 	path: string;
 }
@@ -20,7 +21,7 @@ const UserCard: FC<Props> = ({ user, path }) => {
 		useContext<UserState>(userContext);
 	const [showUpdateUser, setShowUpdateUser] = useState(false);
 	const [buttonMessage, setButton] = useState("");
-
+	
 	let cond: boolean = currentUser.id === user.id;
 	const checkRelation = (data) => {
 		if (data.blocked) setButton("unblock");
@@ -113,7 +114,7 @@ const UserCard: FC<Props> = ({ user, path }) => {
 				{/* Ladder level */}
 				<div className="relative self-stretch w-full mt-2 bg-gray-300 h-9 rounded-med">
 					<p className="absolute text-base left-[40%] top-[10%]">
-						level 4 - 70%
+						{user._level?.toPrecision(5)}
 					</p>
 					<div className="w-[70%] bg-my-yellow h-full rounded-med flex"></div>
 				</div>

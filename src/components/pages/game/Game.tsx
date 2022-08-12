@@ -16,7 +16,8 @@ const GamePage: FC = () => {
 	const [height, setHeight] = useState<any>(null);
 	const aspectRatio = 16 / 9;
 	const [room_name, setRoomName] = useState<any>("");
-	
+	const [sleep, setSleep] = useState(4);
+
 	const location = useLocation()
   	const params = new URLSearchParams(location.search)
 	const room_ref = useRef(params.get("room"));
@@ -70,7 +71,6 @@ const GamePage: FC = () => {
 		if (gameSocket)
 		{
 			gameSocket.emit("startGame", {room: params.get("room")}, (game) => {
-				console.log(game);
 				if (game){
 					DrawGame(ctx, game);
 					setIsPlayer(true);
@@ -119,12 +119,26 @@ const GamePage: FC = () => {
 	useEffect(()=>{
 		updateDimensions();
 	}, [myRef])
+
+	const ref  : any= useRef();
+	const sleep_ref = useRef(sleep);
+	useEffect(()=>{
+		ref.current  = setInterval(()=>{
+			sleep_ref.current--;
+			setSleep(sleep_ref.current);
+			if (sleep_ref.current == 0)
+				clearInterval(ref.current)
+		}, (1000));
+		return () => {clearInterval(ref.current)}
+	},[])
+
 	return(
 		<div className="flex flex-col items-center justify-center h-screen gap-3 px-4 bg-my-lavender md:h-full md:rounded-r-large" >
 			<div
 					className=" w-[90%] md:h-[50%] h-[70%] flex flex-col justify-center items-center gap-2"
 					ref={myRef}
 				>
+				{sleep != 0 && <h1>Game will start in {sleep}</h1>}
 				<canvas  width={width} height={height}  style={{border: "black solid 1px"}} ref={canvasRef} ></canvas>
 				{over && IsPlayer && <GameOverCard win={currentUser.username === winner} IsPlayer={IsPlayer} 
 					winner={winner}/>}

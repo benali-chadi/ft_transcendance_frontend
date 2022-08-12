@@ -1,18 +1,32 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router";
 import matchHistory from "../../../../img/history.png";
 import MatchCard from "./MatchCard";
 import { outletContext } from "../Profile";
+import axios from "axios";
 
 const MatchHistory: FC = () => {
 	const navigate = useNavigate();
 	const [filter, setFilter] = useState("all");
 	const { username } = useOutletContext<outletContext>();
+	const [matchs , setMatchs] = useState<any[]>([]);
 
 	const handleClick = () => {
 		navigate(`/profile/${username}`);
 	};
+
+	const getMatchs = async () =>{
+		try{
+			let {data} = await axios.get(`${process.env.REACT_APP_BACKEND_URL}game/Matchs/${username}`, {withCredentials: true})
+			setMatchs(data);
+		}catch(e){
+
+		}
+	}
+	useEffect(() =>{
+		getMatchs()
+	}, [])
 
 	return (
 		<div className="absolute inset-0 z-30 w-full h-screen px-6 py-20 overflow-auto bg-my-blue md:relative md:z-0 md:h-full scrolling">
@@ -69,10 +83,21 @@ const MatchHistory: FC = () => {
 				</div>
 				{/* Matches */}
 
-				{filter !== "loses" && <MatchCard result="won" />}
-				{filter !== "wins" && <MatchCard result="lost" />}
-				{filter !== "loses" && <MatchCard result="won" />}
-				{filter !== "wins" && <MatchCard result="lost" />}
+				{
+					matchs.length &&
+					matchs
+					.filter((match) => {
+						if (filter === "wins")
+							return match.IsWinner
+						else if (filter === "loses")
+							return !match.IsWinner
+						else
+							return true;
+					})
+					.map(match => {
+						return <MatchCard key={match.id} user1={match.winner} user2={match.loser} result={match.IsWinner? "won" : "lost"}/>
+					})
+				}
 			</div>
 		</div>
 	);

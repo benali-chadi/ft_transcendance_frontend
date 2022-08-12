@@ -15,7 +15,7 @@ interface Props {
 }
 
 const ChatUserCard: FC<Props> = ({ user, notif,  handleClick = () => {}, room_id }) => {
-	const { userSocket, updated, updatedRelation, setNotif } =
+	const { userSocket, updated, updatedRelation, setNotif , gameSocket} =
 		useContext<UserState>(userContext);
 	const [showDropDown, setShowDropdown] = useState(false);
 	const navigate = useNavigate();
@@ -42,8 +42,8 @@ const ChatUserCard: FC<Props> = ({ user, notif,  handleClick = () => {}, room_id
 		} catch (e) {}
 	}
 
-	function redirectToGame() {
-		navigate(`/game?username=${_user.username}`);
+	const InviteFriend = () =>{
+		gameSocket?.emit("inviteFriend", {username: user.username})
 	}
 
 	useEffect(() => {
@@ -51,6 +51,9 @@ const ChatUserCard: FC<Props> = ({ user, notif,  handleClick = () => {}, room_id
 	}, [updated, updatedRelation]);
 
 	useEffect(() => {
+		gameSocket?.on("GameReady", (data)=>{
+            navigate(`/game?room=${data.room}`)
+        })
 		function handleClickOutside(event) {
 			if (ref.current && !ref.current.contains(event.target)) {
 				setShowDropdown(false);
@@ -121,9 +124,9 @@ const ChatUserCard: FC<Props> = ({ user, notif,  handleClick = () => {}, room_id
 							{" "}
 							{!blocked ? (
 								<>
-									{friends && <p
+									{friends && _user.status === "online" && <p
 										className="pb-1 border-b-[1px] border-black/50 cursor-pointer hover:bg-gray-100 rounded-md rounded-b-none p-1 font-normal"
-										onClick={() => redirectToGame()}
+										onClick={() => InviteFriend()}
 									>
 										Invite for a game
 									</p>}
