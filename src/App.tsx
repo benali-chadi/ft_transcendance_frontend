@@ -19,6 +19,7 @@ import { io } from "socket.io-client";
 import InviteCard from "./components/common/InviteCard";
 import GamePage from "./components/pages/game/Game";
 import { Socket } from "socket.io-client";
+import WaitGame from "./components/common/WaitGame";
 
 const App: React.FC = () => {
 	const [currentUser, setCurrentUser] = useState("");
@@ -124,17 +125,6 @@ const App: React.FC = () => {
 				setNotif
 			}}
 		>
-			{isInvated && (
-				<div
-					onClick={() => {
-						// gameSocket.emit("acceptinvite", {});
-						navigate("/game");
-					}}
-				>
-					{" "}
-					move to paly{" "}
-				</div>
-			)}
 			<div className="h-screen text-4xl font-bold text-center App">
 				{showInvite && (
 					<InviteCard
@@ -143,6 +133,7 @@ const App: React.FC = () => {
 						msg={inviteMgs}
 					/>
 				)}
+				
 				<AnimatePresence exitBeforeEnter>
 					<Routes>
 						<Route

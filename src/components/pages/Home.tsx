@@ -13,6 +13,7 @@ import LeaderBoardCard from "../common/homecards/LeaderBoardCard";
 import UpdateUser from "./login/UpdateUser";
 import Button from "../common/Button";
 import InviteGame from "../common/inviteGame";
+import WaitGame from "../common/WaitGame";
 
 let obj = {
 	GameId: "1",
@@ -43,9 +44,9 @@ const Home: FC = () => {
 	const backgroundStyle = {
 		backgroundImage: `url('${background}')`,
 	};
+	const [subscribed, setsubscribed] = useState(false);
 
-	// useEffect(() => {}, [currentMatch]);
-	// // })
+
 
 	const navigate = useNavigate();
 	// const navigate = useNavigate();
@@ -67,6 +68,13 @@ const Home: FC = () => {
 		}
 		showUpdateProfile();
 	}, [gameSocket]);
+
+	useEffect(()=>{
+        gameSocket?.on("GameReady", (data)=>{
+            navigate(`/game?room=${data.room}`)
+        })
+    })
+
 	return (
 		<motion.div
 			variants={pageVariants}
@@ -93,6 +101,7 @@ const Home: FC = () => {
 					}}
 				/>
 			)}
+			{subscribed && <WaitGame cancel={()=>{setsubscribed(false);}}/>}
 			{	showInvite && <InviteGame handleCancel={()=>{setShowInvite(false)}}/>}
 			{/* Game System */}
 			<div
@@ -128,14 +137,18 @@ const Home: FC = () => {
 					<Button
 						color="bg-red-600 py-16 shadow-lg border-b-4 border-black"
 						handleClick={() => {
-					
-							gameSocket?.emit("subscribeToQueue", (res)=>{
 
-							})
-							navigate("/game");
 						}}
 					>
-						<div className="relative grid w-[20rem] md:w-[25rem] grid-cols-[1fr_.5fr]">
+						<div className="relative grid w-[20rem] md:w-[25rem] grid-cols-[1fr_.5fr]" onClick={()=>{
+							gameSocket?.emit("subscribeToQueue", (res)=>{
+								if (res.message === "waiting"){
+									setsubscribed(prev =>{
+										return true;
+									})
+								}
+							})
+						}}>
 							<h2 className="text-center text-white justify-self-center">
 								Random
 							</h2>

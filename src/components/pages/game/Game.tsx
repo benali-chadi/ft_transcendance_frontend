@@ -1,4 +1,5 @@
 import React, { FC, useContext, useEffect, useRef, useState } from "react"
+import { useLocation, useSearchParams } from "react-router-dom";
 import { getLeadingCommentRanges } from "typescript";
 import GameOverCard from "../../game/GameOverCard";
 import { userContext, UserState } from "../../helpers/context";
@@ -6,14 +7,21 @@ import {Game, Player, ball} from "../../helpers/game"
 
 const GamePage: FC = () => {
 	
-	const [ room_name, setRoomName ] = useState<string>();
 	const { gameSocket, currentUser } = useContext<UserState>(userContext);
 	const [winner, setWinner] = useState<string>();
 	const [over, setOver] = useState<boolean>(false);
 	const canvasRef = useRef(null);
 	const [IsPlayer, setIsPlayer] = useState<boolean>(false)
+	const [width, setWidth] = useState<any>(null);
+	const [height, setHeight] = useState<any>(null);
+	const aspectRatio = 16 / 9;
+	const [room_name, setRoomName] = useState<any>("");
+	
+	const location = useLocation()
+  	const params = new URLSearchParams(location.search)
+	const room_ref = useRef(params.get("room"));
 
-	const room_ref = useRef("");
+	const myRef : React.RefObject<HTMLDivElement> = useRef(null);
 
 	const drawRect = (ctx:CanvasRenderingContext2D,x:number, y:number, w:number, h:number, color:string) => {
 		ctx.fillStyle = color;
@@ -48,28 +56,29 @@ const GamePage: FC = () => {
 
 	window.addEventListener('keydown', (event) => {
 		if (event.key === "ArrowUp" ) {
-			gameSocket?.emit("keypress" , {key: "ArrowUp", room: room_name});
+			gameSocket?.emit("keypress" , {key: "ArrowUp", room: params.get("room")});
 		}
 		if (event.key === "ArrowDown") {
-			gameSocket?.emit("keypress", {key: "ArrowDown", room: room_name});
+			gameSocket?.emit("keypress", {key: "ArrowDown", room: params.get("room")});
 		}
 	});
-
+	
 	useEffect(() : any => {
 		const canvas : any =  canvasRef.current;
 		const ctx = canvas.getContext('2d');
+		
 		if (gameSocket)
 		{
-			gameSocket.on("startGame", (game : Game) => {
-				DrawGame(ctx, game);
-				setRoomName(game.room);
-				room_ref.current = game.room;
-				setIsPlayer(true);
+			gameSocket.emit("startGame", {room: params.get("room")}, (game) => {
+				console.log(game);
+				if (game){
+					DrawGame(ctx, game);
+					setIsPlayer(true);
+				}
 			});
 
 			gameSocket.on("updateframe", (game : Game) => {
 				DrawGame(ctx, game);
-				room_ref.current = game.room;
 			});
 
 			gameSocket.on("gameOver", (res : any) => {
@@ -84,21 +93,43 @@ const GamePage: FC = () => {
 			return () => {
 				gameSocket.emit("leftGame", {room: room_ref.current}, (res)=>{
 				});
-				gameSocket.off("startGame", (res)=>{});
 				gameSocket.off("updateframe", (res)=>{});
 				gameSocket.off("gameOver", (res)=>{});
-				
+				window.removeEventListener("resize", updateDimensions)
 			}
 		}
 		
 	}, [])
+	
+	const updateDimensions = () => {
+		let width = myRef.current ? myRef.current.clientWidth :
+			window.innerWidth * 0.8;
+		let height = width / aspectRatio;
+		if (myRef.current && myRef.current.clientHeight < height){
+			height = myRef.current ? myRef.current.clientHeight :
+				window.innerHeight * 0.8;
+			width = height * aspectRatio;
+		}
+		setWidth(width);
+		setHeight(height);
+	}
 
+	window.addEventListener("resize", updateDimensions);
+
+	useEffect(()=>{
+		updateDimensions();
+	}, [myRef])
 	return(
-		<div className="App"  >
-			<canvas  style={{border: "black solid 1px"}} ref={canvasRef} id="canvas" width="1000" height="500"></canvas>
-			{over && IsPlayer && <GameOverCard win={currentUser.username === winner} IsPlayer={IsPlayer} 
-				winner={winner}/>}
-    	</div>
+		<div className="flex flex-col items-center justify-center h-screen gap-3 px-4 bg-my-lavender md:h-full md:rounded-r-large" >
+			<div
+					className=" w-[90%] md:h-[50%] h-[70%] flex flex-col justify-center items-center gap-2"
+					ref={myRef}
+				>
+				<canvas  width={width} height={height}  style={{border: "black solid 1px"}} ref={canvasRef} ></canvas>
+				{over && IsPlayer && <GameOverCard win={currentUser.username === winner} IsPlayer={IsPlayer} 
+					winner={winner}/>}
+    		</div>
+		</div>
 	);
 };
 
