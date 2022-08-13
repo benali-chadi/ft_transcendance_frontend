@@ -34,6 +34,7 @@ const InviteGame: FC<Props> = ({ handleCancel }) => {
 			} catch (e) {}
 		}
 		showUsers();
+		// eslint-disable-next-line
 	}, [updated]);
 
 	return (
@@ -70,7 +71,7 @@ const InviteGame: FC<Props> = ({ handleCancel }) => {
 					</div>
 					{/* Users */}
 					<div className="flex flex-wrap justify-center gap-2">
-						{users.length != 0 ? (
+						{users.length !== 0 ? (
 							users
 								.filter((user: any) =>
 									user.username.includes(text)

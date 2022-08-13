@@ -44,6 +44,7 @@ const FriendsList: FC = () => {
 
 	useEffect(() => {
 		getFriends();
+		// eslint-disable-next-line
 	}, [updatedRelation]);
 
 	return (
@@ -87,7 +88,7 @@ const FriendsList: FC = () => {
 							placeholder="Search..."
 						/>
 					</div>
-					{currentUser.id == profileUser.id && (
+					{currentUser.id === profileUser.id && (
 						<div className="flex justify-between px-4 mb-4">
 							<Button
 								color="bg-my-yellow"
@@ -105,7 +106,7 @@ const FriendsList: FC = () => {
 					)}
 					{/* <div className="grid grid-cols-2 auto-rows-[5rem] gap-[2rem] md:grid-cols-4 h-full w-full"> */}
 					<div className="flex flex-wrap justify-center gap-4">
-						{friends.length != 0 ? (
+						{friends.length !== 0 &&
 							friends
 								.filter((friend) =>
 									friend.username.includes(text)
@@ -118,9 +119,7 @@ const FriendsList: FC = () => {
 										/>
 									);
 								})
-						) : (
-							<h1></h1>
-						)}
+							}
 					</div>
 				</>
 			) : (

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { motion } from "framer-motion";
-import React, { FC, useContext, useEffect, useRef, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { NavLink, Outlet, useNavigate, useParams } from "react-router-dom";
 import NoDataFound from "../../common/NoDataFound";
 import UserCard from "../../common/UserCard";
@@ -43,14 +43,11 @@ const Profile: FC<Props> = () => {
 			}
 		}
 		getUserData();
+		// eslint-disable-next-line
 	}, [username, updatedRelation]);
 
 	return (
 		<motion.div
-			// variants={pageVariants}
-			// initial="initial"
-			// animate="animate"
-			// // exit="exit"
 			className="h-screen overflow-auto scrolling min-h-max md:grid md:h-full md:justify-center md:rounded-large md:grid-cols-[2fr_5fr] md:rounded-l-none bg-my-blue"
 		>
 			{!noUserData && (

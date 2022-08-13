@@ -12,7 +12,7 @@ import Search from "./common/Search";
 
 const Navigation: FC = () => {
 	const [showNav, setShoweNav] = useState(false);
-	const { currentUser, setCurrentUser, room_notif, setNotif } = useContext<UserState>(userContext);
+	const { currentUser, setCurrentUser, room_notif } = useContext<UserState>(userContext);
 	const navigate = useNavigate();
 	const [user, setUser] = useState<any>(null)
 	const [notif, setnotif] = useState(false)
@@ -64,10 +64,12 @@ const Navigation: FC = () => {
 	}
 	useEffect(() =>{
 		getMe();
+		// eslint-disable-next-line
 	},[])
 
 	useEffect(() =>{
 		checkNotif();
+		// eslint-disable-next-line
 	},[room_notif])
 
 	return (

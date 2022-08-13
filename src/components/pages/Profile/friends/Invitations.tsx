@@ -98,7 +98,7 @@ const Invitations: FC<Props> = ({ handleCancel }) => {
 					</div>
 					{/* Users */}
 					<div className="flex flex-wrap justify-center gap-2">
-						{users.length != 0 ? (
+						{users.length !== 0 ? (
 							users
 								.filter((user: any) =>
 									user.username.includes(text)

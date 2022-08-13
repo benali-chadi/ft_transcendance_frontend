@@ -38,6 +38,7 @@ const EditChannelInfo: FC<Props> = ({ handleCancelClick, room_id }) => {
 			} catch (e) {}
 		}
 		roomInfo();
+		// eslint-disable-next-line
 	}, []);
 	return (
 		<form
@@ -49,7 +50,7 @@ const EditChannelInfo: FC<Props> = ({ handleCancelClick, room_id }) => {
 					formData.append("type", privacy);
 					if (selectedfile) formData.append("icon", selectedfile);
 					if (password) formData.append("password", password);
-					let { data } = await axios.post(
+					await axios.post(
 						`${process.env.REACT_APP_BACKEND_URL}chat/${room_id}/update_room`,
 						formData,
 						{ withCredentials: true }

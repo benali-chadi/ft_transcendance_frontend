@@ -13,13 +13,10 @@ import Profile from "./components/pages/Profile/Profile";
 import FriendsList from "./components/pages/Profile/friends/FriendsList";
 import MatchHistory from "./components/pages/Profile/matchHistory/MatchHistory";
 import AchievementsBoard from "./components/pages/Profile/achievements/AchievementsBoard";
-import Game from "./components/pages/game/Game";
 import React from "react";
 import { io } from "socket.io-client";
 import InviteCard from "./components/common/InviteCard";
 import GamePage from "./components/pages/game/Game";
-import { Socket } from "socket.io-client";
-import WaitGame from "./components/common/WaitGame";
 
 const App: React.FC = () => {
 	const [currentUser, setCurrentUser] = useState("");
@@ -31,7 +28,6 @@ const App: React.FC = () => {
 	const [showInvite, setShowInvite] = useState(false);
 	const [inviteMgs, setInvitemsg] = useState("");
 	const [r_user, setRuser] = useState<any>(null)
-	const [isInvated, setIsInvated] = useState(false);
 	const [room_notif, setNotif] = useState<number[]>([]);
 
 	const navigate = useNavigate();
@@ -115,6 +111,7 @@ const App: React.FC = () => {
 			userSocket.removeAllListeners();
 			userSocket.disconnect();		
 		};
+		// eslint-disable-next-line
 	}, []);
 
 	return (

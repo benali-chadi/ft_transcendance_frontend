@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useRef, useState } from "react";
+import React, { FC, useContext, useEffect, useRef } from "react";
 import Modal from "./Modal";
 import Card from "./Card";
 import Button from "./Button";

@@ -1,7 +1,6 @@
-import React, { FC, useContext, useEffect, useRef, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import List from "../common/List";
 import UserCard from "../common/UserCard";
-import background from "../../img/game-system/background.jpg";
 import inviteImage from "../../img/invite.png";
 import randomImage from "../../img/random.png";
 import { userContext, UserState } from "../helpers/context";
@@ -16,13 +15,6 @@ import InviteGame from "../common/inviteGame";
 import WaitGame from "../common/WaitGame";
 import axios from "axios";
 
-let obj = {
-	GameId: "1",
-	Player1Score: 0,
-	Player2Score: 2,
-	Player1Avatar: "https://cdn.intra.42.fr/users/small_ybarhdad.jpg",
-	Player2Avatar: "https://cdn.intra.42.fr/users/small_razaha.jpg",
-};
 
 interface currentMatchDto {
 	id: string;
@@ -34,18 +26,13 @@ interface currentMatchDto {
 
 const Home: FC = () => {
 	// const [currentUser, setUser] = useState<any>(null);
-	const { currentUser, setCurrentUser, gameSocket, updated } = useContext<UserState>(userContext);
-	const [socket, setSocket] = useState<any>();
+	const { currentUser, setCurrentUser, gameSocket } = useContext<UserState>(userContext);
 	// useRef to store socket
 	const [user, setUser] = useState<any>(null)
-	const ref = useRef<any>();
 	const [toggle, setToggle] = useState(false);
 	const [currentMatch, setCurrentMatch] = useState<currentMatchDto[]>([]);
 	const [showUpdateUser, setShowUpdateUser] = useState(false);
 	const [showInvite, setShowInvite] = useState(false);
-	const backgroundStyle = {
-		backgroundImage: `url('${background}')`,
-	};
 	const [subscribed, setsubscribed] = useState(false);
 	const [ranks, setRanks] = useState<any[]>([])
 
@@ -100,12 +87,14 @@ const Home: FC = () => {
 			})
 		}
 		showUpdateProfile();
+		// eslint-disable-next-line
 	}, [gameSocket]);
 
 	useEffect(()=>{
         gameSocket?.on("GameReady", (data)=>{
             navigate(`/game?room=${data.room}`)
         })
+		// eslint-disable-next-line
     },[])
 
 	return (
@@ -162,7 +151,7 @@ const Home: FC = () => {
 							</h2>
 							<img
 								src={inviteImage}
-								alt="invite image"
+								alt="invite"
 								className="md:h-[15rem] h-[12ewm] w-[12rem] md:w-[15rem] absolute right-[-10%] bottom-[-15px]"
 							/>
 						</div>
@@ -187,7 +176,7 @@ const Home: FC = () => {
 							</h2>
 							<img
 								src={randomImage}
-								alt="invite image"
+								alt="invite"
 								className="md:h-[15rem] h-[12ewm] w-[12rem] md:w-[15rem] absolute right-[-10%] bottom-[-15px]"
 							/>
 						</div>

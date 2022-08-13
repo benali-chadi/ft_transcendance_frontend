@@ -1,9 +1,8 @@
 import React, { FC, useContext, useEffect, useRef, useState } from "react"
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { getLeadingCommentRanges } from "typescript";
+import { useLocation, useNavigate } from "react-router-dom";
 import GameOverCard from "../../game/GameOverCard";
 import { userContext, UserState } from "../../helpers/context";
-import {Game, Player, ball} from "../../helpers/game"
+import {Game} from "../../helpers/game"
 
 const GamePage: FC = () => {
 	
@@ -15,7 +14,6 @@ const GamePage: FC = () => {
 	const [width, setWidth] = useState<any>(null);
 	const [height, setHeight] = useState<any>(null);
 	const aspectRatio = 16 / 9;
-	const [room_name, setRoomName] = useState<any>("");
 	const [sleep, setSleep] = useState(0);
 
 	const location = useLocation()
@@ -103,15 +101,16 @@ const GamePage: FC = () => {
 					return true;
 				})
 			});
-
+			let room : any = room_ref.current;
 			return () => {
-				gameSocket.emit("leftGame", {room: room_ref.current}, (res)=>{
+				gameSocket.emit("leftGame", {room: room}, (res)=>{
 				});
 				gameSocket.off("updateframe", (res)=>{});
 				gameSocket.off("gameOver", (res)=>{});
 				window.removeEventListener("resize", updateDimensions)
 			}
 		}
+		// eslint-disable-next-line
 	}, [gameSocket])
 	
 	const updateDimensions = () => {
@@ -131,6 +130,7 @@ const GamePage: FC = () => {
 
 	useEffect(()=>{
 		updateDimensions();
+		// eslint-disable-next-line
 	}, [myRef])
 
 	const ref  : any= useRef();
@@ -140,11 +140,12 @@ const GamePage: FC = () => {
 			ref.current  = setInterval(()=>{
 				sleep_ref.current--;
 				setSleep(sleep_ref.current);
-				if (sleep_ref.current == 0)
+				if (sleep_ref.current === 0)
 					clearInterval(ref.current)
 			}, (1000));
 			return () => {clearInterval(ref.current)}
 		}
+		// eslint-disable-next-line
 	},[IsPlayer])
 	return(
 		<div className="flex flex-col items-center justify-center h-screen gap-3 px-4 bg-my-lavender md:h-full md:rounded-r-large" >
@@ -152,7 +153,7 @@ const GamePage: FC = () => {
 					className=" w-[90%] md:h-[50%] h-[70%] flex flex-col justify-center items-center gap-2"
 					ref={myRef}
 				>
-				{sleep != 0 && <h1>Game will start in {sleep}</h1>}
+				{sleep !== 0 && <h1>Game will start in {sleep}</h1>}
 				<canvas  width={width} height={height}  style={{border: "black solid 1px"}} ref={canvasRef} ></canvas>
 				{over && IsPlayer && <GameOverCard win={currentUser.username === winner} IsPlayer={IsPlayer} 
 					winner={winner}/>}

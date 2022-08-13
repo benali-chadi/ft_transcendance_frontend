@@ -27,6 +27,7 @@ const Search: FC<Props> = ({ handleCancel }) => {
 			} catch (e) {}
 		}
 		showdata();
+		// eslint-disable-next-line
 	}, []);
 
 	return (
@@ -66,7 +67,7 @@ const Search: FC<Props> = ({ handleCancel }) => {
 					</div>
 					{/* Data */}
 					<div className="flex flex-wrap justify-center gap-2">
-						{data.length != 0 ? (
+						{data.length !== 0 ? (
 							data
 								.filter((user: any) =>
 									user.username.includes(text)

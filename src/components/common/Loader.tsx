@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useRef } from "react";
 
 import waitingRocket from "../../img/waitingrocket.png";
 import waitingCloud from "../../img/waitingcloud.png";

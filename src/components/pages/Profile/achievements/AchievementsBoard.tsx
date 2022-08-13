@@ -1,4 +1,4 @@
-import React, { FC, useContext } from "react";
+import React, { FC } from "react";
 import { useNavigate, useOutletContext } from "react-router";
 import AchievementIcon from "../../../../img/achievments.png";
 import { outletContext } from "../Profile";

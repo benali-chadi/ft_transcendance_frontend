@@ -8,7 +8,7 @@ import TFAActivation from "./TFA_activation";
 
 const Log: FC = () => {
 	const { setCurrentUser } = useContext<UserState>(userContext);
-	const [searchParams, setSearchParams] = useSearchParams();
+	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
 	const [show2FA, setShow2FA] = useState(false);
 
@@ -34,6 +34,7 @@ const Log: FC = () => {
 			}
 		}
 		test();
+		// eslint-disable-next-line
 	}, []);
 	return (
 		<div className="flex flex-col items-center justify-center w-screen h-screen">

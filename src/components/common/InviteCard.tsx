@@ -1,5 +1,5 @@
 import React, { FC, useContext, useEffect, useRef, useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import {  useNavigate } from 'react-router-dom'
 import { userContext, UserState } from '../helpers/context'
 import Button from './Button'
 import Card from './Card'
@@ -82,6 +82,7 @@ const handleAccept = () =>{
         if (msg !== "Want to be your friend" && !ref.current)
             DeclineGame();
     }
+	// eslint-disable-next-line
   },[])
 
   return (
