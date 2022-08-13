@@ -92,10 +92,11 @@ const Home: FC = () => {
 
 	useEffect(()=>{
         gameSocket?.on("GameReady", (data)=>{
+			console.log(data);
             navigate(`/game?room=${data.room}`)
         })
 		// eslint-disable-next-line
-    },[])
+    },[gameSocket])
 
 	return (
 		<motion.div
@@ -229,7 +230,7 @@ const Home: FC = () => {
 						<List>
 							<>
 								{
-									ranks.length && 
+									ranks.length !==0 && 
 									ranks.map((ranky, index) =>{
 										return <LeaderBoardCard
 										key={ranky.id}

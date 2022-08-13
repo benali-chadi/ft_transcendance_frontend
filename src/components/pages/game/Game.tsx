@@ -1,6 +1,7 @@
 import React, { FC, useContext, useEffect, useRef, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom";
 import GameOverCard from "../../game/GameOverCard";
+import OnevsoneCard from "../../game/OnevsoneCard";
 import { userContext, UserState } from "../../helpers/context";
 import {Game} from "../../helpers/game"
 
@@ -13,8 +14,9 @@ const GamePage: FC = () => {
 	const [IsPlayer, setIsPlayer] = useState<boolean>(false)
 	const [width, setWidth] = useState<any>(null);
 	const [height, setHeight] = useState<any>(null);
-	const aspectRatio = 16 / 9;
+	const aspectRatio = 3 / 2;
 	const [sleep, setSleep] = useState(0);
+	const [game, setGame] = useState<any>(null);
 
 	const location = useLocation()
   	const params = new URLSearchParams(location.search)
@@ -75,6 +77,9 @@ const GamePage: FC = () => {
 				if (!data.game){
 					navigate("/");
 				}else{
+					setGame(prev=>{
+						return data.game;
+					})
 					if (data.IsPlayer){
 						setIsPlayer(prev => {
 							return true;
@@ -91,6 +96,9 @@ const GamePage: FC = () => {
 
 			gameSocket.on("updateframe", (game : Game) => {
 				DrawGame(ctx, game);
+				setGame(prev=>{
+					return game;
+				})
 			});
 
 			gameSocket.on("gameOver", (res : any) => {
@@ -101,9 +109,9 @@ const GamePage: FC = () => {
 					return true;
 				})
 			});
-			let room : any = room_ref.current;
 			return () => {
-				gameSocket.emit("leftGame", {room: room}, (res)=>{
+				// eslint-disable-next-line
+				gameSocket.emit("leftGame", {room: room_ref.current}, (res)=>{
 				});
 				gameSocket.off("updateframe", (res)=>{});
 				gameSocket.off("gameOver", (res)=>{});
@@ -131,7 +139,7 @@ const GamePage: FC = () => {
 	useEffect(()=>{
 		updateDimensions();
 		// eslint-disable-next-line
-	}, [myRef])
+	}, [myRef,])
 
 	const ref  : any= useRef();
 	useEffect(()=>{
@@ -150,10 +158,13 @@ const GamePage: FC = () => {
 	return(
 		<div className="flex flex-col items-center justify-center h-screen gap-3 px-4 bg-my-lavender md:h-full md:rounded-r-large" >
 			<div
-					className=" w-[90%] md:h-[50%] h-[70%] flex flex-col justify-center items-center gap-2"
+					className=" w-[90%] md:h-[70%] h-[70%] flex flex-col justify-center items-center gap-2"
 					ref={myRef}
 				>
 				{sleep !== 0 && <h1>Game will start in {sleep}</h1>}
+					{game && <OnevsoneCard
+						game={game}
+					/>}
 				<canvas  width={width} height={height}  style={{border: "black solid 1px"}} ref={canvasRef} ></canvas>
 				{over && IsPlayer && <GameOverCard win={currentUser.username === winner} IsPlayer={IsPlayer} 
 					winner={winner}/>}

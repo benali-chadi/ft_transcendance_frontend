@@ -4,6 +4,54 @@ import AchievementIcon from "../../../../img/achievments.png";
 import { outletContext } from "../Profile";
 import AchievementCard from "./AchievementCard";
 
+const Achievements = [
+	{
+		title:"Straight shooter",
+		desc: "You've won 5 matches in a row",
+		level: "level1"
+	},
+	{
+		title: "Killer",
+		desc: "Perfect score",
+		level: "level2"
+	},
+	{
+		title: "Golden boy",
+		desc: "Reached 1st rank",
+		level: "level3"
+	},
+	{
+		title: "Silver king",
+		desc: "Reached 2nd rank",
+		level: "level4"
+	},
+	{
+		title: "Bronze status",
+		desc: "Reached 3rd rank",
+		level: "level5"
+	},
+	{
+		title: "Social animal",
+		desc: "You have 5 friends",
+		level: "level6"
+	},
+	{
+		title: "it’s a kings world",
+		desc: "Administrator of 5 channels",
+		level: "level7"
+	},
+	{
+		title: "Novice",
+		desc: "Welcome to our website",
+		level: "level8"
+	},
+	{
+		title: "Supervisor",
+		desc: "Watched a game",
+		level: "level9"
+	},
+]
+
 const AchievementsBoard: FC = () => {
 	const navigate = useNavigate();
 	const { username } = useOutletContext<outletContext>();
@@ -29,18 +77,16 @@ const AchievementsBoard: FC = () => {
 				</h2>
 			</div>
 			<div className=" scrolling justify-center min-w-fit w-[full] overflow-auto flex flex-wrap gap-2">
-				<AchievementCard level="level1" />
-				<AchievementCard level="level2" />
-				<AchievementCard level="level3" />
-				<AchievementCard level="level4" />
-				<AchievementCard level="level5" />
-				<AchievementCard level="level6" />
-				<AchievementCard level="level7" />
-				<AchievementCard level="level8" />
-				<AchievementCard level="level9" />
-				<AchievementCard level="level10" />
-				<AchievementCard level="level11" />
-				<AchievementCard level="level12" />
+				
+				{
+					Achievements.map((element, index) => {
+						return <AchievementCard 
+						key={index}
+						title={element.title} 
+						desc={element.desc} 
+						level={element.level}/>
+					})	
+				}
 			</div>
 		</div>
 	);
