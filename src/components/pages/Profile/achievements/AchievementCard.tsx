@@ -3,13 +3,16 @@ import React, { FC } from "react";
 interface Props {
 	title?: string;
 	desc? : string;
-	level: string
+	level: string;
+	opacity?: string;
+	width?:string;
 }
 
-const AchievementCard: FC<Props> = ({ title, desc, level }) => {
+const AchievementCard: FC<Props> = ({ title, desc, level, opacity, width }) => {
+
 	return (
 		<div
-			className={`p-2 w-[30%] min-w-max  bg-my-violet flex justify-center rounded-lg opacity-50`}
+			className={`p-2 ${width} min-w-max  bg-my-violet flex justify-center rounded-lg ${opacity}`}
 		>
 			<img
 				src={`/achievements/${level}.png`}

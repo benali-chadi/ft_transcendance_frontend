@@ -14,6 +14,7 @@ import Button from "../common/Button";
 import InviteGame from "../common/inviteGame";
 import WaitGame from "../common/WaitGame";
 import axios from "axios";
+import Achievement from "../common/Achievement";
 
 
 interface currentMatchDto {
@@ -35,7 +36,7 @@ const Home: FC = () => {
 	const [showInvite, setShowInvite] = useState(false);
 	const [subscribed, setsubscribed] = useState(false);
 	const [ranks, setRanks] = useState<any[]>([])
-
+	const [showAchiev, setshowAchiev] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -73,6 +74,10 @@ const Home: FC = () => {
 		getMe();
 		const showUpdateProfile = () => {
 			setShowUpdateUser(currentUser.first_time);
+			setshowAchiev(currentUser.first_time);
+			setTimeout(() => {
+				setshowAchiev(false);
+			}, 2000);
 		};
 		if(gameSocket){
 			gameSocket.emit("currentMatch", (data: any)=>{
@@ -124,6 +129,14 @@ const Home: FC = () => {
 					}}
 				/>
 			)}
+			{
+				showAchiev && <Achievement
+					title="Novice"
+                	desc="Welcome to our website"
+                	level="level8"
+					handleCancel={() => {setshowAchiev(false)}}
+				/>
+			}
 			{subscribed && <WaitGame cancel={()=>{setsubscribed(false);}}/>}
 			{	showInvite && <InviteGame handleCancel={()=>{setShowInvite(false)}}/>}
 			{/* Game System */}

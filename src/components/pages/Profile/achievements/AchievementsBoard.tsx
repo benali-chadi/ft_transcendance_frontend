@@ -37,7 +37,7 @@ const Achievements = [
 	},
 	{
 		title: "it’s a kings world",
-		desc: "Administrator of 5 channels",
+		desc: "Owner of 5 channels",
 		level: "level7"
 	},
 	{
@@ -84,7 +84,10 @@ const AchievementsBoard: FC = () => {
 						key={index}
 						title={element.title} 
 						desc={element.desc} 
-						level={element.level}/>
+						level={element.level}
+						opacity="opacity-50"
+						width="w-[30%]"/>
+						
 					})	
 				}
 			</div>
