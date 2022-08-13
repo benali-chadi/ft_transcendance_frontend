@@ -64,23 +64,23 @@ const FindChannels: FC<Props> = ({ handleCancel }) => {
 					</div>
 					{/* channels */}
 					<div className="flex flex-wrap justify-center gap-2">
-						{channels.length != 0 ? (
+						{channels.length !== 0 &&
 							channels
-								.filter((channel: any) =>
-									channel.name.includes(text)
-								)
+								.filter((channel: any) =>{
+										return  !channel.In && channel.name.includes(text)
+								})
 								.map((channel: any) => {
 									return (
 										<ChatGroupCard
 											key={channel.id}
 											room={channel}
 											room_id={channel.id}
+											to_join={true}
+											type={channel.type}
 										/>
 									);
 								})
-						) : (
-							<h1>No channels</h1>
-						)}
+						}
 					</div>
 				</motion.div>
 			</div>

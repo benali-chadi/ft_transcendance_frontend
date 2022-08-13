@@ -8,10 +8,11 @@ import HandleBlock from "../../../common/HandleBlock";
 
 interface Props {
 	user: any;
+	role?: string;
 }
 
-const FriendCard: FC<Props> = ({ user }) => {
-	const { userSocket, updated , gameSocket} = useContext<UserState>(userContext);
+const FriendCard: FC<Props> = ({ user, role }) => {
+	const { userSocket, updated , gameSocket, currentUser} = useContext<UserState>(userContext);
 	const navigate = useNavigate();
 	const [showDropDown, setShowDropdown] = useState(false);
 	const [_user, setUser] = useState(user);
@@ -19,19 +20,20 @@ const FriendCard: FC<Props> = ({ user }) => {
 	const [blocked, setBlocked] = useState(_user.blocked);
 	const [showYouSure, setYouSure] = useState(false);
 
-	async function getUser() {
-		try {
-			const { data } = await axios.get(
-				`${process.env.REACT_APP_BACKEND_URL}user/${_user.username}`,
-				{ withCredentials: true }
-			);
-			setUser(data);
-		} catch (e) {}
-	}
 	const ref: any = useRef();
 
 	useEffect(() => {
+		async function getUser() {
+			try {
+				const { data } = await axios.get(
+					`${process.env.REACT_APP_BACKEND_URL}user/${_user.username}`,
+					{ withCredentials: true }
+				);
+				setUser(data);
+			} catch (e) {}
+		}
 		getUser();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [updated]);
 
 	const InviteFriend = (username: string) =>{
@@ -55,6 +57,8 @@ const FriendCard: FC<Props> = ({ user }) => {
 			ref={ref}
 			className="flex flex-shrink-0 justify-around w-fit p-4 bg-white rounded-xl hover:bg-white/50 hover:shadow-lg min-w-[15rem]"
 		>
+			{role === "Owner" && <i className="fa-solid fa-crown text-sm"></i>}
+			{role === "Admin" && <i className="fa-solid fa-user-shield text-sm"></i>}
 			{/* Avatar Part */}
 			<div
 				className="min-h-[3rem] min-w-[3rem] rounded-full flex justify-center items-center gap-4 cursor-pointer"
@@ -76,8 +80,9 @@ const FriendCard: FC<Props> = ({ user }) => {
 					<div className="text-sm font-semibold">{_user.status}</div>
 				</div>
 			</div>
+			
 			{/* Three Dots Part */}
-			<div className="relative flex flex-col">
+			{ currentUser.id !== _user.id && <div className="relative flex flex-col">
 				<div
 					className="hover:bg-gray-100 w-[2rem] cursor-pointer rounded-full flex justify-center items-center"
 					onClick={() => setShowDropdown(!showDropDown)}
@@ -173,7 +178,7 @@ const FriendCard: FC<Props> = ({ user }) => {
 						)}
 					</motion.div>
 				)}
-			</div>
+			</div>}
 		</div>
 	);
 };

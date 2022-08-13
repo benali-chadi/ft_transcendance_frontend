@@ -53,7 +53,7 @@ const ChannelMembers: FC<Props> = ({ handleCancel, members, ChannelName }) => {
 					</div>
 					{/* Data */}
 					<div className="flex flex-wrap justify-center gap-2">
-						{members.length != 0 ? (
+						{members.length !== 0 ? (
 							members
 								.filter((user: any) =>
 									user.member.username.includes(text)
@@ -63,6 +63,7 @@ const ChannelMembers: FC<Props> = ({ handleCancel, members, ChannelName }) => {
 										<FriendCard
 											key={user.member.id}
 											user={user.member}
+											role={user.role}
 										/>
 									);
 								})

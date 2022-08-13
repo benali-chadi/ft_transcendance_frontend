@@ -14,15 +14,16 @@ interface Props {
 	user: any;
 	socket: any;
 	room_id: number;
+	room_type: string;
 	handleClick: () => void;
 }
 
-const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
-	const { currentUser, updatedRelation } = useContext<UserState>(userContext);
+const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id, room_type }) => {
+	const { currentUser} = useContext<UserState>(userContext);
 	const [msgs, setMsgs] = useState<MsgProps[]>([]);
 	const [text, setText] = useState("");
 	const [showSetting, setShowSettings] = useState(false);
-	const { channelUpdated, setcChannelUpdated } =
+	const {setcChannelUpdated } =
 		useContext<ChatState>(ChatContext);
 
 	const myRef = useRef(null);
@@ -67,6 +68,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 			socket?.emit("leaveRoom", room_id);
 			socket?.off("chatToClient");
 		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [room_id]);
 
 	useEffect(() => {
@@ -92,6 +94,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 				<ChannelSettings
 					room_id={room_id}
 					channelName={user.name}
+					room_type={room_type}
 					handleCancel={() => setShowSettings(false)}
 				/>
 			)}

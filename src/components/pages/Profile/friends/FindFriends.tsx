@@ -64,19 +64,17 @@ const FindFriends: FC<Props> = ({ handleCancel }) => {
 					</div>
 					{/* Users */}
 					<div className="flex flex-wrap justify-center gap-2">
-						{users.length != 0 ? (
+						{users.length !== 0 &&
 							users
 								.filter((user: any) =>
-									user.username.includes(text)
+									!user.Isfriend && user.username.includes(text)
 								)
 								.map((user: any) => {
 									return (
 										<FriendCard key={user.id} user={user} />
 									);
 								})
-						) : (
-							<h1>No Users</h1>
-						)}
+						}
 					</div>
 				</motion.div>
 			</div>

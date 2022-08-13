@@ -10,7 +10,7 @@ import HandleBlock from "../../../common/HandleBlock";
 interface Props {
 	user: any;
 	room_id: number;
-	handleClick: (user: any, room_id: number) => void;
+	handleClick: (user: any, room_id: number, room_type: string) => void;
 }
 
 const ChatUserCard: FC<Props> = ({ user,  handleClick = () => {}, room_id }) => {
@@ -48,16 +48,19 @@ const ChatUserCard: FC<Props> = ({ user,  handleClick = () => {}, room_id }) => 
 
 	const checkNotif = () => {
 		room_notif.map((room) =>{
-			if (room == room_id)
+			if (room === room_id)
 				setnotif(true);
+			return true;
 		})
 	}
 	useEffect(() => {
 		getUser();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [updated, updatedRelation]);
 
 	useEffect(() => {
 		checkNotif()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [room_notif])
 
 	useEffect(() => {
@@ -73,6 +76,7 @@ const ChatUserCard: FC<Props> = ({ user,  handleClick = () => {}, room_id }) => 
 		return () => {
 			document.removeEventListener("mousedown", handleClickOutside);
 		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ref]);
 
 	return (
@@ -90,8 +94,8 @@ const ChatUserCard: FC<Props> = ({ user,  handleClick = () => {}, room_id }) => 
 				onClick={() => {
 					setShowDropdown(false);
 					setnotif(false);
-					setNotif(room_notif.filter(room => room != room_id));
-					handleClick(_user, room_id);
+					setNotif(room_notif.filter(room => room !== room_id));
+					handleClick(_user, room_id, "Dm");
 				}}
 			>
 				{_user.avatar && (

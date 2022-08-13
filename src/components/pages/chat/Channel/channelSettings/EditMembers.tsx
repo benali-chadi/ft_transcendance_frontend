@@ -40,11 +40,11 @@ const EditMembers: FC<Props> = ({ handleCancel, room_id, members, unban }) => {
 						}
 					);
 				}
-				console.log(data.data);
 				setData(data.data);
 			} catch (e) {}
 		}
 		showdata();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [memebersUpdate]);
 
 	return (
@@ -67,7 +67,7 @@ const EditMembers: FC<Props> = ({ handleCancel, room_id, members, unban }) => {
 			</div>
 			{/* Data */}
 			<div className="flex flex-wrap justify-center gap-2">
-				{data.length != 0 ? (
+				{data.length !== 0 ? (
 					data
 						.filter((user: any) => user.username.includes(text))
 						.map((user: any) => {

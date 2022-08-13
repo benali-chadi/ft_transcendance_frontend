@@ -26,6 +26,7 @@ const MatchHistory: FC = () => {
 	}
 	useEffect(() =>{
 		getMatchs()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 	return (
@@ -82,9 +83,8 @@ const MatchHistory: FC = () => {
 					</h2>
 				</div>
 				{/* Matches */}
-
-				{
-					matchs.length != 0 &&
+				<div className="w-full md:max-h-[35vh] overflow-auto scrolling">{
+					matchs.length !== 0 &&
 					matchs
 					.filter((match) => {
 						if (filter === "wins")
@@ -98,6 +98,7 @@ const MatchHistory: FC = () => {
 						return <MatchCard key={match.id} user1={match.winner} user2={match.loser} result={match.IsWinner? "won" : "lost"}/>
 					})
 				}
+				</div>
 			</div>
 		</div>
 	);

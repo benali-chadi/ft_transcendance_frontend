@@ -14,21 +14,23 @@ import CreateChannel from "./Channel/CreateChannel";
 import { useNavigate } from "react-router-dom";
 
 const Chat: FC = () => {
-	const { isMobile, chatSocket, updatedRelation, room_notif, setNotif } =
+	const { isMobile, chatSocket, updatedRelation} =
 		useContext<UserState>(userContext);
 	const [dms, setDms] = useState([]);
 
 	const [chatUser, setChatUser] = useState<any | null>(null);
 	const [roomId, setRoomId] = useState<number>(0);
+	const [roomType, setroomType] = useState<string>("");
 	const [channels, setChannels] = useState<any>([]);
 	const [showCreateChannel, setShowCreateChannel] = useState(false);
 	const [showChannels, setShowChannels] = useState(false);
 	const [channelUpdated, setcChannelUpdated] = useState(0);
 	const navigate = useNavigate();
 
-	const handleClick = (user: any, room_id: number) => {
+	const handleClick = (user: any, room_id: number, room_type: string) => {
 		setChatUser(null);
 		setRoomId(room_id);
+		setroomType(room_type);
 		setTimeout(() => setChatUser(user), isMobile ? 200 : 700);
 	};
 
@@ -65,11 +67,13 @@ const Chat: FC = () => {
 		}
 		getDms();
 		getGroupChannels();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [channelUpdated, updatedRelation]);
 	
 
 	useEffect(()=>{
-		handleClick(null, 0);
+		handleClick(null, 0, "");
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	},[updatedRelation])
 
 	useEffect(() =>{
@@ -117,7 +121,7 @@ const Chat: FC = () => {
 					className={isMobile && chatUser ? "hidden" : "chatSideBar"}
 				>
 					{/* Upper part */}
-					<div className="flex flex-col gap-4 py-16 bg-[#F0F4FC] md:bg-my-lavender pr-3 rounded-b-large sticky top-0 min-h-[20rem] max-h-[15rem] md:py-8 z-10 md:pl-3">
+					<div className="flex flex-col gap-4 py-16 bg-[#F0F4FC] md:bg-my-lavender pr-3 rounded-b-large sticky top-0 min-h-[20rem] max-h-[15rem] md:py-8 z-10 md:pl-3 ">
 						{/* Buttons */}
 						<div className="flex justify-center gap-10">
 							<Button
@@ -175,7 +179,8 @@ const Chat: FC = () => {
 						)}
 					</div>
 					{/* Users or Channels */}
-					<div className="flex flex-col h-full gap-4 px-8 mt-3 overflow-auto scrolling">
+					<div className="flex flex-col h-full gap-4 px-8 mt-3 overflow-auto scrolling
+					min-h-[2rem] max-h-[15rem] md:max-h-[40vh]">
 						{toggle ? (
 							dms.map((dm: any) => {
 								return (
@@ -195,6 +200,8 @@ const Chat: FC = () => {
 										room={channel}
 										room_id={channel.id}
 										handleClick={handleClick}
+										to_join={false}
+										type={channel.type}
 									/>
 								);
 							})
@@ -202,7 +209,7 @@ const Chat: FC = () => {
 							<div></div>
 						)}
 					</div>
-				</div>
+					</div>
 				<motion.div
 					variants={chatAreaVariants}
 					animate={chatUser ? "open" : "close"}
@@ -213,6 +220,7 @@ const Chat: FC = () => {
 						socket={chatSocket}
 						handleClick={() => setChatUser(null)}
 						room_id={roomId}
+						room_type={roomType}
 					/>
 				</motion.div>
 			</motion.div>

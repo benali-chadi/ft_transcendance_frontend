@@ -31,7 +31,7 @@ const SettingsMemberCard: FC<Props> = ({
 	const handleAddMemberClick = async () => {
 		setShowDropdown(false);
 		try {
-			let { data } = await axios.post(
+			await axios.post(
 				`${process.env.REACT_APP_BACKEND_URL}chat/add_member`,
 				{
 					room_id: room_id,
@@ -48,7 +48,7 @@ const SettingsMemberCard: FC<Props> = ({
 		setShowDropdown(false);
 		try {
 			let role = user.role === "Member" ? "Admin" : "Member";
-			let { data } = await axios.post(
+			await axios.post(
 				`${process.env.REACT_APP_BACKEND_URL}chat/change_member_role`,
 				{
 					room_id: room_id,
@@ -65,7 +65,7 @@ const SettingsMemberCard: FC<Props> = ({
 	const handleBanClick = async () => {
 		setShowDropdown(false);
 		try {
-			let { data } = await axios.post(
+			await axios.post(
 				`${process.env.REACT_APP_BACKEND_URL}chat/mute_user`,
 				{
 					user_id: user.id,
@@ -74,18 +74,16 @@ const SettingsMemberCard: FC<Props> = ({
 				},
 				{ withCredentials: true }
 			);
-			console.log(data);
 			setMembersUpdated({});
 		} catch (e) {}
 	};
 	const handleMuteClick = () => {
 		setOnMute(!onMute);
-		// setShowDropdown(false);
 	};
 	const handleDeleteMemberClick = async () => {
 		setShowDropdown(false);
 		try {
-			let { data } = await axios.post(
+			await axios.post(
 				`${process.env.REACT_APP_BACKEND_URL}chat/remove_member`,
 				{
 					room_id: room_id,
@@ -101,7 +99,7 @@ const SettingsMemberCard: FC<Props> = ({
 	const handleUnbanMemberClick = async () => {
 		setShowDropdown(false);
 		try {
-			let { data } = await axios.post(
+			await axios.post(
 				`${process.env.REACT_APP_BACKEND_URL}chat/unban`,
 				{
 					user_id: user.id,
@@ -109,7 +107,6 @@ const SettingsMemberCard: FC<Props> = ({
 				},
 				{ withCredentials: true }
 			);
-			console.log(data);
 			setMembersUpdated({});
 		} catch (e) {}
 	};
@@ -128,8 +125,8 @@ const SettingsMemberCard: FC<Props> = ({
 	useEffect(() => {
 		if (!user.IsMuted || user.muteDate instanceof Date) setmuted(true);
 		getUser();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [updated]);
-	// const { setProfileUser } = useOutletContext<outletContext>();
 
 	useEffect(() => {
 		function handleClickOutside(event) {
@@ -235,8 +232,6 @@ const SettingsMemberCard: FC<Props> = ({
 											try {
 												let date = new Date();
 
-												console.log("date =", date);
-												console.log("days =", days);
 												date.setUTCDate(
 													date.getDate() + days
 												);
@@ -246,7 +241,7 @@ const SettingsMemberCard: FC<Props> = ({
 												date.setUTCMinutes(
 													date.getMinutes() + minutes
 												);
-												let { data } = await axios.post(
+												await axios.post(
 													`${process.env.REACT_APP_BACKEND_URL}chat/mute_user`,
 													{
 														user_id: user.id,
@@ -258,7 +253,6 @@ const SettingsMemberCard: FC<Props> = ({
 												setDays(0);
 												setHours(0);
 												setMinutes(0);
-												console.log("data =", data);
 											} catch (e) {}
 										}}
 									>

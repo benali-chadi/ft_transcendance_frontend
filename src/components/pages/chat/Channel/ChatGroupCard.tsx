@@ -6,22 +6,29 @@ import axios from "axios";
 import ChannelMembers from "./ChannelMembers";
 import { ChatContext, ChatState, userContext, UserState } from "../../../helpers/context";
 import ChannelSettings from "./channelSettings/ChannelSettings";
+import ChannelCode from "../../../common/channelCode";
 
 interface Props {
 	room_id: number;
 	room: any;
-	handleClick?: (room: any, room_id: number) => void;
+	handleClick?: (room: any, room_id: number, room_type:string) => void;
+	to_join:boolean;
+	type? :string;
 }
 
 const ChatGroupCard: FC<Props> = ({
 	room,
 	handleClick = () => {},
 	room_id,
+	to_join,
+	type
 }) => {
 	const [showDropDown, setShowDropdown] = useState(false);
 	const [showMembers, setShowMembers] = useState(false);
 	const [showSetting, setShowSettings] = useState(false);
-	const { userSocket, updated, updatedRelation , room_notif ,setNotif ,gameSocket} =
+	const [showCode, setShowCode] = useState(false);
+
+	const {room_notif ,setNotif} =
 		useContext<UserState>(userContext);
 	const [notif, setnotif] = useState(false);
 
@@ -32,12 +39,16 @@ const ChatGroupCard: FC<Props> = ({
 	const handleJoinClick = async () => {
 		setShowDropdown(false);
 		try {
-			const { data } = await axios.post(
-				`${process.env.REACT_APP_BACKEND_URL}chat/join_room`,
-				{ room_id: room_id, password: null },
-				{ withCredentials: true }
-			);
-			setcChannelUpdated(channelUpdated + 1);
+			if (room.type === "Protected")
+				setShowCode(true);
+			else {
+				await axios.post(
+					`${process.env.REACT_APP_BACKEND_URL}chat/join_room`,
+					{ room_id: room_id, password: null },
+					{ withCredentials: true }
+				);
+				setcChannelUpdated(channelUpdated + 1);
+			}
 		} catch (e) {
 			console.log(e);
 		}
@@ -45,7 +56,7 @@ const ChatGroupCard: FC<Props> = ({
 	const handleLeaveClick = async () => {
 		setShowDropdown(false);
 		try {
-			const { data } = await axios.post(
+			await axios.post(
 				`${process.env.REACT_APP_BACKEND_URL}chat/leave_room`,
 				{ room_id: room_id },
 				{ withCredentials: true }
@@ -57,14 +68,16 @@ const ChatGroupCard: FC<Props> = ({
 	};
 
 	const checkNotif = () => {
-		room_notif.map((room) =>{
-			if (room == room_id)
+		room_notif.map((room) => {
+			if (room === room_id)
 				setnotif(true);
+			return true;
 		})
 	}
 
 	useEffect(() => {
 		checkNotif()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [room_notif])
 
 	useEffect(() => {
@@ -85,6 +98,17 @@ const ChatGroupCard: FC<Props> = ({
 			ref={ref}
 			className="relative grid grid-cols-[4fr_1fr] bg-white p-4 w-full rounded-xl hover:bg-my-light-violet/30 hover:shadow-md min-w-[15rem]"
 		>
+			{/* Showing Channel code if protected */}
+			{
+				showCode && to_join &&
+					(<ChannelCode 
+						room_id={room_id}
+						validated={false}
+						handleCancel={() => {setShowCode(false)}}
+						to_do="join"
+					/>)
+				
+			}
 			{/* Showing Channel's Memebers */}
 			{showMembers && (
 				<ChannelMembers
@@ -97,6 +121,7 @@ const ChatGroupCard: FC<Props> = ({
 				<ChannelSettings
 					room_id={room_id}
 					channelName={room.name}
+					room_type={room.type}
 					handleCancel={() => setShowSettings(false)}
 				/>
 			)}
@@ -105,13 +130,16 @@ const ChatGroupCard: FC<Props> = ({
 				className={`absolute h-[1rem] w-[1rem] rounded-full bg-red-500 top-0 left-2 flex items-center justify-center cursor-pointer hover:bg-red-300`}
 				>
 			</div>}
+			{
+				type === "Protected" && <i className="fa-solid fa-lock absolute text-sm top-2 right-5"></i>
+			}
 			<div
 				className=" min-h-[3.5rem] min-w-[3.5rem] rounded-full flex items-center gap-2 cursor-pointer"
 				onClick={() => {
 					setShowDropdown(false);
 					setnotif(false);
-					setNotif(room_notif.filter(room => room != room_id));
-					handleClick(room, room_id);
+					setNotif(room_notif.filter(room => room !== room_id));
+					handleClick(room, room_id, room.type);
 				}}
 			>
 				{room.icon && (

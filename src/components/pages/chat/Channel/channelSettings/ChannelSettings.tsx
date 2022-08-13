@@ -4,29 +4,41 @@ import Modal from "../../../../common/Modal";
 import { cardVariants } from "../../../../helpers/variants";
 import EditChannelInfo from "./EditChannelInfo";
 import EditMembers from "./EditMembers";
-import { userContext, UserState } from "../../../../helpers/context";
+import { ChatContext, ChatState, userContext, UserState } from "../../../../helpers/context";
 import axios from "axios";
+import ChannelCode from "../../../../common/channelCode";
 
 interface Props {
 	room_id: number;
 	channelName: string;
+	room_type: string;
 	handleCancel: () => void;
 }
 
-const ChannelSettings: FC<Props> = ({ handleCancel, channelName, room_id }) => {
+const ChannelSettings: FC<Props> = ({ handleCancel, channelName, room_id, room_type }) => {
 	const [toShow, setToShow] = useState<
 		"" | "edit" | "add" | "member" | "unban"
 	>("");
 	const { isMobile } = useContext<UserState>(userContext);
+	const [showCode, setShowCode] = useState(false);
+	const { channelUpdated, setcChannelUpdated,  } =
+		useContext<ChatState>(ChatContext);
 
 	const handleDeleteChannelClick = async () => {
 		try {
-			let { data } = await axios.delete(
-				`${process.env.REACT_APP_BACKEND_URL}chat/${room_id}`,
-				{
-					withCredentials: true,
-				}
-			);
+			if (room_type === "Protected")
+			{
+				setShowCode(true);
+			}else {
+				await axios.delete(
+					`${process.env.REACT_APP_BACKEND_URL}chat/${room_id}`,
+					{
+						withCredentials: true,
+					}
+				);
+				setcChannelUpdated(channelUpdated + 1);
+				handleCancel();
+			}
 		} catch (e) {
 			if (e.respose.status === 403){
 				alert("Forbidden resource")
@@ -45,6 +57,17 @@ const ChannelSettings: FC<Props> = ({ handleCancel, channelName, room_id }) => {
 					className="absolute top-0 w-screen h-screen cursor-pointer"
 					onClick={handleCancel}
 				></div>
+				{/* Showing Channel code if protected */}
+				{
+					showCode &&
+					(<ChannelCode 
+						room_id={room_id}
+						validated={false}
+						handleCancel={() => {setShowCode(false)}}
+						to_do="delete"
+					/>)
+				
+				}
 				<motion.div
 					variants={cardVariants}
 					initial="initial"
