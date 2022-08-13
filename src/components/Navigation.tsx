@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { FC, useContext } from "react";
+import React, { FC, useContext, useEffect } from "react";
 import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import UserCard from "./common/UserCard";
@@ -14,7 +14,8 @@ const Navigation: FC = () => {
 	const [showNav, setShoweNav] = useState(false);
 	const { currentUser, setCurrentUser, room_notif, setNotif } = useContext<UserState>(userContext);
 	const navigate = useNavigate();
-
+	const [user, setUser] = useState<any>(null)
+	const [notif, setnotif] = useState(false)
 	const [showSearch, setShowSearch] = useState(false);
 
 	const isMobile = useMediaQuery({
@@ -37,11 +38,38 @@ const Navigation: FC = () => {
 		logOut();
 		setCurrentUser(null);
 	};
+	const getMe = async () =>{
+		try{
+			let {data} = await axios.get(`${process.env.REACT_APP_BACKEND_URL}user/me`,
+			{withCredentials:true});
 
+			setUser(data);
+		}catch(e){
+			if (e.response.status === 401) {
+				localStorage.clear();
+				navigate("/login");
+			}
+		}
+	}
 	const handleSearchCancel = () => {
 		setShowSearch(false);
 		setShoweNav(false);
 	};
+
+	const checkNotif = () =>{
+		if (room_notif.length > 0)
+			setnotif(true);
+		else
+			setnotif(false);
+	}
+	useEffect(() =>{
+		getMe();
+	},[])
+
+	useEffect(() =>{
+		checkNotif();
+	},[room_notif])
+
 	return (
 		<div className="w-full h-screen overflow-hidden bg-gray-300 md:p-6 md:py-20 md:grid md:grid-cols-12 ">
 			{showSearch && <Search handleCancel={handleSearchCancel} />}
@@ -77,7 +105,7 @@ const Navigation: FC = () => {
 						>
 							<i className="fa-solid fa-xmark"></i>
 						</div>
-						<UserCard user={currentUser} path="/" />
+						{user && <UserCard user={user} path="/" />}
 					</div>
 				)}
 				<div
@@ -136,7 +164,7 @@ const Navigation: FC = () => {
 					<li>
 						<NavLink className="inactive relative" to="chat">
 						
-							{!isMobile && room_notif != 0 && <div
+							{!isMobile && notif && <div
 							className={`absolute h-[1rem] w-[1rem] rounded-full bg-red-500 bottom-1 right-0 flex items-center justify-center cursor-pointer hover:bg-red-300`}
 								>
 							</div>}
@@ -144,6 +172,7 @@ const Navigation: FC = () => {
 								className="fa-solid fa-comment-dots"
 								onClick={() =>
 									{isMobile && setShoweNav(!showNav);
+										setnotif(false);
 									}
 								}
 							></i>

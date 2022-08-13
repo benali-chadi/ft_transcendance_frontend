@@ -32,7 +32,7 @@ const App: React.FC = () => {
 	const [inviteMgs, setInvitemsg] = useState("");
 	const [r_user, setRuser] = useState<any>(null)
 	const [isInvated, setIsInvated] = useState(false);
-	const [room_notif, setNotif] = useState(0);
+	const [room_notif, setNotif] = useState<number[]>([]);
 
 	const navigate = useNavigate();
 	const isMobile = useMediaQuery({
@@ -55,7 +55,7 @@ const App: React.FC = () => {
 		}).connect();
 		socket_chat.on("chat_notif", (res) =>{
 			setNotif(prev => {
-				return res.room_id
+				return [...prev, res.room_id]
 			})
 		})
 		socket.on("client status", () => {

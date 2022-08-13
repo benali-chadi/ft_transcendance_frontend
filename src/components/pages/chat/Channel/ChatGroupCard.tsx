@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { threeDotsVariants } from "../../../helpers/variants";
 import axios from "axios";
 import ChannelMembers from "./ChannelMembers";
-import { ChatContext, ChatState } from "../../../helpers/context";
+import { ChatContext, ChatState, userContext, UserState } from "../../../helpers/context";
 import ChannelSettings from "./channelSettings/ChannelSettings";
 
 interface Props {
@@ -21,8 +21,11 @@ const ChatGroupCard: FC<Props> = ({
 	const [showDropDown, setShowDropdown] = useState(false);
 	const [showMembers, setShowMembers] = useState(false);
 	const [showSetting, setShowSettings] = useState(false);
+	const { userSocket, updated, updatedRelation , room_notif ,setNotif ,gameSocket} =
+		useContext<UserState>(userContext);
+	const [notif, setnotif] = useState(false);
 
-	const { channelUpdated, setcChannelUpdated } =
+	const { channelUpdated, setcChannelUpdated,  } =
 		useContext<ChatState>(ChatContext);
 	const ref: any = useRef();
 
@@ -53,6 +56,17 @@ const ChatGroupCard: FC<Props> = ({
 		}
 	};
 
+	const checkNotif = () => {
+		room_notif.map((room) =>{
+			if (room == room_id)
+				setnotif(true);
+		})
+	}
+
+	useEffect(() => {
+		checkNotif()
+	}, [room_notif])
+
 	useEffect(() => {
 		function handleClickOutside(event) {
 			if (ref.current && !ref.current.contains(event.target)) {
@@ -69,7 +83,7 @@ const ChatGroupCard: FC<Props> = ({
 	return (
 		<div
 			ref={ref}
-			className="grid grid-cols-[4fr_1fr] bg-white p-4 w-full rounded-xl hover:bg-my-light-violet/30 hover:shadow-md min-w-[15rem]"
+			className="relative grid grid-cols-[4fr_1fr] bg-white p-4 w-full rounded-xl hover:bg-my-light-violet/30 hover:shadow-md min-w-[15rem]"
 		>
 			{/* Showing Channel's Memebers */}
 			{showMembers && (
@@ -87,10 +101,16 @@ const ChatGroupCard: FC<Props> = ({
 				/>
 			)}
 			{/* Avatar Part */}
+			{notif && <div
+				className={`absolute h-[1rem] w-[1rem] rounded-full bg-red-500 top-0 left-2 flex items-center justify-center cursor-pointer hover:bg-red-300`}
+				>
+			</div>}
 			<div
 				className=" min-h-[3.5rem] min-w-[3.5rem] rounded-full flex items-center gap-2 cursor-pointer"
 				onClick={() => {
 					setShowDropdown(false);
+					setnotif(false);
+					setNotif(room_notif.filter(room => room != room_id));
 					handleClick(room, room_id);
 				}}
 			>
@@ -157,7 +177,7 @@ const ChatGroupCard: FC<Props> = ({
 					)}
 				</motion.div>
 			</div>
-		</div>
+			</div>
 	);
 };
 

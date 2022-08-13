@@ -10,12 +10,11 @@ import HandleBlock from "../../../common/HandleBlock";
 interface Props {
 	user: any;
 	room_id: number;
-	notif: boolean;
 	handleClick: (user: any, room_id: number) => void;
 }
 
-const ChatUserCard: FC<Props> = ({ user, notif,  handleClick = () => {}, room_id }) => {
-	const { userSocket, updated, updatedRelation, setNotif , gameSocket} =
+const ChatUserCard: FC<Props> = ({ user,  handleClick = () => {}, room_id }) => {
+	const { userSocket, updated, updatedRelation , room_notif ,setNotif ,gameSocket} =
 		useContext<UserState>(userContext);
 	const [showDropDown, setShowDropdown] = useState(false);
 	const navigate = useNavigate();
@@ -25,6 +24,7 @@ const ChatUserCard: FC<Props> = ({ user, notif,  handleClick = () => {}, room_id
 	const [blocker, setBlocker] = useState(_user.blocker);
 	const [friends, setFriends] = useState(true);
 	const [showYouSure, setYouSure] = useState(false);
+	const [notif, setnotif] = useState(false);
 
 	const ref: any = useRef();
 
@@ -46,9 +46,19 @@ const ChatUserCard: FC<Props> = ({ user, notif,  handleClick = () => {}, room_id
 		gameSocket?.emit("inviteFriend", {username: user.username})
 	}
 
+	const checkNotif = () => {
+		room_notif.map((room) =>{
+			if (room == room_id)
+				setnotif(true);
+		})
+	}
 	useEffect(() => {
 		getUser();
 	}, [updated, updatedRelation]);
+
+	useEffect(() => {
+		checkNotif()
+	}, [room_notif])
 
 	useEffect(() => {
 		gameSocket?.on("GameReady", (data)=>{
@@ -64,6 +74,7 @@ const ChatUserCard: FC<Props> = ({ user, notif,  handleClick = () => {}, room_id
 			document.removeEventListener("mousedown", handleClickOutside);
 		};
 	}, [ref]);
+
 	return (
 		<div
 			ref={ref}
@@ -78,7 +89,8 @@ const ChatUserCard: FC<Props> = ({ user, notif,  handleClick = () => {}, room_id
 				className="min-h-[3rem] min-w-[3rem] rounded-full flex justify-center items-center gap-1 cursor-pointer"
 				onClick={() => {
 					setShowDropdown(false);
-					setNotif(0); 
+					setnotif(false);
+					setNotif(room_notif.filter(room => room != room_id));
 					handleClick(_user, room_id);
 				}}
 			>

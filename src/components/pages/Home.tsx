@@ -37,6 +37,7 @@ const Home: FC = () => {
 	const { currentUser, setCurrentUser, gameSocket, updated } = useContext<UserState>(userContext);
 	const [socket, setSocket] = useState<any>();
 	// useRef to store socket
+	const [user, setUser] = useState<any>(null)
 	const ref = useRef<any>();
 	const [toggle, setToggle] = useState(false);
 	const [currentMatch, setCurrentMatch] = useState<currentMatchDto[]>([]);
@@ -57,11 +58,32 @@ const Home: FC = () => {
 			{withCredentials: true});
 
 			setRanks(data);
-		}catch(e){}
+		}catch(e){
+			if (e.response.status === 401) {
+				localStorage.clear();
+				navigate("/login");
+			}
+		}
 	}
+
+	const getMe = async () =>{
+		try{
+			let {data} = await axios.get(`${process.env.REACT_APP_BACKEND_URL}user/me`,
+			{withCredentials:true});
+
+			setUser(data);
+		}catch(e){
+			if (e.response.status === 401) {
+				localStorage.clear();
+				navigate("/login");
+			}
+		}
+	}
+
 	// const navigate = useNavigate();
 	useEffect(() => {
 		getRanks();
+		getMe();
 		const showUpdateProfile = () => {
 			setShowUpdateUser(currentUser.first_time);
 		};
@@ -84,7 +106,7 @@ const Home: FC = () => {
         gameSocket?.on("GameReady", (data)=>{
             navigate(`/game?room=${data.room}`)
         })
-    })
+    },[])
 
 	return (
 		<motion.div
@@ -176,7 +198,7 @@ const Home: FC = () => {
 			<div className="flex flex-col gap-8 p-8 overflow-auto md:col-span-2 scrolling">
 				{/* User */}
 				<div className="sticky top-0 z-10 hidden w-full bg-white h-fit md:block">
-					<UserCard user={currentUser} path="/" />
+					{user && <UserCard user={user} path="/" />}
 				</div>
 				{/* Lists */}
 				<div>

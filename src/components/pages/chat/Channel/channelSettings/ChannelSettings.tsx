@@ -28,7 +28,9 @@ const ChannelSettings: FC<Props> = ({ handleCancel, channelName, room_id }) => {
 				}
 			);
 		} catch (e) {
-			console.log(e);
+			if (e.respose.status === 403){
+				alert("Forbidden resource")
+			}
 		}
 	};
 

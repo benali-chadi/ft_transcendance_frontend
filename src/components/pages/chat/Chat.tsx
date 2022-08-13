@@ -67,6 +67,11 @@ const Chat: FC = () => {
 		getGroupChannels();
 	}, [channelUpdated, updatedRelation]);
 	
+
+	useEffect(()=>{
+		handleClick(null, 0);
+	},[updatedRelation])
+
 	useEffect(() =>{
 		if (chatSocket)
 		{
@@ -175,7 +180,6 @@ const Chat: FC = () => {
 							dms.map((dm: any) => {
 								return (
 									<ChatUserCard
-										notif={room_notif == dm.room_id}
 										key={dm.room_id}
 										user={dm.member}
 										room_id={dm.room_id}

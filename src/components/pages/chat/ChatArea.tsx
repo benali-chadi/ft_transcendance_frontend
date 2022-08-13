@@ -18,7 +18,7 @@ interface Props {
 }
 
 const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
-	const { currentUser } = useContext<UserState>(userContext);
+	const { currentUser, updatedRelation } = useContext<UserState>(userContext);
 	const [msgs, setMsgs] = useState<MsgProps[]>([]);
 	const [text, setText] = useState("");
 	const [showSetting, setShowSettings] = useState(false);
@@ -72,6 +72,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id }) => {
 	useEffect(() => {
 		executeScroll();
 	}, [msgs]);
+
 
 	const handleMsgSendClick = async (e?: React.FormEvent<HTMLFormElement>) => {
 		if (e) e.preventDefault();

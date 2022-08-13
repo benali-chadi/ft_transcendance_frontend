@@ -84,7 +84,7 @@ const MatchHistory: FC = () => {
 				{/* Matches */}
 
 				{
-					matchs.length &&
+					matchs.length != 0 &&
 					matchs
 					.filter((match) => {
 						if (filter === "wins")

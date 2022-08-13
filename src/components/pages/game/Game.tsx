@@ -1,5 +1,5 @@
 import React, { FC, useContext, useEffect, useRef, useState } from "react"
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { getLeadingCommentRanges } from "typescript";
 import GameOverCard from "../../game/GameOverCard";
 import { userContext, UserState } from "../../helpers/context";
@@ -16,11 +16,13 @@ const GamePage: FC = () => {
 	const [height, setHeight] = useState<any>(null);
 	const aspectRatio = 16 / 9;
 	const [room_name, setRoomName] = useState<any>("");
-	const [sleep, setSleep] = useState(4);
+	const [sleep, setSleep] = useState(0);
 
 	const location = useLocation()
   	const params = new URLSearchParams(location.search)
 	const room_ref = useRef(params.get("room"));
+	const sleep_ref = useRef(sleep);
+	const navigate = useNavigate()
 
 	const myRef : React.RefObject<HTMLDivElement> = useRef(null);
 
@@ -68,13 +70,25 @@ const GamePage: FC = () => {
 		const canvas : any =  canvasRef.current;
 		const ctx = canvas.getContext('2d');
 		
+		
 		if (gameSocket)
 		{
-			gameSocket.emit("startGame", {room: params.get("room")}, (game) => {
-				if (game){
-					DrawGame(ctx, game);
-					setIsPlayer(true);
-				}
+			gameSocket.emit("startGame", {room: params.get("room")}, (data:{game: Game, IsPlayer:boolean}) => {
+				if (!data.game){
+					navigate("/");
+				}else{
+					if (data.IsPlayer){
+						setIsPlayer(prev => {
+							return true;
+						})
+						setSleep(prev => {
+							return 4;
+						})
+					}
+					else
+						gameSocket.emit("watchGame", {room:room_ref.current})
+					DrawGame(ctx, data.game);
+				}				
 			});
 
 			gameSocket.on("updateframe", (game : Game) => {
@@ -98,8 +112,7 @@ const GamePage: FC = () => {
 				window.removeEventListener("resize", updateDimensions)
 			}
 		}
-		
-	}, [])
+	}, [gameSocket])
 	
 	const updateDimensions = () => {
 		let width = myRef.current ? myRef.current.clientWidth :
@@ -121,17 +134,18 @@ const GamePage: FC = () => {
 	}, [myRef])
 
 	const ref  : any= useRef();
-	const sleep_ref = useRef(sleep);
 	useEffect(()=>{
-		ref.current  = setInterval(()=>{
-			sleep_ref.current--;
-			setSleep(sleep_ref.current);
-			if (sleep_ref.current == 0)
-				clearInterval(ref.current)
-		}, (1000));
-		return () => {clearInterval(ref.current)}
-	},[])
-
+		if (IsPlayer){
+			sleep_ref.current = sleep;
+			ref.current  = setInterval(()=>{
+				sleep_ref.current--;
+				setSleep(sleep_ref.current);
+				if (sleep_ref.current == 0)
+					clearInterval(ref.current)
+			}, (1000));
+			return () => {clearInterval(ref.current)}
+		}
+	},[IsPlayer])
 	return(
 		<div className="flex flex-col items-center justify-center h-screen gap-3 px-4 bg-my-lavender md:h-full md:rounded-r-large" >
 			<div
