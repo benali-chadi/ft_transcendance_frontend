@@ -1,16 +1,17 @@
 import React, { FC } from "react";
-import pongRackets from "../../../../img/table-tennis.png";
 import { useOutletContext } from "react-router-dom";
 import { outletContext } from "../Profile";
 
 interface Props {
 	user1: any,
 	user2: any,
+	score1: number,
+	score2: number,
 	result: string;
 	handleClick?: (user: any) => void;
 }
 
-const MatchCard: FC<Props> = ({ user1, user2, result, handleClick }) => {
+const MatchCard: FC<Props> = ({ user1, user2, score1, score2, result, handleClick }) => {
 	// const { currentUser } = useContext<UserState>(userContext);
 	const { profileUser } = useOutletContext<outletContext>();
 
@@ -39,16 +40,13 @@ const MatchCard: FC<Props> = ({ user1, user2, result, handleClick }) => {
 				)}
 			</div>
 
-			{/* Result Part */}
 			<div className="flex flex-col items-center justify-center">
-				<img
-					src={pongRackets}
-					alt="Ping-pong Rackets"
-					className="w-[2rem] h-[2rem]"
-				/>
-
-				<h3 className="text-xl">You {result}</h3>
+				<h1 className="text-[1.7rem] font-bold w-max">
+					{score1} - {score2}
+				</h1>
 			</div>
+			{/* Result Part */}
+			
 
 			{/* user 2 */}
 			<div

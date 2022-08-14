@@ -73,10 +73,10 @@ const Home: FC = () => {
 		getRanks();
 		getMe();
 		const showUpdateProfile = () => {
-			setShowUpdateUser(currentUser.first_time);
 			setshowAchiev(currentUser.first_time);
 			setTimeout(() => {
 				setshowAchiev(false);
+				setShowUpdateUser(currentUser.first_time);
 			}, 2000);
 		};
 		if(gameSocket){

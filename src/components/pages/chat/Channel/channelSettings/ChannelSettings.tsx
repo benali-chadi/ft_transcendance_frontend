@@ -12,10 +12,11 @@ interface Props {
 	room_id: number;
 	channelName: string;
 	room_type: string;
+	role:string;
 	handleCancel: () => void;
 }
 
-const ChannelSettings: FC<Props> = ({ handleCancel, channelName, room_id, room_type }) => {
+const ChannelSettings: FC<Props> = ({ handleCancel, channelName, room_id, room_type, role }) => {
 	const [toShow, setToShow] = useState<
 		"" | "edit" | "add" | "member" | "unban"
 	>("");
@@ -94,7 +95,7 @@ const ChannelSettings: FC<Props> = ({ handleCancel, channelName, room_id, room_t
 							}`}
 						>
 							<div>
-								<div
+								{role === "Owner" && <div
 									className={`p-4 cursor-pointer ${
 										toShow === "edit"
 											? "bg-gray-300"
@@ -103,7 +104,7 @@ const ChannelSettings: FC<Props> = ({ handleCancel, channelName, room_id, room_t
 									onClick={() => setToShow("edit")}
 								>
 									<h2>edit channel info</h2>
-								</div>
+								</div>}
 								<div
 									className={`p-4 cursor-pointer ${
 										toShow === "member"
@@ -136,12 +137,12 @@ const ChannelSettings: FC<Props> = ({ handleCancel, channelName, room_id, room_t
 								</div>
 							</div>
 
-							<div
+							{role === "Owner" && <div
 								className={`p-4 text-white rounded-lg cursor-pointer bg-my-red hover:bg-red-500 text-center`}
 								onClick={handleDeleteChannelClick}
 							>
 								<h2>delete channel</h2>
-							</div>
+							</div>}
 						</div>
 						{/* Setting Part */}
 						<div className="h-full ">

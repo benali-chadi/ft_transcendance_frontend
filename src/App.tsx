@@ -17,6 +17,7 @@ import React from "react";
 import { io } from "socket.io-client";
 import InviteCard from "./components/common/InviteCard";
 import GamePage from "./components/pages/game/Game";
+import Achievement from "./components/common/Achievement";
 
 const App: React.FC = () => {
 	const [currentUser, setCurrentUser] = useState("");
@@ -29,6 +30,7 @@ const App: React.FC = () => {
 	const [inviteMgs, setInvitemsg] = useState("");
 	const [r_user, setRuser] = useState<any>(null)
 	const [room_notif, setNotif] = useState<number[]>([]);
+	const [achievement, setAchiev] = useState<any>(null)
 
 	const navigate = useNavigate();
 	const isMobile = useMediaQuery({
@@ -59,6 +61,16 @@ const App: React.FC = () => {
 				return prev + 1;
 			});
 		});
+		socket.on("Achievement", (data) =>{
+			setAchiev(prev => {
+				return data.achievements
+			})
+			setTimeout(() => {
+				setAchiev(prev => {
+					return null
+				})
+			}, 2000);
+		})
 		socket.on("relation status", (res) => {
 			if (res.msg === "friend req"){
 				setRuser(prev => {
@@ -95,7 +107,19 @@ const App: React.FC = () => {
 				return prev + 1;
 			})
 		})
-
+		socket_game.on("Achievement", (data)=>{
+			data.map(e => {
+				setAchiev(prev => {
+					return e
+				})
+				return e;
+			})
+			setTimeout(() => {
+				setAchiev(prev => {
+					return null
+				})
+			}, 2000);
+		})
 		setGameSocket(socket_game);
 		setChatSocket(socket_chat);
 		setSocket(socket);
@@ -103,7 +127,9 @@ const App: React.FC = () => {
 		return () => {
 			userSocket.off("client status");
 			userSocket.off("relation status");
+			userSocket.off("");
 			socket_game.off("acceptedChallenge")
+			socket_game.off("Achievement");
 			socket_game.removeAllListeners();
 			socket_game.disconnect();
 			socket_chat.removeAllListeners();
@@ -137,7 +163,12 @@ const App: React.FC = () => {
 						msg={inviteMgs}
 					/>
 				)}
-				
+				{achievement && <Achievement
+					title={achievement.title}
+                	desc={achievement.desc}
+                	level="level8"
+					handleCancel={() => {setAchiev(null)}}
+				/>}
 				<AnimatePresence exitBeforeEnter>
 					<Routes>
 						<Route

@@ -122,6 +122,7 @@ const ChatGroupCard: FC<Props> = ({
 					room_id={room_id}
 					channelName={room.name}
 					room_type={room.type}
+					role={room.role}
 					handleCancel={() => setShowSettings(false)}
 				/>
 			)}

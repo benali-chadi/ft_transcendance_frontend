@@ -145,6 +145,8 @@ const SettingsMemberCard: FC<Props> = ({
 			ref={ref}
 			className="flex flex-shrink-0 justify-around w-fit p-4 bg-white rounded-xl hover:bg-white/50 hover:shadow-lg min-w-[15rem]"
 		>
+			{user.role === "Owner" && <i className="fa-solid fa-crown text-sm"></i>}
+			{user.role === "Admin" && <i className="fa-solid fa-user-shield text-sm"></i>}
 			{/* Avatar Part */}
 			<div
 				className="min-h-[3rem] min-w-[3rem] rounded-full flex justify-center items-center gap-4 cursor-pointer"
@@ -169,7 +171,7 @@ const SettingsMemberCard: FC<Props> = ({
 				</div>
 			</div>
 			{/* Three Dots Part */}
-			<div className="relative flex flex-col">
+			{user.role !== "Owner" && <div className="relative flex flex-col">
 				<div
 					className="hover:bg-gray-100 w-[2rem] cursor-pointer rounded-full flex justify-center items-center"
 					onClick={() => setShowDropdown(!showDropDown)}
@@ -346,7 +348,7 @@ const SettingsMemberCard: FC<Props> = ({
 						</p>
 					</motion.div>
 				)}
-			</div>
+			</div>}
 		</div>
 	);
 };

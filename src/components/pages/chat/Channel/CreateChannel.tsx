@@ -5,6 +5,7 @@ import Modal from "../../../common/Modal";
 import Card from "../../../common/Card";
 import Button from "../../../common/Button";
 import { ChatContext, ChatState } from "../../../helpers/context";
+import Achievement from "../../../common/Achievement";
 
 interface Props {
 	handleCancelClick: () => void;
@@ -20,11 +21,19 @@ const CreateChannel: FC<Props> = ({ handleCancelClick }) => {
 		useContext<ChatState>(ChatContext);
 	const [channelAvatar, setChannelAvatar] = useState<any>();
 	const [selectedfile, setFile] = useState<File>();
+	const [showAchiev, setshowAchiev] = useState(false);
 
 	const [showError, setShowError] = useState(false);
 
 	return (
 		<Modal>
+			<div>
+			{showAchiev && <Achievement
+					title="it’s a kings world"
+                	desc="Owner of 5 channels"
+                	level="level7"
+					handleCancel={() => {setshowAchiev(false)}}
+				/>}
 			<form
 				onSubmit={async (e) => {
 					e.preventDefault();
@@ -34,13 +43,20 @@ const CreateChannel: FC<Props> = ({ handleCancelClick }) => {
 						formData.append("type", privacy);
 						if (selectedfile) formData.append("icon", selectedfile);
 						if (password) formData.append("password", password);
-						await axios.post(
+						let {data} = await axios.post(
 							`${process.env.REACT_APP_BACKEND_URL}chat/create_room`,
 							formData,
 							{ withCredentials: true }
 						);
-						handleCancelClick();
 						setcChannelUpdated(channelUpdated + 1);
+						if (data){
+							setshowAchiev(true);
+							setTimeout(() => {
+								handleCancelClick();
+							}, 2000);
+						}
+						else
+							handleCancelClick();
 					} catch (e) {
 						if (e.response.status === 409) {
 							setShowError(true);
@@ -180,6 +196,7 @@ const CreateChannel: FC<Props> = ({ handleCancelClick }) => {
 					</div>
 				</Card>
 			</form>
+			</div>
 		</Modal>
 	);
 };

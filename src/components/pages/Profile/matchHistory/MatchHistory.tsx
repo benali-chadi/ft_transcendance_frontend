@@ -95,7 +95,13 @@ const MatchHistory: FC = () => {
 							return true;
 					})
 					.map(match => {
-						return <MatchCard key={match.id} user1={match.winner} user2={match.loser} result={match.IsWinner? "won" : "lost"}/>
+						return <MatchCard 
+						key={match.id} 
+						user1={match.winner} 
+						user2={match.loser}
+						score1={match.winnerScore}
+						score2={match.loserScore}
+						result={match.IsWinner? "won" : "lost"}/>
 					})
 				}
 				</div>
