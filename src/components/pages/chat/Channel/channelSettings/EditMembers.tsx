@@ -12,7 +12,7 @@ interface Props {
 const EditMembers: FC<Props> = ({ handleCancel, room_id, members, unban }) => {
 	const [data, setData] = useState([]);
 	const [text, setText] = useState("");
-	const [memebersUpdate, setMembersUpdate] = useState({});
+	const [memebersUpdate, setMembersUpdate] = useState(0);
 
 	useEffect(() => {
 		async function showdata() {

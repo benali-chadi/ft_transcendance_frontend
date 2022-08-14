@@ -82,10 +82,11 @@ const App: React.FC = () => {
 				setInvitemsg(prev => {
 					return "Want to be your friend"
 				})
+			}else{
+				setUpdated((prev) => {
+					return prev + 1;
+				});
 			}
-			setUpdated((prev) => {
-				return prev + 1;
-			});
 		});
 		socket_game.on("invitedGame", (data) =>{
 			setRuser(prev => {
@@ -152,7 +153,8 @@ const App: React.FC = () => {
 				chatSocket,
 				gameSocket,
 				room_notif,
-				setNotif
+				setNotif,
+				setUpdated
 			}}
 		>
 			<div className="h-screen text-4xl font-bold text-center App">

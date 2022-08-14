@@ -12,6 +12,7 @@ export interface UserState {
 	gameSocket?: Socket | null,
 	updated: number,
 	updatedRelation :number,
+	setUpdated:React.Dispatch<React.SetStateAction<number>> | (() => void),
 	room_notif: number[],
 	setNotif: React.Dispatch<React.SetStateAction<number[]>> | (() => void),
 
@@ -27,7 +28,8 @@ const initialState: UserState = {
 	chatSocket : null,
 	gameSocket : null,
 	room_notif: [],
-	setNotif: () => {}
+	setNotif: () => {},
+	setUpdated: () => {}
 }
 
 export const userContext = createContext<UserState>(initialState);

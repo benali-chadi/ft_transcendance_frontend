@@ -44,6 +44,25 @@ const Chat: FC = () => {
 					{ withCredentials: true }
 				);
 				setDms(data);
+				if (chatUser)
+				{
+					let m = null;
+					data.map(e => {
+						if (e.member.id === chatUser.id &&
+							e.member.IsBlocked !== chatUser.IsBlocked &&
+							chatUser.type === "DM")
+						{
+							m = e.member;
+						}
+						return e
+					})
+					if(m !== null)
+					{
+						setChatUser(prev => {
+							return m;
+						});
+					}
+				}
 			} catch (e) {
 				if (e.response.status === 401) {
 					localStorage.clear();
@@ -57,6 +76,20 @@ const Chat: FC = () => {
 					`${process.env.REACT_APP_BACKEND_URL}chat/group_channels`,
 					{ withCredentials: true }
 				);
+				if (chatUser)
+				{
+					let c = 0;
+					data.map(e => {
+						if (e.id === chatUser.id)
+							c++;
+						return e
+					})
+					if (c === 0 && data.length && chatUser.type !== "DM"){
+						setChatUser(prev => {
+							return null;
+						});
+					}
+				}
 				setChannels(data);
 			} catch (e) {
 				if (e.response.status === 401) {
@@ -67,6 +100,7 @@ const Chat: FC = () => {
 		}
 		getDms();
 		getGroupChannels();
+		
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [channelUpdated, updatedRelation]);
 	
@@ -192,7 +226,7 @@ const Chat: FC = () => {
 									/>
 								);
 							})
-						) : channels.length ? (
+						) : channels.length !== 0 ? (
 							channels.map((channel: any) => {
 								return (
 									<ChatGroupCard

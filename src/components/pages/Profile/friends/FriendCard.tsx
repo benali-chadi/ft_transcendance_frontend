@@ -77,7 +77,8 @@ const FriendCard: FC<Props> = ({ user, role }) => {
 				{/* Text Part */}
 				<div className="text-left">
 					<h3 className="text-xl">{_user.username}</h3>
-					<div className="text-sm font-semibold">{_user.status}</div>
+					{!_user.blocked && !_user.blocker && _user.relation === "friends" && 
+						<div className="text-sm font-semibold">{_user.status}</div>}
 				</div>
 			</div>
 			

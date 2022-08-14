@@ -20,15 +20,14 @@ const ChatUserCard: FC<Props> = ({ user,  handleClick = () => {}, room_id }) => 
 	const navigate = useNavigate();
 	const [_user, setUser] = useState(user);
 
-	const [blocked, setBlocked] = useState(_user.blocked);
-	const [blocker, setBlocker] = useState(_user.blocker);
+	const [blocked, setBlocked] = useState(false);
+	const [blocker, setBlocker] = useState(false);
 	const [friends, setFriends] = useState(true);
 	const [showYouSure, setYouSure] = useState(false);
 	const [notif, setnotif] = useState(false);
 
 	const ref: any = useRef();
-
-	async function getUser() {
+	const getUser = async () => {
 		try {
 			const { data } = await axios.get(
 				`${process.env.REACT_APP_BACKEND_URL}user/${_user.username}`,
@@ -38,6 +37,8 @@ const ChatUserCard: FC<Props> = ({ user,  handleClick = () => {}, room_id }) => 
 			setBlocker(data.blocker);
 			if (data.relation !== "friends")
 				setFriends(false);
+			else
+				setFriends(true);
 			setUser(data);
 		} catch (e) {}
 	}

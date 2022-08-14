@@ -39,7 +39,6 @@ const declineInvitation = async (user: any) => {
             to_do: "decline_req",
         },
         (res: any) => {
-
         }
     );
 };
@@ -54,10 +53,10 @@ const AcceptChalleng = () => {
     })
 }
 
-const handleDecline = ()=>{
+const handleDecline = async  ()=>{
     if (msg === "Want to be your friend")
-    { 
-        declineInvitation(opUser);
+    {
+        await declineInvitation(opUser);
     }else {
         DeclineGame();
         ref.current = true;
@@ -65,10 +64,10 @@ const handleDecline = ()=>{
     handleCancel();
 }
 
-const handleAccept = () =>{
+const handleAccept = async () =>{
     if (msg === "Want to be your friend")
     { 
-        addFriend(opUser);
+        await addFriend(opUser);
     }else {
         AcceptChalleng();
     }

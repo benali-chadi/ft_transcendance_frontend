@@ -12,7 +12,7 @@ interface Props {
 	room_id: number;
 	channelName: string;
 	room_type: string;
-	role:string;
+	role?:string;
 	handleCancel: () => void;
 }
 

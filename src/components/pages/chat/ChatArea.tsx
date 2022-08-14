@@ -45,7 +45,7 @@ const ChatArea: FC<Props> = ({ user, handleClick, socket, room_id, room_type }) 
 	};
 
 	useEffect(() => {
-		if (socket) {
+		if (socket && room_id !== 0) {
 			socket.emit("joinRoom", room_id, function (body) {
 				setMsgs([...body]);
 			});

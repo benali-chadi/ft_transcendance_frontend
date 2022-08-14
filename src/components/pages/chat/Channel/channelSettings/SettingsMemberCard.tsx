@@ -7,7 +7,7 @@ import { threeDotsVariants } from "../../../../helpers/variants";
 
 interface Props {
 	user: any;
-	setMembersUpdated: React.Dispatch<React.SetStateAction<{}>>;
+	setMembersUpdated: React.Dispatch<React.SetStateAction<number>>;
 	room_id: number;
 }
 
@@ -16,7 +16,7 @@ const SettingsMemberCard: FC<Props> = ({
 	setMembersUpdated,
 	room_id,
 }) => {
-	const { updated } = useContext<UserState>(userContext);
+	const { updated, chatSocket } = useContext<UserState>(userContext);
 	const navigate = useNavigate();
 	const [showDropDown, setShowDropdown] = useState(false);
 
@@ -30,85 +30,86 @@ const SettingsMemberCard: FC<Props> = ({
 
 	const handleAddMemberClick = async () => {
 		setShowDropdown(false);
-		try {
-			await axios.post(
-				`${process.env.REACT_APP_BACKEND_URL}chat/add_member`,
-				{
-					room_id: room_id,
-					user_id: user.id,
-				},
-				{
-					withCredentials: true,
-				}
-			);
-			setMembersUpdated({});
-		} catch (e) {}
+		chatSocket.emit("updateRoom",
+		{
+			todo: "add_member",
+			data:{
+				room_id: room_id,
+				user_id: user.id,
+			}
+		} ,(res) => {
+		
+			setMembersUpdated(prev => {
+				return 	prev + 1
+			});
+		});
 	};
 	const handleChangeMemberRolesClick = async () => {
 		setShowDropdown(false);
-		try {
-			let role = user.role === "Member" ? "Admin" : "Member";
-			await axios.post(
-				`${process.env.REACT_APP_BACKEND_URL}chat/change_member_role`,
-				{
-					room_id: room_id,
-					user_id: user.id,
-					role: role,
-				},
-				{
-					withCredentials: true,
-				}
-			);
-			setMembersUpdated({});
-		} catch (e) {}
+		let role = user.role === "Member" ? "Admin" : "Member";
+		chatSocket.emit("updateRoom", 
+		{
+			todo: "change_member_role",
+			data:{
+				room_id: room_id,
+				user_id: user.id,
+				role: role,
+			}
+		} ,(res) => {
+			setMembersUpdated(prev => {
+				return 	prev + 1
+			});
+		});
 	};
 	const handleBanClick = async () => {
 		setShowDropdown(false);
-		try {
-			await axios.post(
-				`${process.env.REACT_APP_BACKEND_URL}chat/mute_user`,
-				{
-					user_id: user.id,
-					room_id: room_id,
-					date_unmute: null,
-				},
-				{ withCredentials: true }
-			);
-			setMembersUpdated({});
-		} catch (e) {}
+		chatSocket.emit("updateRoom", 
+		{
+			todo: "mute_user",
+			data:{
+				room_id: room_id,
+				user_id: user.id,
+				date_unmute: null,
+			}
+		} ,(res) => {
+			setMembersUpdated(prev => {
+				return 	prev + 1
+			});
+		});
 	};
 	const handleMuteClick = () => {
 		setOnMute(!onMute);
 	};
 	const handleDeleteMemberClick = async () => {
 		setShowDropdown(false);
-		try {
-			await axios.post(
-				`${process.env.REACT_APP_BACKEND_URL}chat/remove_member`,
-				{
-					room_id: room_id,
-					user_id: user.id,
-				},
-				{
-					withCredentials: true,
-				}
-			);
-			setMembersUpdated({});
-		} catch (e) {}
+		chatSocket.emit("updateRoom", 
+		{
+			todo: "remove_member",
+			data:{
+				room_id: room_id,
+				user_id: user.id,
+			}
+		} , (res) => {
+			setMembersUpdated(prev => {
+				return 	prev + 1
+			});
+		});
 	};
+
 	const handleUnbanMemberClick = async () => {
 		setShowDropdown(false);
-		try {
-			await axios.post(
-				`${process.env.REACT_APP_BACKEND_URL}chat/unban`,
-				{
-					user_id: user.id,
-					room_id: room_id,
-				},
-				{ withCredentials: true }
-			);
-			setMembersUpdated({});
-		} catch (e) {}
+		chatSocket.emit("updateRoom", 
+		{
+			todo: "unban",
+			data:{
+				room_id: room_id,
+				user_id: user.id,
+			}
+		} , (res) => {
+			setMembersUpdated(prev => {
+				return 	prev + 1
+			});
+		});
 	};
 
 	async function getUser() {
@@ -243,15 +244,16 @@ const SettingsMemberCard: FC<Props> = ({
 												date.setUTCMinutes(
 													date.getMinutes() + minutes
 												);
-												await axios.post(
-													`${process.env.REACT_APP_BACKEND_URL}chat/mute_user`,
-													{
-														user_id: user.id,
+												chatSocket.emit("updateRoom", 
+												{
+													todo: "mute_user",
+													data:{
+														ruser_id: user.id,
 														room_id: room_id,
 														date_unmute: date,
-													},
-													{ withCredentials: true }
-												);
+													}
+												} ,(res) => {
+												});
 												setDays(0);
 												setHours(0);
 												setMinutes(0);
